@@ -1,21 +1,25 @@
-import { useState } from 'react'
+import { useRef } from 'react'
 import { Bold, Italic, Underline } from 'lucide-react'
 import { Button } from './Button'
 import { Textarea } from './Textarea'
 
 export function RichTextarea({ value, onChange, placeholder, rows = 3 }) {
+  const textareaRef = useRef(null)
+
   const insertText = (before, after) => {
-    const textarea = document.getElementById('rich-textarea')
+    const textarea = textareaRef.current
+    if (!textarea) return
+
     const start = textarea.selectionStart
     const end = textarea.selectionEnd
     const text = textarea.value
     const beforeText = text.substring(0, start)
     const selectedText = text.substring(start, end)
     const afterText = text.substring(end)
-    
+
     const newText = beforeText + before + selectedText + after + afterText
     onChange(newText)
-    
+
     // Restaurer le focus et la position du curseur
     setTimeout(() => {
       textarea.focus()
@@ -56,7 +60,7 @@ export function RichTextarea({ value, onChange, placeholder, rows = 3 }) {
         </Button>
       </div>
       <Textarea
-        id="rich-textarea"
+        ref={textareaRef}
         value={value}
         onChange={onChange}
         placeholder={placeholder}

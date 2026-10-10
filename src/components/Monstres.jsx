@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Search, Plus, Edit, Copy, Trash2, Upload } from 'lucide-react'
+import { Search, Plus, Edit, Copy, Trash2, FileText } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 import { Label } from './ui/Label'
@@ -10,6 +10,7 @@ import { Checkbox } from './ui/Checkbox'
 import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
 import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
 import { typesMonstres, taillesCreature, alignements, caracteristiques, niveauxSorts } from '../lib/data'
+import { formatMarkdown } from '../lib/utils'
 
 export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, onImportXML }) {
   const [search, setSearch] = useState('')
@@ -324,14 +325,60 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, o
                 onChange={(e) => setSortSearch(e.target.value)}
                 className="mb-2"
               />
-              <Select multiple size={5} value={formData.sortsPrepares || []} onChange={(e) => {
-                const selected = Array.from(e.target.selectedOptions).map(opt => opt.value)
-                setFormData({ ...formData, sortsPrepares: selected })
-              }}>
-                {sorts.filter(s => s.nom.toLowerCase().includes(sortSearch.toLowerCase())).map(sort => (
-                  <option key={sort.id} value={sort.id}>{sort.nom}</option>
-                ))}
-              </Select>
+              {sortSearch && (
+                <div className="mt-2 max-h-40 overflow-y-auto border rounded p-2 space-y-1">
+                  {sorts
+                    .filter(s => s.nom.toLowerCase().includes(sortSearch.toLowerCase()))
+                    .sort((a, b) => {
+                      const niveauA = niveauxSorts.indexOf(a.niveau)
+                      const niveauB = niveauxSorts.indexOf(b.niveau)
+                      return niveauA - niveauB || a.nom.localeCompare(b.nom)
+                    })
+                    .map(sort => (
+                      <div
+                        key={sort.id}
+                        className="p-2 hover:bg-secondary cursor-pointer rounded text-sm"
+                        onClick={() => {
+                          if (!formData.sortsPrepares?.includes(sort.id)) {
+                            setFormData({ ...formData, sortsPrepares: [...(formData.sortsPrepares || []), sort.id] })
+                          }
+                          setSortSearch('')
+                        }}
+                      >
+                        <div className="font-medium">{sort.nom}</div>
+                        <div className="text-xs text-muted-foreground">Niv {sort.niveau} | {sort.tempsIncantation} {sort.concentration && '| Concentration'}</div>
+                      </div>
+                    ))}
+                </div>
+              )}
+              {formData.sortsPrepares && formData.sortsPrepares.length > 0 && (
+                <div className="mt-4">
+                  <Label className="text-sm">Sorts sélectionnés ({formData.sortsPrepares.length})</Label>
+                  <div className="mt-2 space-y-1 max-h-40 overflow-y-auto">
+                    {formData.sortsPrepares
+                      .map(sortId => sorts.find(s => s.id === sortId))
+                      .filter(Boolean)
+                      .sort((a, b) => {
+                        const niveauA = niveauxSorts.indexOf(a.niveau)
+                        const niveauB = niveauxSorts.indexOf(b.niveau)
+                        return niveauA - niveauB || a.nom.localeCompare(b.nom)
+                      })
+                      .map(sort => (
+                        <div key={sort.id} className="flex items-center justify-between p-2 bg-secondary rounded text-sm">
+                          <div>
+                            <div className="font-medium">{sort.nom}</div>
+                            <div className="text-xs text-muted-foreground">Niv {sort.niveau} | {sort.tempsIncantation}</div>
+                          </div>
+                          <Button size="sm" variant="ghost" onClick={() => {
+                            setFormData({ ...formData, sortsPrepares: formData.sortsPrepares.filter(id => id !== sort.id) })
+                          }}>
+                            ×
+                          </Button>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <Label>Slots de sorts par niveau</Label>

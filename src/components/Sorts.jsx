@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Search, Plus, Edit, Copy, Trash2, Upload } from 'lucide-react'
+import { Search, Plus, Edit, Copy, Trash2, FileText } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 import { Label } from './ui/Label'
@@ -10,6 +10,7 @@ import { Checkbox } from './ui/Checkbox'
 import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
 import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
 import { ecolesMagie, niveauxSorts, composantesSorts, classesDD } from '../lib/data'
+import { formatMarkdown } from '../lib/utils'
 
 export function Sorts({ sorts, onAdd, onUpdate, onCopy, onDelete, onImportXML }) {
   const [search, setSearch] = useState('')
@@ -279,11 +280,7 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy, onDelete, onImportXML })
             </div>
             <div>
               <Label>Descriptif</Label>
-              <Textarea
-                value={formData.descriptif}
-                onChange={(e) => setFormData({ ...formData, descriptif: e.target.value })}
-                rows={4}
-              />
+              <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(formData.descriptif) }} />
             </div>
             <div>
               <Label>Classes pouvant l'apprendre</Label>

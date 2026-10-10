@@ -5,9 +5,11 @@ import { Input } from './ui/Input'
 import { Label } from './ui/Label'
 import { Select, SelectItem } from './ui/Select'
 import { Textarea } from './ui/Textarea'
+import { RichTextarea } from './ui/RichTextarea'
 import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
 import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
 import { Checkbox } from './ui/Checkbox'
+import { formatMarkdown } from '../lib/utils'
 
 export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpdate, onDelete, onAddPersoToCampagne, onAddRencontre, onAddMonstreToRencontre }) {
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -138,7 +140,8 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
           pvActuels: monstreTemplate?.pv || 0,
           commentaire: '',
           slotsUtilises: {},
-          conditions: []
+          conditions: [],
+          deathSaves: { successes: 0, failures: 0 }
         }))
       }
     })
@@ -153,7 +156,8 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
         initiative: parseInt(initiativeData[p.id]) || 0,
         pvActuels: p.pvActuels,
         slotsUtilises: {},
-        conditions: []
+        conditions: [],
+        deathSaves: { successes: 0, failures: 0 }
       })),
       monstresCombat,
       tourActuel: 0,
@@ -252,7 +256,12 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
       const newJoueurs = combatData.joueursParticipants.map(j => 
         j.id === combatant.id ? { ...j, pvActuels: Math.max(0, (parseInt(j.pvActuels) || 0) + delta) } : j
       )
-      setCombatData({ ...combatData, joueursParticipants: newJoueurs })
+      const newCombatData = { ...combatData, joueursParticipants: newJoueurs }
+      setCombatData(newCombatData)
+      // Mettre à jour selectedCombatant pour refléter le changement immédiatement
+      if (selectedCombatant && selectedCombatant.id === combatant.id) {
+        setSelectedCombatant({ ...selectedCombatant, pvActuels: Math.max(0, (parseInt(selectedCombatant.pvActuels) || 0) + delta) })
+      }
     } else {
       const newMonstres = combatData.monstresCombat.map(mc => ({
         ...mc,
@@ -260,7 +269,12 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
           inst.id === combatant.id ? { ...inst, pvActuels: Math.max(0, (parseInt(inst.pvActuels) || 0) + delta) } : inst
         )
       }))
-      setCombatData({ ...combatData, monstresCombat: newMonstres })
+      const newCombatData = { ...combatData, monstresCombat: newMonstres }
+      setCombatData(newCombatData)
+      // Mettre à jour selectedCombatant pour refléter le changement immédiatement
+      if (selectedCombatant && selectedCombatant.id === combatant.id) {
+        setSelectedCombatant({ ...selectedCombatant, pvActuels: Math.max(0, (parseInt(selectedCombatant.pvActuels) || 0) + delta) })
+      }
     }
   }
 
@@ -314,7 +328,12 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
       const newJoueurs = combatData.joueursParticipants.map(j => 
         j.id === combatant.id ? { ...j, conditions: newConditions } : j
       )
-      setCombatData({ ...combatData, joueursParticipants: newJoueurs })
+      const newCombatData = { ...combatData, joueursParticipants: newJoueurs }
+      setCombatData(newCombatData)
+      // Mettre à jour selectedCombatant pour refléter le changement immédiatement
+      if (selectedCombatant && selectedCombatant.id === combatant.id) {
+        setSelectedCombatant({ ...selectedCombatant, conditions: newConditions })
+      }
     } else {
       const newMonstres = combatData.monstresCombat.map(mc => ({
         ...mc,
@@ -322,7 +341,46 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
           inst.id === combatant.id ? { ...inst, conditions: newConditions } : inst
         )
       }))
-      setCombatData({ ...combatData, monstresCombat: newMonstres })
+      const newCombatData = { ...combatData, monstresCombat: newMonstres }
+      setCombatData(newCombatData)
+      // Mettre à jour selectedCombatant pour refléter le changement immédiatement
+      if (selectedCombatant && selectedCombatant.id === combatant.id) {
+        setSelectedCombatant({ ...selectedCombatant, conditions: newConditions })
+      }
+    }
+  }
+
+  const toggleDeathSave = (combatant, type) => {
+    const deathSaves = combatant.deathSaves || { successes: 0, failures: 0 }
+    const newDeathSaves = { ...deathSaves }
+    
+    if (type === 'success') {
+      newDeathSaves.successes = (newDeathSaves.successes + 1) % 4
+    } else {
+      newDeathSaves.failures = (newDeathSaves.failures + 1) % 4
+    }
+    
+    if (combatant.type === 'joueur') {
+      const newJoueurs = combatData.joueursParticipants.map(j => 
+        j.id === combatant.id ? { ...j, deathSaves: newDeathSaves } : j
+      )
+      const newCombatData = { ...combatData, joueursParticipants: newJoueurs }
+      setCombatData(newCombatData)
+      if (selectedCombatant && selectedCombatant.id === combatant.id) {
+        setSelectedCombatant({ ...selectedCombatant, deathSaves: newDeathSaves })
+      }
+    } else {
+      const newMonstres = combatData.monstresCombat.map(mc => ({
+        ...mc,
+        instances: mc.instances.map(inst => 
+          inst.id === combatant.id ? { ...inst, deathSaves: newDeathSaves } : inst
+        )
+      }))
+      const newCombatData = { ...combatData, monstresCombat: newMonstres }
+      setCombatData(newCombatData)
+      if (selectedCombatant && selectedCombatant.id === combatant.id) {
+        setSelectedCombatant({ ...selectedCombatant, deathSaves: newDeathSaves })
+      }
     }
   }
 
@@ -337,6 +395,8 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     } else {
       setCombatData({ ...combatData, tourActuel: newTour })
     }
+    // Sélectionner automatiquement le combattant actif
+    setSelectedCombatant(ordre[newTour])
   }
 
   const prevTurn = () => {
@@ -405,6 +465,8 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       className={`p-2 rounded cursor-pointer transition-colors ${
                         isDead
                           ? 'bg-gray-200 opacity-50'
+                          : isCurrentTurn && combatant.type === 'joueur' && parseInt(combatant.pvActuels) <= 0
+                          ? 'bg-gray-300 border-2 border-gray-500'
                           : isCurrentTurn
                           ? 'bg-green-100 border-2 border-green-500'
                           : combatant.type === 'joueur'
@@ -415,7 +477,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                     >
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-medium text-sm">
-                          {combatant.type === 'joueur' ? combatant.nom : `${combatant.nomMonstre} #${combatant.id.split('-')[1] + 1}`}
+                          {combatant.type === 'joueur' ? combatant.nom : combatant.nomMonstre}
                         </span>
                         <span className="font-bold text-sm">{combatant.initiative}</span>
                       </div>
@@ -423,6 +485,13 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                         <span>CA: {combatant.type === 'joueur' ? combatant.ca : combatant.monstreTemplate?.ca}</span>
                         <span>PV: {combatant.pvActuels}</span>
                       </div>
+                      {combatant.conditions && combatant.conditions.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {combatant.conditions.map(cond => (
+                            <span key={cond} className="text-xs bg-yellow-100 px-1 rounded">{cond}</span>
+                          ))}
+                        </div>
+                      )}
                       {combatant.type === 'monstre' && (
                         <Input
                           className="mt-1 text-xs"
@@ -461,7 +530,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                   </div>
 
                   <div>
-                    <Label>PV: {selectedCombatant.pvActuels}{selectedCombatant.type === 'joueur' ? `/${selectedCombatant.pvMax}` : ''}</Label>
+                    <Label>PV: {selectedCombatant.pvActuels}/{selectedCombatant.type === 'joueur' ? selectedCombatant.pvMax : selectedCombatant.monstreTemplate?.pv}</Label>
                     <div className="flex gap-2 mt-1">
                       <Button size="sm" onClick={() => updatePV(selectedCombatant, -1)}>-1</Button>
                       <Button size="sm" onClick={() => updatePV(selectedCombatant, -5)}>-5</Button>
@@ -469,6 +538,38 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       <Button size="sm" onClick={() => updatePV(selectedCombatant, 5)}>+5</Button>
                     </div>
                   </div>
+
+                  {parseInt(selectedCombatant.pvActuels) <= 0 && (
+                    <div>
+                      <Label>Jets de sauvegarde contre la mort</Label>
+                      <div className="flex gap-4 mt-2">
+                        <div>
+                          <Label className="text-xs text-green-600">Succès ({selectedCombatant.deathSaves?.successes || 0}/3)</Label>
+                          <div className="flex gap-1 mt-1">
+                            {[0, 1, 2].map(i => (
+                              <Checkbox
+                                key={i}
+                                checked={i < (selectedCombatant.deathSaves?.successes || 0)}
+                                onChange={() => toggleDeathSave(selectedCombatant, 'success')}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-xs text-red-600">Échecs ({selectedCombatant.deathSaves?.failures || 0}/3)</Label>
+                          <div className="flex gap-1 mt-1">
+                            {[0, 1, 2].map(i => (
+                              <Checkbox
+                                key={i}
+                                checked={i < (selectedCombatant.deathSaves?.failures || 0)}
+                                onChange={() => toggleDeathSave(selectedCombatant, 'failure')}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div>
                     <Label>Vitesse</Label>
@@ -494,35 +595,35 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                   {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.traits && (
                     <div>
                       <Label>Traits</Label>
-                      <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant.monstreTemplate.traits}</p>
+                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.traits) }} />
                     </div>
                   )}
 
                   {selectedCombatant.type === 'joueur' && selectedCombatant.traits && (
                     <div>
                       <Label>Traits</Label>
-                      <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant.traits}</p>
+                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.traits) }} />
                     </div>
                   )}
 
                   {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.actions && (
                     <div>
                       <Label>Actions</Label>
-                      <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant.monstreTemplate.actions}</p>
+                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.actions) }} />
                     </div>
                   )}
 
                   {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.actionsLegendaire && (
                     <div>
                       <Label>Actions légendaires</Label>
-                      <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant.monstreTemplate.actionsLegendaire}</p>
+                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.actionsLegendaire) }} />
                     </div>
                   )}
 
                   {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.reactions && (
                     <div>
                       <Label>Réactions</Label>
-                      <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant.monstreTemplate.reactions}</p>
+                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.reactions) }} />
                     </div>
                   )}
 
@@ -603,14 +704,17 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       <Label>Sorts connus</Label>
                       <div className="mt-2 space-y-1">
                         {selectedCombatant.sortsConnus.map(sortId => {
-                          const sort = sorts?.find(s => s.id === sortId) || { nom: 'Sort inconnu' }
+                          const sort = sorts?.find(s => s.id === sortId) || { nom: 'Sort inconnu', niveau: '', tempsIncantation: '', concentration: false }
                           return (
                             <div
                               key={sortId}
                               className="text-sm bg-background p-2 rounded cursor-pointer hover:bg-accent transition-colors"
                               onClick={() => openSortDialog(sortId)}
                             >
-                              {sort.nom}
+                              <div className="font-medium">{sort.nom}</div>
+                              <div className="text-xs text-muted-foreground">
+                                Niv {sort.niveau} | {sort.tempsIncantation} {sort.concentration && '| Concentration'}
+                              </div>
                             </div>
                           )
                         })}
@@ -623,14 +727,17 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       <Label>Sorts préparés</Label>
                       <div className="mt-2 space-y-1">
                         {selectedCombatant.monstreTemplate.sortsPrepares.map(sortId => {
-                          const sort = sorts?.find(s => s.id === sortId) || { nom: 'Sort inconnu' }
+                          const sort = sorts?.find(s => s.id === sortId) || { nom: 'Sort inconnu', niveau: '', tempsIncantation: '', concentration: false }
                           return (
                             <div
                               key={sortId}
                               className="text-sm bg-background p-2 rounded cursor-pointer hover:bg-accent transition-colors"
                               onClick={() => openSortDialog(sortId)}
                             >
-                              {sort.nom}
+                              <div className="font-medium">{sort.nom}</div>
+                              <div className="text-xs text-muted-foreground">
+                                Niv {sort.niveau} | {sort.tempsIncantation} {sort.concentration && '| Concentration'}
+                              </div>
                             </div>
                           )
                         })}
@@ -681,15 +788,25 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
 
           <div className="space-y-4">
             {campagnes.map(campagne => (
-              <Card key={campagne.id} className="cursor-pointer hover:bg-accent transition-colors" onClick={() => openCampagneDetail(campagne)}>
+              <Card key={campagne.id} className="cursor-pointer hover:bg-accent transition-colors">
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <CardTitle>{campagne.nom}</CardTitle>
-                    <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                    <CardTitle onClick={() => openCampagneDetail(campagne)}>{campagne.nom}</CardTitle>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="ghost" onClick={(e) => {
+                        e.stopPropagation()
+                        if (confirm(`Supprimer la campagne "${campagne.nom}" ?`)) {
+                          onDelete(campagne.id)
+                        }
+                      }}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                      <ChevronRight className="w-5 h-5 text-muted-foreground" onClick={() => openCampagneDetail(campagne)} />
+                    </div>
                   </div>
-                  {campagne.description && <p className="text-sm text-muted-foreground">{campagne.description}</p>}
+                  {campagne.description && <p className="text-sm text-muted-foreground" onClick={() => openCampagneDetail(campagne)}>{campagne.description}</p>}
                 </CardHeader>
-                <CardContent>
+                <CardContent onClick={() => openCampagneDetail(campagne)}>
                   <div>
                     <h3 className="font-semibold mb-2">Personnages ({campagne.personnages.length})</h3>
                     <div className="flex flex-wrap gap-2">

@@ -1,14 +1,16 @@
-import { useState } from 'react'
-import { Search, Plus, Edit, Copy, Trash2 } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Search, Plus, Edit, Copy, Trash2, FileText } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 import { Label } from './ui/Label'
 import { Select, SelectItem } from './ui/Select'
 import { Textarea } from './ui/Textarea'
 import { RichTextarea } from './ui/RichTextarea'
+import { Checkbox } from './ui/Checkbox'
 import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
 import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
 import { classesDD, niveauxSorts, caracteristiques } from '../lib/data'
+import { formatMarkdown } from '../lib/utils'
 
 export function Personnages({ personnages, onAdd, onUpdate, onCopy, onDelete, sorts }) {
   const [search, setSearch] = useState('')
@@ -263,14 +265,60 @@ export function Personnages({ personnages, onAdd, onUpdate, onCopy, onDelete, so
                 onChange={(e) => setSortSearch(e.target.value)}
                 className="mb-2"
               />
-              <Select multiple size={5} value={formData.sortsConnus || []} onChange={(e) => {
-                const selected = Array.from(e.target.selectedOptions).map(opt => opt.value)
-                setFormData({ ...formData, sortsConnus: selected })
-              }}>
-                {sorts.filter(s => s.nom.toLowerCase().includes(sortSearch.toLowerCase())).map(sort => (
-                  <option key={sort.id} value={sort.id}>{sort.nom} ({sort.niveau})</option>
-                ))}
-              </Select>
+              {sortSearch && (
+                <div className="mt-2 max-h-40 overflow-y-auto border rounded p-2 space-y-1">
+                  {sorts
+                    .filter(s => s.nom.toLowerCase().includes(sortSearch.toLowerCase()))
+                    .sort((a, b) => {
+                      const niveauA = niveauxSorts.indexOf(a.niveau)
+                      const niveauB = niveauxSorts.indexOf(b.niveau)
+                      return niveauA - niveauB || a.nom.localeCompare(b.nom)
+                    })
+                    .map(sort => (
+                      <div
+                        key={sort.id}
+                        className="p-2 hover:bg-secondary cursor-pointer rounded text-sm"
+                        onClick={() => {
+                          if (!formData.sortsConnus?.includes(sort.id)) {
+                            setFormData({ ...formData, sortsConnus: [...(formData.sortsConnus || []), sort.id] })
+                          }
+                          setSortSearch('')
+                        }}
+                      >
+                        <div className="font-medium">{sort.nom}</div>
+                        <div className="text-xs text-muted-foreground">Niv {sort.niveau} | {sort.tempsIncantation} {sort.concentration && '| Concentration'}</div>
+                      </div>
+                    ))}
+                </div>
+              )}
+              {formData.sortsConnus && formData.sortsConnus.length > 0 && (
+                <div className="mt-4">
+                  <Label className="text-sm">Sorts sélectionnés ({formData.sortsConnus.length})</Label>
+                  <div className="mt-2 space-y-1 max-h-40 overflow-y-auto">
+                    {formData.sortsConnus
+                      .map(sortId => sorts.find(s => s.id === sortId))
+                      .filter(Boolean)
+                      .sort((a, b) => {
+                        const niveauA = niveauxSorts.indexOf(a.niveau)
+                        const niveauB = niveauxSorts.indexOf(b.niveau)
+                        return niveauA - niveauB || a.nom.localeCompare(b.nom)
+                      })
+                      .map(sort => (
+                        <div key={sort.id} className="flex items-center justify-between p-2 bg-secondary rounded text-sm">
+                          <div>
+                            <div className="font-medium">{sort.nom}</div>
+                            <div className="text-xs text-muted-foreground">Niv {sort.niveau} | {sort.tempsIncantation}</div>
+                          </div>
+                          <Button size="sm" variant="ghost" onClick={() => {
+                            setFormData({ ...formData, sortsConnus: formData.sortsConnus.filter(id => id !== sort.id) })
+                          }}>
+                            ×
+                          </Button>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <Label>Slots de sorts par niveau</Label>
@@ -315,7 +363,7 @@ export function Personnages({ personnages, onAdd, onUpdate, onCopy, onDelete, so
               {selectedSort.concentration && <p><strong>Concentration:</strong> Oui</p>}
               {selectedSort.rituel && <p><strong>Rituel:</strong> Oui</p>}
               <p><strong>Descriptif:</strong></p>
-              <p className="whitespace-pre-wrap">{selectedSort.descriptif}</p>
+              <div className="text-sm prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedSort.descriptif) }} />
             </div>
           )}
         </DialogContent>
