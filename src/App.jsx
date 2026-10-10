@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Book, Skull, Users, Sword, CloudDownload, CloudUpload } from 'lucide-react'
+import { Book, Skull, Users, Sword, Download, Upload, FileDown, FileUp } from 'lucide-react'
 import { Button } from './components/ui/Button'
 import { Sorts } from './components/Sorts'
 import { Monstres } from './components/Monstres'
@@ -32,6 +32,10 @@ function App() {
     setData({ ...data, sorts: [...data.sorts, sort] })
   }
 
+  const handleDeleteSort = (id) => {
+    setData({ ...data, sorts: data.sorts.filter(s => s.id !== id) })
+  }
+
   const handleAddMonstre = (monstre) => {
     setData({ ...data, monstres: [...data.monstres, monstre] })
   }
@@ -42,6 +46,10 @@ function App() {
 
   const handleCopyMonstre = (monstre) => {
     setData({ ...data, monstres: [...data.monstres, monstre] })
+  }
+
+  const handleDeleteMonstre = (id) => {
+    setData({ ...data, monstres: data.monstres.filter(m => m.id !== id) })
   }
 
   const handleAddPersonnage = (personnage) => {
@@ -56,6 +64,10 @@ function App() {
     setData({ ...data, personnages: [...data.personnages, personnage] })
   }
 
+  const handleDeletePersonnage = (id) => {
+    setData({ ...data, personnages: data.personnages.filter(p => p.id !== id) })
+  }
+
   const handleAddCampagne = (campagne) => {
     setData({ ...data, campagnes: [...data.campagnes, campagne] })
   }
@@ -68,8 +80,52 @@ function App() {
     setData({ ...data, campagnes: data.campagnes.filter(c => c.id !== id) })
   }
 
+  const handleImportSortsFromXML = (file) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const parser = new DOMParser()
+      const xmlDoc = parser.parseFromString(e.target.result, 'text/xml')
+      const sortElements = xmlDoc.getElementsByTagName('sort')
+
+      const importedSorts = []
+      for (let i = 0; i < sortElements.length; i++) {
+        const sortEl = sortElements[i]
+        const composantes = []
+        const verbale = sortEl.querySelector('verbale')
+        const somatique = sortEl.querySelector('somatique')
+        const materielle = sortEl.querySelector('materielle')
+
+        if (verbale?.getAttribute('presente') === 'true') composantes.push('V')
+        if (somatique?.getAttribute('presente') === 'true') composantes.push('S')
+        if (materielle?.getAttribute('presente') === 'true') composantes.push('M')
+
+        const sort = {
+          id: sortEl.getAttribute('id') || `sort-${Date.now()}-${i}`,
+          nom: sortEl.querySelector('nom')?.textContent || '',
+          ecole: sortEl.querySelector('ecole')?.textContent || '',
+          niveau: sortEl.querySelector('niveau')?.textContent || '',
+          tempsIncantation: sortEl.querySelector('tempsIncantation')?.textContent || '',
+          portee: sortEl.querySelector('portee')?.textContent || '',
+          duree: sortEl.querySelector('duree')?.textContent || '',
+          composantes,
+          concentration: sortEl.querySelector('concentration')?.textContent === 'true',
+          rituel: sortEl.querySelector('rituel')?.textContent === 'true',
+          descriptif: sortEl.querySelector('descriptionResume')?.textContent || '',
+          classes: Array.from(sortEl.querySelectorAll('classes > classe')).map(c => c.textContent).join(', ')
+        }
+        importedSorts.push(sort)
+      }
+
+      setData({ ...data, sorts: [...data.sorts, ...importedSorts] })
+      alert(`${importedSorts.length} sorts importés avec succès !`)
+    }
+    reader.readAsText(file)
+  }
+
   const handleAddPersoToCampagne = (campagneId, persoId) => {
     const perso = data.personnages.find(p => p.id === persoId)
+    if (!perso) return
+    
     setData({
       ...data,
       campagnes: data.campagnes.map(c =>
@@ -118,6 +174,36 @@ function App() {
     setData(loadedData)
   }
 
+  const handleExportLocal = () => {
+    const dataStr = JSON.stringify(data, null, 2)
+    const dataBlob = new Blob([dataStr], { type: 'application/json' })
+    const url = URL.createObjectURL(dataBlob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `maudits-des-backup-${new Date().toISOString().split('T')[0]}.json`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
+  const handleImportLocal = (event) => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      try {
+        const importedData = JSON.parse(e.target.result)
+        setData(importedData)
+      } catch (error) {
+        alert('Erreur lors de l\'import du fichier: fichier JSON invalide')
+      }
+    }
+    reader.readAsText(file)
+    event.target.value = ''
+  }
+
   const tabs = [
     { id: 'campagne', label: 'Campagne', icon: Sword },
     { id: 'monstres', label: 'Monstres', icon: Skull },
@@ -131,12 +217,31 @@ function App() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <h1 className="text-2xl font-bold">Maudits Dés</h1>
-            <GitHubConfig
-              config={githubConfig}
-              onConfigChange={setGithubConfig}
-              data={data}
-              onDataLoad={handleDataLoad}
-            />
+            <div className="flex gap-2">
+              <input
+                type="file"
+                accept=".json"
+                onChange={handleImportLocal}
+                className="hidden"
+                id="import-file"
+              />
+              <label htmlFor="import-file">
+                <Button variant="outline" as="span" className="cursor-pointer">
+                  <FileUp className="w-4 h-4 mr-2" />
+                  Importer
+                </Button>
+              </label>
+              <Button variant="outline" onClick={handleExportLocal}>
+                <FileDown className="w-4 h-4 mr-2" />
+                Exporter
+              </Button>
+              <GitHubConfig
+                config={githubConfig}
+                onConfigChange={setGithubConfig}
+                data={data}
+                onDataLoad={handleDataLoad}
+              />
+            </div>
           </div>
         </div>
       </header>
@@ -172,6 +277,8 @@ function App() {
             onAdd={handleAddSort}
             onUpdate={handleUpdateSort}
             onCopy={handleCopySort}
+            onDelete={handleDeleteSort}
+            onImportXML={handleImportSortsFromXML}
           />
         )}
 
@@ -181,6 +288,7 @@ function App() {
             onAdd={handleAddMonstre}
             onUpdate={handleUpdateMonstre}
             onCopy={handleCopyMonstre}
+            onDelete={handleDeleteMonstre}
             sorts={data.sorts}
           />
         )}
@@ -191,6 +299,7 @@ function App() {
             onAdd={handleAddPersonnage}
             onUpdate={handleUpdatePersonnage}
             onCopy={handleCopyPersonnage}
+            onDelete={handleDeletePersonnage}
             sorts={data.sorts}
           />
         )}
@@ -200,6 +309,7 @@ function App() {
             campagnes={data.campagnes}
             personnages={data.personnages}
             monstres={data.monstres}
+            sorts={data.sorts}
             onAdd={handleAddCampagne}
             onUpdate={handleUpdateCampagne}
             onDelete={handleDeleteCampagne}

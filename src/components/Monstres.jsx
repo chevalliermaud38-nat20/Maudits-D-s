@@ -1,14 +1,23 @@
 import { useState } from 'react'
-import { Search, Plus, Edit, Copy } from 'lucide-react'
-import { Button, Input, Label, Select, SelectItem, Textarea, Checkbox, Dialog, DialogHeader, DialogTitle, DialogContent, Card, CardHeader, CardTitle, CardContent } from './ui'
-import { typesMonstres, taillesCreature, alignements, caracteristiques } from '../lib/data'
+import { Search, Plus, Edit, Copy, Trash2 } from 'lucide-react'
+import { Button } from './ui/Button'
+import { Input } from './ui/Input'
+import { Label } from './ui/Label'
+import { Select, SelectItem } from './ui/Select'
+import { Textarea } from './ui/Textarea'
+import { RichTextarea } from './ui/RichTextarea'
+import { Checkbox } from './ui/Checkbox'
+import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
+import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
+import { typesMonstres, taillesCreature, alignements, caracteristiques, niveauxSorts } from '../lib/data'
 
-export function Monstres({ monstres, onAdd, onUpdate, onCopy, sorts }) {
+export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts }) {
   const [search, setSearch] = useState('')
   const [filterType, setFilterType] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingMonstre, setEditingMonstre] = useState(null)
   const [formData, setFormData] = useState({})
+  const [sortSearch, setSortSearch] = useState('')
 
   const filteredMonstres = monstres.filter(monstre => {
     const matchSearch = monstre.nom.toLowerCase().includes(search.toLowerCase())
@@ -87,7 +96,7 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, sorts }) {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
+        <div className="relative w-full sm:w-2/3">
           <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Rechercher un monstre..."
@@ -96,7 +105,7 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, sorts }) {
             className="pl-10"
           />
         </div>
-        <Select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+        <Select value={filterType} onChange={(e) => setFilterType(e.target.value)} className="w-full sm:w-auto">
           <option value="">Tous les types</option>
           {typesMonstres.map(type => (
             <SelectItem key={type} value={type}>{type}</SelectItem>
@@ -146,6 +155,9 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, sorts }) {
                 </Button>
                 <Button size="sm" variant="outline" onClick={() => handleCopy(monstre)}>
                   <Copy className="w-4 h-4" />
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => onDelete(monstre.id)}>
+                  <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
             </CardContent>
@@ -249,19 +261,35 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, sorts }) {
             </div>
             <div>
               <Label>Traits</Label>
-              <Textarea value={formData.traits} onChange={(e) => setFormData({ ...formData, traits: e.target.value })} rows={3} />
+              <RichTextarea
+                value={formData.traits}
+                onChange={(e) => setFormData({ ...formData, traits: e.target.value })}
+                placeholder="Utilisez **gras**, *italique*, __souligné__"
+                rows={3}
+              />
             </div>
             <div>
               <Label>Actions</Label>
-              <Textarea value={formData.actions} onChange={(e) => setFormData({ ...formData, actions: e.target.value })} rows={3} />
+              <RichTextarea
+                value={formData.actions}
+                onChange={(e) => setFormData({ ...formData, actions: e.target.value })}
+                placeholder="Utilisez **gras**, *italique*, __souligné__"
+                rows={3}
+              />
             </div>
             <div>
               <Label>Sorts préparés</Label>
+              <Input
+                placeholder="Rechercher un sort..."
+                value={sortSearch}
+                onChange={(e) => setSortSearch(e.target.value)}
+                className="mb-2"
+              />
               <Select multiple size={5} value={formData.sortsPrepares || []} onChange={(e) => {
                 const selected = Array.from(e.target.selectedOptions).map(opt => opt.value)
                 setFormData({ ...formData, sortsPrepares: selected })
               }}>
-                {sorts.map(sort => (
+                {sorts.filter(s => s.nom.toLowerCase().includes(sortSearch.toLowerCase())).map(sort => (
                   <option key={sort.id} value={sort.id}>{sort.nom}</option>
                 ))}
               </Select>
@@ -285,19 +313,29 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, sorts }) {
               </div>
             </div>
             <div>
-              <Label>Actions légendaires</Label>
-              <Textarea value={formData.actionsLegendaire} onChange={(e) => setFormData({ ...formData, actionsLegendaire: e.target.value })} rows={3} />
-            </div>
-            <div>
-              <Label>Réactions</Label>
-              <Textarea value={formData.reactions} onChange={(e) => setFormData({ ...formData, reactions: e.target.value })} rows={2} />
-            </div>
-            <div className="flex items-center gap-2">
+              <Label>Légendaire</Label>
               <Checkbox
                 checked={formData.legendaire}
                 onChange={(e) => setFormData({ ...formData, legendaire: e.target.checked })}
               />
-              <Label>Légendaire</Label>
+            </div>
+            <div>
+              <Label>Actions légendaires</Label>
+              <RichTextarea
+                value={formData.actionsLegendaire}
+                onChange={(e) => setFormData({ ...formData, actionsLegendaire: e.target.value })}
+                placeholder="Utilisez **gras**, *italique*, __souligné__"
+                rows={3}
+              />
+            </div>
+            <div>
+              <Label>Réactions</Label>
+              <RichTextarea
+                value={formData.reactions}
+                onChange={(e) => setFormData({ ...formData, reactions: e.target.value })}
+                placeholder="Utilisez **gras**, *italique*, __souligné__"
+                rows={3}
+              />
             </div>
             <div className="flex gap-2 justify-end">
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>Annuler</Button>

@@ -1,6 +1,10 @@
 import { useState } from 'react'
-import { Save, Download, Upload, Settings } from 'lucide-react'
-import { Button, Input, Label, Dialog, DialogHeader, DialogTitle, DialogContent, Card, CardHeader, CardTitle, CardContent } from './ui'
+import { Download, Upload, Settings } from 'lucide-react'
+import { Button } from './ui/Button'
+import { Input } from './ui/Input'
+import { Label } from './ui/Label'
+import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
+import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
 import { loadFromGitHub, saveToGitHub, validateGitHubConfig } from '../lib/githubSync'
 
 export function GitHubConfig({ config, onConfigChange, data, onDataLoad }) {

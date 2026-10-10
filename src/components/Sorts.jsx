@@ -1,15 +1,35 @@
-import { useState } from 'react'
-import { Search, Plus, Edit, Copy } from 'lucide-react'
-import { Button, Input, Label, Select, SelectItem, Textarea, Checkbox, Dialog, DialogHeader, DialogTitle, DialogContent, Card, CardHeader, CardTitle, CardContent } from './ui'
+import { useState, useRef } from 'react'
+import { Search, Plus, Edit, Copy, Trash2, Upload } from 'lucide-react'
+import { Button } from './ui/Button'
+import { Input } from './ui/Input'
+import { Label } from './ui/Label'
+import { Select, SelectItem } from './ui/Select'
+import { Textarea } from './ui/Textarea'
+import { RichTextarea } from './ui/RichTextarea'
+import { Checkbox } from './ui/Checkbox'
+import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
+import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
 import { ecolesMagie, niveauxSorts, composantesSorts, classesDD } from '../lib/data'
 
-export function Sorts({ sorts, onAdd, onUpdate, onCopy }) {
+export function Sorts({ sorts, onAdd, onUpdate, onCopy, onDelete, onImportXML }) {
   const [search, setSearch] = useState('')
   const [filterEcole, setFilterEcole] = useState('')
   const [filterNiveau, setFilterNiveau] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingSort, setEditingSort] = useState(null)
   const [formData, setFormData] = useState({})
+  const fileInputRef = useRef(null)
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file && onImportXML) {
+      onImportXML(file)
+    }
+  }
 
   const filteredSorts = sorts.filter(sort => {
     const matchSearch = sort.nom.toLowerCase().includes(search.toLowerCase())
@@ -60,14 +80,27 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy }) {
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <h2 className="text-2xl font-bold">Sorts</h2>
-        <Button onClick={() => openDialog()}>
-          <Plus className="w-4 h-4 mr-2" />
-          Nouveau sort
-        </Button>
+        <div className="flex gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".xml"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <Button variant="outline" onClick={handleImportClick}>
+            <Upload className="w-4 h-4 mr-2" />
+            Importer XML
+          </Button>
+          <Button onClick={() => openDialog()}>
+            <Plus className="w-4 h-4 mr-2" />
+            Nouveau sort
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
+        <div className="relative w-full sm:w-2/3">
           <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Rechercher un sort..."
@@ -76,13 +109,13 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy }) {
             className="pl-10"
           />
         </div>
-        <Select value={filterEcole} onChange={(e) => setFilterEcole(e.target.value)}>
+        <Select value={filterEcole} onChange={(e) => setFilterEcole(e.target.value)} className="w-full sm:w-auto">
           <option value="">Toutes les écoles</option>
           {ecolesMagie.map(ecole => (
             <SelectItem key={ecole} value={ecole}>{ecole}</SelectItem>
           ))}
         </Select>
-        <Select value={filterNiveau} onChange={(e) => setFilterNiveau(e.target.value)}>
+        <Select value={filterNiveau} onChange={(e) => setFilterNiveau(e.target.value)} className="w-full sm:w-auto">
           <option value="">Tous les niveaux</option>
           {niveauxSorts.map(niveau => (
             <SelectItem key={niveau} value={niveau}>{niveau}</SelectItem>
@@ -134,6 +167,9 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy }) {
                 <Button size="sm" variant="outline" onClick={() => handleCopy(sort)}>
                   <Copy className="w-4 h-4" />
                 </Button>
+                <Button size="sm" variant="outline" onClick={() => onDelete(sort.id)}>
+                  <Trash2 className="w-4 h-4" />
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -183,6 +219,15 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy }) {
             <div>
               <Label>Durée</Label>
               <Input value={formData.duree} onChange={(e) => setFormData({ ...formData, duree: e.target.value })} required />
+            </div>
+            <div>
+              <Label>Descriptif</Label>
+              <RichTextarea
+                value={formData.descriptif}
+                onChange={(e) => setFormData({ ...formData, descriptif: e.target.value })}
+                placeholder="Utilisez **gras**, *italique*, __souligné__"
+                rows={5}
+              />
             </div>
             <div>
               <Label>Composantes</Label>

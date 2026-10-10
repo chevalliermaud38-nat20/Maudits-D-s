@@ -1,15 +1,23 @@
 import { useState } from 'react'
-import { Search, Plus, Edit, Copy } from 'lucide-react'
-import { Button, Input, Label, Select, SelectItem, Textarea, Dialog, DialogHeader, DialogTitle, DialogContent, Card, CardHeader, CardTitle, CardContent } from './ui'
+import { Search, Plus, Edit, Copy, Trash2 } from 'lucide-react'
+import { Button } from './ui/Button'
+import { Input } from './ui/Input'
+import { Label } from './ui/Label'
+import { Select, SelectItem } from './ui/Select'
+import { Textarea } from './ui/Textarea'
+import { RichTextarea } from './ui/RichTextarea'
+import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
+import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
 import { classesDD, niveauxSorts, caracteristiques } from '../lib/data'
 
-export function Personnages({ personnages, onAdd, onUpdate, onCopy, sorts }) {
+export function Personnages({ personnages, onAdd, onUpdate, onCopy, onDelete, sorts }) {
   const [search, setSearch] = useState('')
   const [filterClasse, setFilterClasse] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingPerso, setEditingPerso] = useState(null)
   const [formData, setFormData] = useState({})
   const [selectedSort, setSelectedSort] = useState(null)
+  const [sortSearch, setSortSearch] = useState('')
 
   const filteredPersos = personnages.filter(perso => {
     const matchSearch = perso.nom.toLowerCase().includes(search.toLowerCase())
@@ -87,7 +95,7 @@ export function Personnages({ personnages, onAdd, onUpdate, onCopy, sorts }) {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
+        <div className="relative w-full sm:w-2/3">
           <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Rechercher un personnage..."
@@ -96,7 +104,7 @@ export function Personnages({ personnages, onAdd, onUpdate, onCopy, sorts }) {
             className="pl-10"
           />
         </div>
-        <Select value={filterClasse} onChange={(e) => setFilterClasse(e.target.value)}>
+        <Select value={filterClasse} onChange={(e) => setFilterClasse(e.target.value)} className="w-full sm:w-auto">
           <option value="">Toutes les classes</option>
           {classesDD.map(classe => (
             <SelectItem key={classe} value={classe}>{classe}</SelectItem>
@@ -139,6 +147,9 @@ export function Personnages({ personnages, onAdd, onUpdate, onCopy, sorts }) {
                 </Button>
                 <Button size="sm" variant="outline" onClick={() => handleCopy(perso)}>
                   <Copy className="w-4 h-4" />
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => onDelete(perso.id)}>
+                  <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
             </CardContent>
@@ -228,19 +239,35 @@ export function Personnages({ personnages, onAdd, onUpdate, onCopy, sorts }) {
             </div>
             <div>
               <Label>Équipement</Label>
-              <Textarea value={formData.equipement} onChange={(e) => setFormData({ ...formData, equipement: e.target.value })} rows={3} />
+              <RichTextarea
+                value={formData.equipement}
+                onChange={(e) => setFormData({ ...formData, equipement: e.target.value })}
+                placeholder="Utilisez **gras**, *italique*, __souligné__"
+                rows={3}
+              />
             </div>
             <div>
               <Label>Traits</Label>
-              <Textarea value={formData.traits} onChange={(e) => setFormData({ ...formData, traits: e.target.value })} rows={3} />
+              <RichTextarea
+                value={formData.traits}
+                onChange={(e) => setFormData({ ...formData, traits: e.target.value })}
+                placeholder="Utilisez **gras**, *italique*, __souligné__"
+                rows={3}
+              />
             </div>
             <div>
               <Label>Sorts connus</Label>
+              <Input
+                placeholder="Rechercher un sort..."
+                value={sortSearch}
+                onChange={(e) => setSortSearch(e.target.value)}
+                className="mb-2"
+              />
               <Select multiple size={5} value={formData.sortsConnus || []} onChange={(e) => {
                 const selected = Array.from(e.target.selectedOptions).map(opt => opt.value)
                 setFormData({ ...formData, sortsConnus: selected })
               }}>
-                {sorts.map(sort => (
+                {sorts.filter(s => s.nom.toLowerCase().includes(sortSearch.toLowerCase())).map(sort => (
                   <option key={sort.id} value={sort.id}>{sort.nom} ({sort.niveau})</option>
                 ))}
               </Select>
