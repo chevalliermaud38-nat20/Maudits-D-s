@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Book, Skull, Users, Sword, Download, Upload, FileDown, FileUp } from 'lucide-react'
+import { Book, Skull, Users, Sword, Download, Upload, FileDown, FileUp, Dices } from 'lucide-react'
 import { Button } from './components/ui/Button'
 import { Sorts } from './components/Sorts'
 import { Monstres } from './components/Monstres'
@@ -315,10 +315,21 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
+      <header className="border-b bg-gradient-to-r from-orange-500/10 to-orange-600/5 bg-card">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <h1 className="text-2xl font-bold">Maudits Dés</h1>
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Dices className="w-10 h-10 text-orange-500" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-orange-400 bg-clip-text text-transparent">
+                  Maudits Dés
+                </h1>
+                <p className="text-xs text-muted-foreground">Les monstres ont des PV limités. Ta mémoire aussi.</p>
+              </div>
+            </div>
             <div className="flex gap-2">
               <input
                 type="file"
