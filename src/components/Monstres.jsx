@@ -14,6 +14,7 @@ import { typesMonstres, taillesCreature, alignements, caracteristiques, niveauxS
 export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, onImportXML }) {
   const [search, setSearch] = useState('')
   const [filterType, setFilterType] = useState('')
+  const [sortBy, setSortBy] = useState('nom')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingMonstre, setEditingMonstre] = useState(null)
   const [formData, setFormData] = useState({})
@@ -35,6 +36,15 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, o
     const matchSearch = monstre.nom.toLowerCase().includes(search.toLowerCase())
     const matchType = !filterType || monstre.type === filterType
     return matchSearch && matchType
+  }).sort((a, b) => {
+    if (sortBy === 'nom') {
+      return a.nom.localeCompare(b.nom)
+    } else if (sortBy === 'fd') {
+      const fdA = parseFloat(a.fd) || 0
+      const fdB = parseFloat(b.fd) || 0
+      return fdA - fdB
+    }
+    return 0
   })
 
   const openDialog = (monstre = null) => {
@@ -135,6 +145,10 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, o
           {typesMonstres.map(type => (
             <SelectItem key={type} value={type}>{type}</SelectItem>
           ))}
+        </Select>
+        <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="w-full sm:w-auto">
+          <option value="nom">Tri: Nom</option>
+          <option value="fd">Tri: FD</option>
         </Select>
       </div>
 

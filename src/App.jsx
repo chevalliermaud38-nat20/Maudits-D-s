@@ -133,7 +133,7 @@ function App() {
       setData({ ...data, sorts: [...data.sorts, ...importedSorts] })
       alert(`${importedSorts.length} sorts importés avec succès !`)
     }
-    reader.readAsText(file)
+    reader.readAsText(file, 'UTF-8')
   }
 
   const handleImportMonstresFromXML = (file) => {
@@ -221,7 +221,7 @@ function App() {
       setData({ ...data, monstres: [...data.monstres, ...importedMonstres] })
       alert(`${importedMonstres.length} monstres importés avec succès !`)
     }
-    reader.readAsText(file)
+    reader.readAsText(file, 'UTF-8')
   }
 
   const handleAddPersoToCampagne = (campagneId, persoId) => {

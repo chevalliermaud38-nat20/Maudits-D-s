@@ -15,6 +15,7 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy, onDelete, onImportXML })
   const [search, setSearch] = useState('')
   const [filterEcole, setFilterEcole] = useState('')
   const [filterNiveau, setFilterNiveau] = useState('')
+  const [sortBy, setSortBy] = useState('nom')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingSort, setEditingSort] = useState(null)
   const [formData, setFormData] = useState({})
@@ -36,6 +37,14 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy, onDelete, onImportXML })
     const matchEcole = !filterEcole || sort.ecole === filterEcole
     const matchNiveau = !filterNiveau || sort.niveau === filterNiveau
     return matchSearch && matchEcole && matchNiveau
+  }).sort((a, b) => {
+    if (sortBy === 'nom') {
+      return a.nom.localeCompare(b.nom)
+    } else if (sortBy === 'niveau') {
+      const niveauOrder = niveauxSorts.indexOf(a.niveau) - niveauxSorts.indexOf(b.niveau)
+      return niveauOrder !== 0 ? niveauOrder : a.nom.localeCompare(b.nom)
+    }
+    return 0
   })
 
   const openDialog = (sort = null) => {
@@ -120,6 +129,10 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy, onDelete, onImportXML })
           {niveauxSorts.map(niveau => (
             <SelectItem key={niveau} value={niveau}>{niveau}</SelectItem>
           ))}
+        </Select>
+        <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="w-full sm:w-auto">
+          <option value="nom">Tri: Nom</option>
+          <option value="niveau">Tri: Niveau</option>
         </Select>
       </div>
 

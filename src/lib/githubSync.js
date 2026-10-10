@@ -24,7 +24,16 @@ export async function loadFromGitHub(config) {
     }
 
     const data = await response.json()
-    const content = atob(data.content)
+    
+    // Decode Unicode-safe base64
+    const binaryString = atob(data.content)
+    const bytes = new Uint8Array(binaryString.length)
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i)
+    }
+    const decoder = new TextDecoder()
+    const content = decoder.decode(bytes)
+    
     return JSON.parse(content)
   } catch (error) {
     console.error('Erreur lors du chargement depuis GitHub:', error)
@@ -38,7 +47,12 @@ export async function saveToGitHub(config, data) {
   }
 
   const url = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.filename}`
-  const content = btoa(JSON.stringify(data, null, 2))
+  
+  // Encode Unicode-safe base64
+  const jsonString = JSON.stringify(data, null, 2)
+  const encoder = new TextEncoder()
+  const dataUint8 = encoder.encode(jsonString)
+  const content = btoa(String.fromCharCode(...dataUint8))
   
   try {
     // D'abord, essayer de récupérer le SHA du fichier existant
