@@ -252,7 +252,7 @@ export function Personnages({ personnages, onAdd, onUpdate, onCopy, onDelete, so
               <Label>Traits</Label>
               <RichTextarea
                 value={formData.traits}
-                onChange={(e) => setFormData({ ...formData, traits: e.target.value })}
+                onChange={(value) => setFormData({ ...formData, traits: value })}
                 placeholder="Utilisez **gras**, *italique*, __souligné__"
                 rows={3}
               />

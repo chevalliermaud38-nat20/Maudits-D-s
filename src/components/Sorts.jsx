@@ -238,7 +238,7 @@ export function Sorts({ sorts, onAdd, onUpdate, onCopy, onDelete, onImportXML })
               <Label>Descriptif</Label>
               <RichTextarea
                 value={formData.descriptif}
-                onChange={(e) => setFormData({ ...formData, descriptif: e.target.value })}
+                onChange={(value) => setFormData({ ...formData, descriptif: value })}
                 placeholder="Utilisez **gras**, *italique*, __souligné__"
                 rows={5}
               />

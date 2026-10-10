@@ -12,7 +12,7 @@ export function RichTextarea({ value, onChange, placeholder, rows = 3 }) {
 
     const start = textarea.selectionStart
     const end = textarea.selectionEnd
-    const text = textarea.value
+    const text = value || ''
     const beforeText = text.substring(0, start)
     const selectedText = text.substring(start, end)
     const afterText = text.substring(end)
@@ -26,6 +26,10 @@ export function RichTextarea({ value, onChange, placeholder, rows = 3 }) {
       const newPos = start + before.length + selectedText.length + after.length
       textarea.setSelectionRange(newPos, newPos)
     }, 0)
+  }
+
+  const handleChange = (e) => {
+    onChange(e.target.value)
   }
 
   return (
@@ -62,7 +66,7 @@ export function RichTextarea({ value, onChange, placeholder, rows = 3 }) {
       <Textarea
         ref={textareaRef}
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
         placeholder={placeholder}
         rows={rows}
       />

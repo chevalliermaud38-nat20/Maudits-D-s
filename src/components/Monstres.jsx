@@ -303,7 +303,7 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, o
               <Label>Traits</Label>
               <RichTextarea
                 value={formData.traits}
-                onChange={(e) => setFormData({ ...formData, traits: e.target.value })}
+                onChange={(value) => setFormData({ ...formData, traits: value })}
                 placeholder="Utilisez **gras**, *italique*, __souligné__"
                 rows={3}
               />
@@ -312,7 +312,7 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, o
               <Label>Actions</Label>
               <RichTextarea
                 value={formData.actions}
-                onChange={(e) => setFormData({ ...formData, actions: e.target.value })}
+                onChange={(value) => setFormData({ ...formData, actions: value })}
                 placeholder="Utilisez **gras**, *italique*, __souligné__"
                 rows={3}
               />
@@ -409,7 +409,7 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, o
               <Label>Actions légendaires</Label>
               <RichTextarea
                 value={formData.actionsLegendaire}
-                onChange={(e) => setFormData({ ...formData, actionsLegendaire: e.target.value })}
+                onChange={(value) => setFormData({ ...formData, actionsLegendaire: value })}
                 placeholder="Utilisez **gras**, *italique*, __souligné__"
                 rows={3}
               />
@@ -418,7 +418,7 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, o
               <Label>Réactions</Label>
               <RichTextarea
                 value={formData.reactions}
-                onChange={(e) => setFormData({ ...formData, reactions: e.target.value })}
+                onChange={(value) => setFormData({ ...formData, reactions: value })}
                 placeholder="Utilisez **gras**, *italique*, __souligné__"
                 rows={3}
               />

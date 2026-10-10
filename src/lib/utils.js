@@ -7,6 +7,7 @@ export function cn(...inputs) {
 
 export function formatMarkdown(text) {
   if (!text) return ''
+  if (typeof text !== 'string') return String(text)
   return text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')

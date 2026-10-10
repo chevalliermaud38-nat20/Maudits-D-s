@@ -34,6 +34,13 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     setSelectedCampagne(campagne)
     setViewMode('detail')
     setDetailTab('rencontres')
+    // Ouvrir toutes les catégories par défaut
+    const categories = [...new Set(campagne.rencontres.map(r => r.categorie))]
+    const initialExpanded = {}
+    categories.forEach(cat => {
+      initialExpanded[`${campagne.id}-${cat}`] = true
+    })
+    setExpandedCategories(initialExpanded)
   }
 
   const backToList = () => {
