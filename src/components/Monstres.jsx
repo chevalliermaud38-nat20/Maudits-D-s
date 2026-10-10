@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { Search, Plus, Edit, Copy, Trash2, FileText } from 'lucide-react'
+import { Search, Plus, Edit, Copy, Trash2, FileText, Upload } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 import { Label } from './ui/Label'
