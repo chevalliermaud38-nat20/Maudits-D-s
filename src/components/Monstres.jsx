@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Search, Plus, Edit, Copy, Trash2 } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Search, Plus, Edit, Copy, Trash2, Upload } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
 import { Label } from './ui/Label'
@@ -11,13 +11,25 @@ import { Dialog, DialogHeader, DialogTitle, DialogContent } from './ui/Dialog'
 import { Card, CardHeader, CardTitle, CardContent } from './ui/Card'
 import { typesMonstres, taillesCreature, alignements, caracteristiques, niveauxSorts } from '../lib/data'
 
-export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts }) {
+export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts, onImportXML }) {
   const [search, setSearch] = useState('')
   const [filterType, setFilterType] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
   const [editingMonstre, setEditingMonstre] = useState(null)
   const [formData, setFormData] = useState({})
   const [sortSearch, setSortSearch] = useState('')
+  const fileInputRef = useRef(null)
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    if (file && onImportXML) {
+      onImportXML(file)
+    }
+  }
 
   const filteredMonstres = monstres.filter(monstre => {
     const matchSearch = monstre.nom.toLowerCase().includes(search.toLowerCase())
@@ -89,10 +101,23 @@ export function Monstres({ monstres, onAdd, onUpdate, onCopy, onDelete, sorts })
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <h2 className="text-2xl font-bold">Monstres</h2>
-        <Button onClick={() => openDialog()}>
-          <Plus className="w-4 h-4 mr-2" />
-          Nouveau monstre
-        </Button>
+        <div className="flex gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".xml"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+          <Button variant="outline" onClick={handleImportClick}>
+            <Upload className="w-4 h-4 mr-2" />
+            Importer XML
+          </Button>
+          <Button onClick={() => openDialog()}>
+            <Plus className="w-4 h-4 mr-2" />
+            Nouveau monstre
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">

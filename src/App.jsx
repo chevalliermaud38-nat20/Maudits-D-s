@@ -83,9 +83,23 @@ function App() {
   const handleImportSortsFromXML = (file) => {
     const reader = new FileReader()
     reader.onload = (e) => {
+      const content = e.target.result
+      
+      // Nettoyer les commentaires HTML
+      const cleanedContent = content.replace(/<!--[\s\S]*?-->/g, '')
+      
       const parser = new DOMParser()
-      const xmlDoc = parser.parseFromString(e.target.result, 'text/xml')
+      const xmlDoc = parser.parseFromString(cleanedContent, 'text/xml')
+      
+      // Vérifier les erreurs de parsing
+      const parseError = xmlDoc.querySelector('parsererror')
+      if (parseError) {
+        alert('Erreur de parsing XML: ' + parseError.textContent)
+        return
+      }
+      
       const sortElements = xmlDoc.getElementsByTagName('sort')
+      console.log('Éléments sort trouvés:', sortElements.length)
 
       const importedSorts = []
       for (let i = 0; i < sortElements.length; i++) {
@@ -118,6 +132,94 @@ function App() {
 
       setData({ ...data, sorts: [...data.sorts, ...importedSorts] })
       alert(`${importedSorts.length} sorts importés avec succès !`)
+    }
+    reader.readAsText(file)
+  }
+
+  const handleImportMonstresFromXML = (file) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const content = e.target.result
+      
+      // Nettoyer les commentaires HTML
+      const cleanedContent = content.replace(/<!--[\s\S]*?-->/g, '')
+      
+      const parser = new DOMParser()
+      const xmlDoc = parser.parseFromString(cleanedContent, 'text/xml')
+      
+      // Vérifier les erreurs de parsing
+      const parseError = xmlDoc.querySelector('parsererror')
+      if (parseError) {
+        alert('Erreur de parsing XML: ' + parseError.textContent)
+        return
+      }
+      
+      const monsterElements = xmlDoc.getElementsByTagName('monster')
+      console.log('Éléments monster trouvés:', monsterElements.length)
+
+      const importedMonstres = []
+      for (let i = 0; i < monsterElements.length; i++) {
+        const monsterEl = monsterElements[i]
+        
+        const caracteristiques = {
+          Force: monsterEl.querySelector('str')?.textContent || '10',
+          Dextérité: monsterEl.querySelector('dex')?.textContent || '10',
+          Constitution: monsterEl.querySelector('con')?.textContent || '10',
+          Intelligence: monsterEl.querySelector('int')?.textContent || '10',
+          Sagesse: monsterEl.querySelector('wis')?.textContent || '10',
+          Charisme: monsterEl.querySelector('cha')?.textContent || '10'
+        }
+
+        // Extraire les traits
+        const traits = Array.from(monsterEl.querySelectorAll('traits > trait')).map(t => {
+          const name = t.querySelector('name')?.textContent || ''
+          const text = t.querySelector('text')?.textContent || ''
+          return `${name}: ${text}`
+        }).join('\n')
+
+        // Extraire les actions
+        const actions = Array.from(monsterEl.querySelectorAll('actions > action')).map(a => {
+          const name = a.querySelector('name')?.textContent || ''
+          const text = a.querySelector('text')?.textContent || ''
+          return `${name}: ${text}`
+        }).join('\n')
+
+        // Extraire les actions légendaires
+        const legendaryActions = Array.from(monsterEl.querySelectorAll('legendary_actions > legendary_action')).map(a => {
+          const name = a.querySelector('name')?.textContent || ''
+          const text = a.querySelector('text')?.textContent || ''
+          return `${name}: ${text}`
+        }).join('\n')
+
+        const monster = {
+          id: `monster-${Date.now()}-${i}`,
+          nom: monsterEl.querySelector('name')?.textContent || '',
+          type: monsterEl.querySelector('type')?.textContent || '',
+          taille: monsterEl.querySelector('size')?.textContent || '',
+          ca: monsterEl.querySelector('ac')?.textContent || '',
+          pv: monsterEl.querySelector('hp')?.textContent || '',
+          alignement: monsterEl.querySelector('alignment')?.textContent || '',
+          legendaire: monsterEl.querySelector('legendary_actions') !== null,
+          fd: monsterEl.querySelector('cr')?.textContent || '',
+          vitesse: monsterEl.querySelector('speed')?.textContent || '',
+          bonusInitiative: 0,
+          caracteristiques,
+          competences: monsterEl.querySelector('skills')?.textContent || '',
+          sens: monsterEl.querySelector('senses')?.textContent || '',
+          langues: monsterEl.querySelector('languages')?.textContent || '',
+          equipement: '',
+          traits,
+          actions,
+          sortsPrepares: [],
+          slotsSorts: {},
+          actionsLegendaire: legendaryActions,
+          reactions: ''
+        }
+        importedMonstres.push(monster)
+      }
+
+      setData({ ...data, monstres: [...data.monstres, ...importedMonstres] })
+      alert(`${importedMonstres.length} monstres importés avec succès !`)
     }
     reader.readAsText(file)
   }
@@ -290,6 +392,7 @@ function App() {
             onCopy={handleCopyMonstre}
             onDelete={handleDeleteMonstre}
             sorts={data.sorts}
+            onImportXML={handleImportMonstresFromXML}
           />
         )}
 
