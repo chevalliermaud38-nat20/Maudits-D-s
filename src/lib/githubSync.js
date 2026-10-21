@@ -5,7 +5,8 @@ export async function loadFromGitHub(config) {
     throw new Error('Configuration GitHub incomplète')
   }
 
-  const url = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.filename}`
+  const branch = config.branch || 'main'
+  const url = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.filename}?ref=${branch}`
   
   try {
     const response = await fetch(url, {
@@ -46,7 +47,8 @@ export async function saveToGitHub(config, data) {
     throw new Error('Configuration GitHub incomplète')
   }
 
-  const url = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.filename}`
+  const branch = config.branch || 'main'
+  const url = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.filename}?ref=${branch}`
   
   // Encode Unicode-safe base64
   const jsonString = JSON.stringify(data, null, 2)
@@ -74,7 +76,8 @@ export async function saveToGitHub(config, data) {
 
     const body = {
       message: `Mise à jour des données Maudits Dés - ${new Date().toISOString()}`,
-      content: content
+      content: content,
+      branch: branch
     }
 
     if (sha) {

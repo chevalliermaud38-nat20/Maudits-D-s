@@ -107,6 +107,17 @@ export function GitHubConfig({ config, onConfigChange, data, onDataLoad }) {
                 placeholder="maudits-des-data.json"
               />
             </div>
+            <div>
+              <Label>Branche (optionnel)</Label>
+              <Input
+                value={formData.branch || ''}
+                onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
+                placeholder="main"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Laissez vide pour utiliser la branche par défaut
+              </p>
+            </div>
 
             {error && <p className="text-sm text-destructive">{error}</p>}
 
