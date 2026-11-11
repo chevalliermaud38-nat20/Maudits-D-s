@@ -34,23 +34,6 @@
       "descriptif": "Une créature que vous touchez récupère un nombre de points de vie égal à 1d8 + votre modificateur de caractéristique d'incantation. Ce sort n'a aucun effet sur les morts-vivants ou les créatures artificielles."
     },
     {
-      "id": "invisibilite-1",
-      "nom": "Invisibilité",
-      "ecole": "Illusion",
-      "niveau": "2",
-      "tempsIncantation": "1 action",
-      "portee": "Contact",
-      "duree": "1 heure (concentration)",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Une créature que vous touchez devient invisible jusqu'à la fin du sort. Tout ce que la créature porte ou transporte est également invisible tant qu'elle reste à son contact. Le sort se termine si le sujet attaque ou lance un sort."
-    },
-    {
       "id": "eclair-1",
       "nom": "Éclair",
       "ecole": "Évocation",
@@ -208,24 +191,6 @@
       "classes": "Ensorceleur, Magicien"
     },
     {
-      "id": "sort-0009",
-      "nom": "Invisibilité",
-      "ecole": "Illusion",
-      "niveau": "2",
-      "tempsIncantation": "action",
-      "portee": "Contact",
-      "duree": "Concentration, jusqu’à 1 heure",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Rend temporairement invisible une créature touchée, selon les conditions du sort.",
-      "classes": "Barde, Ensorceleur, Occultiste, Magicien"
-    },
-    {
       "id": "sort-0010",
       "nom": "Lueur féerique",
       "ecole": "Évocation",
@@ -276,7 +241,7 @@
     },
     {
       "id": "sort-0013",
-      "nom": "Restauration inférieure",
+      "nom": "Restauration partielle",
       "ecole": "Abjuration",
       "niveau": "2",
       "tempsIncantation": "action",
@@ -288,7 +253,7 @@
       ],
       "concentration": false,
       "rituel": false,
-      "descriptif": "Soigne certaines maladies ou met fin à certains états affectant la cible.",
+      "descriptif": "Vous touchez une créature et mettez fin à un état sur elle : Aveuglé, Assourdi, Paralysé ou Empoisonné.",
       "classes": "Barde, Clerc, Druide, Paladin, Rôdeur"
     },
     {
@@ -497,24 +462,6 @@
       "classes": "Ensorceleur, Magicien"
     },
     {
-      "id": "sort-0101",
-      "nom": "Armure du mage",
-      "ecole": "Abjuration",
-      "niveau": "1",
-      "tempsIncantation": "action",
-      "portee": "Contact",
-      "duree": "8 heures",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Fixe la CA de base d'une cible ne portant pas d'armure à 13 + modificateur de Dextérité.",
-      "classes": "Ensorceleur, Magicien"
-    },
-    {
       "id": "sort-0102",
       "nom": "Bénédiction",
       "ecole": "Enchantement",
@@ -531,23 +478,6 @@
       "rituel": false,
       "descriptif": "Bénit jusqu'à 3 créatures. Elles ajoutent 1d4 à leurs jets d'attaque et jets de sauvegarde pendant la durée.",
       "classes": "Clerc, Paladin"
-    },
-    {
-      "id": "sort-0103",
-      "nom": "Bouclier",
-      "ecole": "Abjuration",
-      "niveau": "1",
-      "tempsIncantation": "réaction, déclenchée par une attaque ou projectile magique",
-      "portee": "Personnelle",
-      "duree": "1 round",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Procure un bonus de +5 à la Classe d'Armure et immunise contre le sort Projectile magique jusqu'à votre prochain tour.",
-      "classes": "Ensorceleur, Magicien"
     },
     {
       "id": "sort-0104",
@@ -752,24 +682,6 @@
       "rituel": false,
       "descriptif": "Crée une sphère de ténèbres magiques de 4,50 m de rayon au travers de laquelle la vision dans le noir ne fonctionne pas.",
       "classes": "Ensorceleur, Occultiste, Magicien"
-    },
-    {
-      "id": "sort-0301",
-      "nom": "Boule de feu",
-      "ecole": "Évocation",
-      "niveau": "3",
-      "tempsIncantation": "action",
-      "portee": "45 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Provoque une explosion de feu dans une sphère de 6 m de rayon. Inflige 8d6 dégâts de feu (jet de Dextérité pour demi-dégâts).",
-      "classes": "Ensorceleur, Magicien"
     },
     {
       "id": "sort-0302",
@@ -981,24 +893,6 @@
       "classes": "Barde, Ensorceleur, Magicien"
     },
     {
-      "id": "sort-0801",
-      "nom": "Champ anti-magie",
-      "ecole": "Abjuration",
-      "niveau": "8",
-      "tempsIncantation": "action",
-      "portee": "Personnelle (sphère de 3 m)",
-      "duree": "Concentration, jusqu'à 1 heure",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Entoure l'incantateur d'une sphère de 3 m de rayon dans laquelle aucun sort ne peut être lancé et les objets magiques deviennent ordinaires.",
-      "classes": "Clerc, Magicien"
-    },
-    {
       "id": "sort-0901",
       "nom": "Arrêt du temps",
       "ecole": "Transmutation",
@@ -1098,23 +992,6 @@
       "classes": "Clerc"
     },
     {
-      "id": "sort-0101",
-      "nom": "Bouclier",
-      "ecole": "Abjuration",
-      "niveau": "1",
-      "tempsIncantation": "réaction",
-      "portee": "Personnelle",
-      "duree": "1 tour",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Confère un bonus de +5 à la CA jusqu'au début de votre prochain tour et annule les dégâts de Projectile magique.",
-      "classes": "Enchanteur, Magicien"
-    },
-    {
       "id": "sort-0102",
       "nom": "Projectile magique",
       "ecole": "Évocation",
@@ -1130,23 +1007,6 @@
       "rituel": false,
       "descriptif": "Crée trois fléchettes magiques infaillibles infligeant chacune 1d4 + 1 dégâts de force à la ou aux cibles choisies.",
       "classes": "Enchanteur, Magicien"
-    },
-    {
-      "id": "sort-0103",
-      "nom": "Soins",
-      "ecole": "Évocation",
-      "niveau": "1",
-      "tempsIncantation": "action",
-      "portee": "Contact",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Restaure 2d8 points de vie + le modificateur de caractéristique d'incantation à une créature touchée. Sans effet sur les morts-vivants et artifices.",
-      "classes": "Barde, Clerc, Druide, Paladin, Rôdeur"
     },
     {
       "id": "sort-0201",
@@ -1179,24 +1039,6 @@
       "concentration": false,
       "rituel": false,
       "descriptif": "Téléporte instantanément l'incantateur jusqu'à 9 mètres vers un emplacement unoccupied visible.",
-      "classes": "Enchanteur, Magicien, Sorcier"
-    },
-    {
-      "id": "sort-0301",
-      "nom": "Boule de feu",
-      "ecole": "Évocation",
-      "niveau": "3",
-      "tempsIncantation": "action",
-      "portee": "45 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Explosion pyrotechnique dans une sphère de 6 m de rayon infligeant 8d6 dégâts de feu (sauvegarde de Dextérité pour moitié).",
       "classes": "Enchanteur, Magicien, Sorcier"
     },
     {
@@ -1288,24 +1130,6 @@
       "classes": "Enchanteur, Magicien, Sorcier"
     },
     {
-      "id": "sort-0801",
-      "nom": "Champ anti-magie",
-      "ecole": "Abjuration",
-      "niveau": "8",
-      "tempsIncantation": "action",
-      "portee": "Personnelle (sphère de 3 m)",
-      "duree": "Concentration, jusqu'à 1 heure",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Entoure l'incantateur d'une sphère de 3 m de rayon dans laquelle aucun sort ne peut être lancé et les objets magiques deviennent ordinaires.",
-      "classes": "Clerc, Magicien"
-    },
-    {
       "id": "sort-0802",
       "nom": "Mot de pouvoir étourdissant",
       "ecole": "Enchantement",
@@ -1320,6 +1144,319 @@
       "rituel": false,
       "descriptif": "Étourdit instantanément une cible ayant 150 points de vie ou moins (sauvegarde de Constitution à la fin de chaque tour pour dissiper).",
       "classes": "Barde, Enchanteur, Magicien, Sorcier"
+    },
+    {
+      "id": "moquerie-cruelle",
+      "nom": "Moquerie cruelle",
+      "ecole": "Enchantement",
+      "niveau": "0",
+      "tempsIncantation": "Action",
+      "portee": "18 m",
+      "duree": "Instantanée",
+      "composantes": [
+        "V"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Une créature que vous voyez ou entendez à portée effectue un jet de sauvegarde de Sagesse. En cas d’échec, elle subit 1d6 dégâts psychiques et a le désavantage à son prochain jet d’attaque avant la fin de son tour suivant.",
+      "classes": "Barde"
+    },
+    {
+      "id": "reparation",
+      "nom": "Réparation",
+      "ecole": "Transmutation",
+      "niveau": "0",
+      "tempsIncantation": "1 minute",
+      "portee": "Contact",
+      "duree": "Instantanée",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Répare une déchirure ou cassure unique dans un objet touché, dans les limites de taille prévues par le sort.",
+      "classes": "Barde, Clerc, Druide, Ensorceleur, Magicien"
+    },
+    {
+      "id": "deguisement",
+      "nom": "Déguisement",
+      "ecole": "Illusion",
+      "niveau": "1",
+      "tempsIncantation": "Action",
+      "portee": "Personnelle",
+      "duree": "1 heure",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous modifiez votre apparence ainsi que celle de vos vêtements et de votre équipement. L’illusion ne résiste pas à un examen physique.",
+      "classes": "Barde, Ensorceleur, Magicien"
+    },
+    {
+      "id": "sommeil",
+      "nom": "Sommeil",
+      "ecole": "Enchantement",
+      "niveau": "1",
+      "tempsIncantation": "Action",
+      "portee": "18 m",
+      "duree": "Concentration, jusqu’à 1 minute",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Des créatures dans une sphère de 1,50 m de rayon autour d’un point à portée doivent réussir un jet de sauvegarde de Sagesse ou subir l’état Incapable d’agir. Elles peuvent retenter le jet à la fin de leurs tours.",
+      "classes": "Barde, Ensorceleur, Magicien"
+    },
+    {
+      "id": "apaisement-des-emotions",
+      "nom": "Apaisement des émotions",
+      "ecole": "Enchantement",
+      "niveau": "2",
+      "tempsIncantation": "Action",
+      "portee": "18 m",
+      "duree": "Concentration, jusqu’à 1 minute",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Dans une sphère de 6 m de rayon, vous tentez soit de supprimer les états Charmé et Effrayé, soit de rendre les créatures indifférentes envers des cibles avec lesquelles elles sont hostiles.",
+      "classes": "Barde, Clerc"
+    },
+    {
+      "id": "petite-hutte",
+      "nom": "Petite hutte",
+      "ecole": "Évocation",
+      "niveau": "3",
+      "tempsIncantation": "1 minute ou rituel",
+      "portee": "Personnelle (hémisphère de 3 m de rayon)",
+      "duree": "8 heures",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": true,
+      "descriptif": "Un dôme immobile de force vous abrite avec jusqu’à neuf autres créatures de taille M ou inférieure. Il protège notamment des intempéries et des projectiles ordinaires, selon les règles du sort.",
+      "classes": "Barde, Magicien"
+    },
+    {
+      "nom": "Nuée de dagues (Pluir de lames)",
+      "ecole": "Évocation",
+      "niveau": "2",
+      "tempsIncantation": "Action",
+      "portee": "18 m",
+      "duree": "1 minute (10r)",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Vous invoquez des dagues tournoyantes dans un Cube de 1,50 mètre centré sur un point à portée. Chaque créature dans cette zone subit 4d4 dégâts tranchants. Une créature subit également ces dégâts si elle entre dans le Cube, y termine son tour ou si le Cube se déplace dans son emplacement. Une créature ne subit ces dégâts qu'une fois par tour.\nLors de vos tours suivants, vous pouvez prendre une action Magie pour téléporter le Cube jusqu'à 9 mètres.\nEmplacement de niveau supérieur. Les dégâts augmentent de 2d4 pour chaque niveau d'emplacement de sort supérieur à 2.",
+      "classes": [
+        "Ensorceleur",
+        "Barde",
+        "Magicien"
+      ],
+      "id": "1794402290464"
+    },
+    {
+      "nom": "Compréhension des langues",
+      "ecole": "Divination",
+      "niveau": "1",
+      "tempsIncantation": "Action",
+      "portee": "Personnelle",
+      "duree": "1 heure",
+      "composantes": [
+        "S",
+        "V",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": true,
+      "descriptif": "Pendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.",
+      "classes": [
+        "Barde",
+        "Ensorceleur",
+        "Magicien"
+      ],
+      "id": "1794402632931"
+    },
+    {
+      "nom": "Perception bestiale (œil de la bête)",
+      "ecole": "Divination",
+      "niveau": "2",
+      "tempsIncantation": "Action",
+      "portee": "Contact",
+      "duree": "1 heure",
+      "composantes": [
+        "S"
+      ],
+      "concentration": true,
+      "rituel": true,
+      "descriptif": "Vous touchez une Bête consentante. Pendant la durée du sort, vous pouvez percevoir grâce à ses sens et vos propres sens. En percevant grâce à ses sens, vous bénéficiez de ses sens spéciaux.",
+      "classes": [
+        "Druide",
+        "Rôdeur"
+      ],
+      "id": "1794403709412"
+    },
+    {
+      "nom": "Alarme",
+      "ecole": "Abjuration",
+      "niveau": "1",
+      "tempsIncantation": "1 minute",
+      "portee": "9 m",
+      "duree": "8 heures",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": true,
+      "descriptif": "Vous mettez en place une alarme contre les intrusions. Choisissez une porte, une fenêtre ou une zone à portée ne dépassant pas un Cube de 6 mètres de côté. Jusqu'à la fin du sort, une alarme vous alerte dès qu'une créature touche ou pénètre dans la zone protégée. Lorsque vous lancez le sort, vous pouvez désigner des créatures qui ne déclencheront pas l'alarme. Vous pouvez également choisir si l'alarme est sonore ou mentale :\nAlarme sonore. L'alarme produit le son d'une clochette qui s'entend dans un rayon de 18 mètres autour de la zone protégée pendant 10 secondes.\nAlarme mentale. Vous êtes alerté par un signal mental si vous vous trouvez à moins de 1,5 km de la zone protégée. Ce signal vous réveille si vous dormez.",
+      "classes": [
+        "Rôdeur",
+        "Magicien"
+      ],
+      "id": "1794403770973"
+    },
+    {
+      "nom": "Nappe de brouillard",
+      "ecole": "Évocation",
+      "niveau": "1",
+      "tempsIncantation": "Action",
+      "portee": "36 m",
+      "duree": "1 heure",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Vous créez une Sphère de brouillard de 6 mètres de rayon centrée sur un point à portée. La Sphère est une zone de Visibilité nulle. Elle se maintient pendant toute la durée du sort ou jusqu'à ce qu'un vent fort (comme celui créé par bourrasque) la disperse.\nEmplacement de niveau supérieur. Le rayon du brouillard augmente de 6 mètres pour chaque niveau d'emplacement de sort supérieur à 1.",
+      "classes": [
+        "Druide",
+        "Rôdeur",
+        "Ensorceleur",
+        "Magicien"
+      ],
+      "id": "1794403833877"
+    },
+    {
+      "nom": "Stabilisation",
+      "ecole": "Nécromancie",
+      "niveau": "0 (Cantrip)",
+      "tempsIncantation": "Action",
+      "portee": "4,5 m",
+      "duree": "Instantanée",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Choisissez une créature à portée qui est à 0 point de vie et qui n'est pas morte. La créature se stabilise.\nAmélioration de sort mineur. La portée est doublée aux niveaux 5 (9 mètres), 11 (18 mètres) et 17 (36 mètres).",
+      "classes": [
+        "Clerc",
+        "Druide"
+      ],
+      "id": "1794403894314"
+    },
+    {
+      "nom": "Marque du chasseur",
+      "ecole": "Divination",
+      "niveau": "1",
+      "tempsIncantation": "Action bonus",
+      "portee": "27 m",
+      "duree": "1 heure",
+      "composantes": [
+        "V"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Vous marquez magiquement une créature que vous pouvez voir à portée comme votre proie. Jusqu'à la fin du sort, vous infligez 1d6 points de dégâts de force supplémentaires à la cible pour chaque jet d'attaque réussi. Vous bénéficiez également d'un Avantage à tout jet de Sagesse (Perception ou Survie) effectué pour la trouver.\nSi la cible tombe à 0 point de vie avant la fin du sort, vous pouvez utiliser une action Bonus pour marquer une nouvelle créature que vous pouvez voir à portée.\nEmplacement de niveau supérieur. Votre concentration peut durer plus longtemps avec un emplacement de sort de niveau 3 ou 4 (jusqu'à 8 heures) ou 5 ou supérieur (jusqu'à 24 heures).",
+      "classes": [
+        "Rôdeur"
+      ],
+      "id": "1794403968085"
+    },
+    {
+      "nom": "Enchevêtrement",
+      "ecole": "Évocation",
+      "niveau": "1",
+      "tempsIncantation": "Action",
+      "portee": "27 m ",
+      "duree": "1 minute",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Des plantes agrippantes surgissent du sol dans un carré de 6 mètres de côté à portée. Pendant la durée du sort, ces plantes transforment le sol de la zone en Terrain difficile. Elles disparaissent à la fin du sort.\nToute créature (autre que vous) présente dans la zone au moment du lancement du sort doit réussir un jet de sauvegarde de Force ou subir l'état Entravé jusqu'à la fin du sort. Une créature entravée peut effectuer un jet de Force (Athlétisme) contre le DD de sauvegarde de votre sort. En cas de réussite, elle se libère des plantes agrippantes et n'est plus entravée par elles.",
+      "classes": [
+        "Druide",
+        "Rôdeur"
+      ],
+      "id": "1794404017233"
+    },
+    {
+      "nom": "Arme magique",
+      "ecole": "Transmutation",
+      "niveau": "2",
+      "tempsIncantation": "Action bonus",
+      "portee": "Contact",
+      "duree": "1 heure",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous touchez une arme non magique. Jusqu'à la fin du sort, cette arme devient une arme magique avec un bonus de +1 aux jets d'attaque et de dégâts. Le sort prend fin prématurément si vous le relancez.\nEmplacement de niveau supérieur. Le bonus passe à +2 avec un emplacement de sort de niveau 3 à 5. Le bonus passe à +3 avec un emplacement de sort de niveau 6 ou supérieur.",
+      "classes": [
+        "Paladin",
+        "Rôdeur",
+        "Magicien",
+        "Ensorceleur"
+      ],
+      "id": "1794404074991"
+    },
+    {
+      "nom": "Grande foulée",
+      "ecole": "Transmutation",
+      "niveau": "1",
+      "tempsIncantation": "Action",
+      "portee": "Contact",
+      "duree": "1 heure",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous touchez une créature. La Vitesse de la cible augmente de 3 mètres jusqu'à la fin du sort.\nEmplacement de niveau supérieur.\nVous pouvez cibler une créature supplémentaire pour chaque niveau d'emplacement de sort supérieur à 1.",
+      "classes": [
+        "Barde",
+        "Druide",
+        "Rôdeur",
+        "Magicien"
+      ],
+      "id": "1794404419360"
     }
   ],
   "monstres": [
@@ -2845,6 +2982,90 @@
         "1": 2
       },
       "id": "1791661499930"
+    },
+    {
+      "nom": "Archibald",
+      "classe": "Barde",
+      "niveau": 5,
+      "race": "Humain",
+      "background": "Voyageur",
+      "alignement": "Chaotique Bon",
+      "ca": "13",
+      "pvMax": "33",
+      "pvActuels": "33",
+      "vitesse": "9 m (6 cases)",
+      "caracteristiques": {
+        "Force": 8,
+        "Dextérité": 15,
+        "Constitution": 12,
+        "Intelligence": 13,
+        "Sagesse": 10,
+        "Charisme": 17
+      },
+      "bonusMaitrise": 3,
+      "competences": "Inspiration bardique. 3d6/repos court\nAction bonus : inspirer une créature dans les 18m qui reçoit l'un de vos dés. 1 seul dé par créature. Ce dé peu être utilisé pendant les tests d20\n\nMots cinglants. Lorsqu'une créature que vous pouvez voir dans un rayon de 18 m effectue un jet de dégâts ou réussit un jet de caractéristique ou d'attaque, vous pouvez prendre une Réaction pour dépenser une utilisation d'Inspiration bardique ; lancez votre dé d'Inspiration bardique et soustrayez le résultat du jet de la créature, réduisant ainsi les dégâts ou transformant potentiellement la réussite en un échec.\n\nSource d'inspiration. (sans action) Dépenser 1 emplacement de sort = 1 inspi bardique\n\nChanceux. Vous disposez d'un nombre de points de Chance égal à votre bonus de maîtrise et pouvez les dépenser pour les avantages ci-dessous. Vous récupérez vos points de Chance dépensés à la fin d'un Repos long.\nAvantage. Lorsque vous lancez un d20 pour un test de D20, vous pouvez dépenser 1 point de Chance pour vous donner un Avantage.\nDésavantage. Lorsqu'une créature lance un d20 pour un jet d'attaque contre vous, vous pouvez dépenser 1 point de Chance pour lui imposer un Désavantage.",
+      "sauvegardes": "Dext. +5\nCha. +6",
+      "equipement": "",
+      "traits": "Compétent.\nPolyvalent.\n\nIngénieux. Vous recevez une insipiration héroïque à chaque fin de repos long. ",
+      "sortsConnus": [
+        "reparation",
+        "deguisement",
+        "moquerie-cruelle",
+        "sommeil",
+        "sort-0015",
+        "sort-0203",
+        "apaisement-des-emotions",
+        "1794402290464",
+        "sort-0011",
+        "petite-hutte",
+        "1794402632931"
+      ],
+      "slotsSorts": {
+        "1": 4,
+        "2": 3,
+        "3": 2
+      },
+      "id": "1794401353773"
+    },
+    {
+      "nom": "Finfire",
+      "classe": "Rôdeur",
+      "niveau": 5,
+      "race": "Halfelin",
+      "background": "Guide",
+      "alignement": "Neutre bon",
+      "ca": "14",
+      "pvMax": "39",
+      "pvActuels": "39",
+      "vitesse": "9 m (6 cases)",
+      "caracteristiques": {
+        "Force": 12,
+        "Dextérité": 15,
+        "Constitution": 13,
+        "Intelligence": 8,
+        "Sagesse": 17,
+        "Charisme": 10
+      },
+      "bonusMaitrise": 3,
+      "competences": "Pendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nStyle de combat. Archerie\n\nAttaque supplémentaire. 2 attaques/action attaque\nInitié à la magie (druide). \n\nChef cuisinier:\nRepas reconstituant. Repot court, si ingrédient nécessaire = 4+BM repas donne 1d8PV supplémentaire\nFriandises. Repos long+1h. BM de friandises : AB> Manger BM PV temp.\n",
+      "sauvegardes": "Force +4\nDext +5",
+      "equipement": "",
+      "traits": "Agilité halfeline. Vous pouvez passer dans l'espace de toute créature d'une taille supérieure à la vôtre mais pas s'arreter.\n\nBrave. AV aux JdS pour ne pas être effrayé ou sortir de l'état effrayé\n\nChance. Lorsque vous obtenez un 1 à un test d20, vous pouvez relancer le dé et devez alors utiliser ce nouveau résultat.\n\nDiscrétion naturelle. Si vous êtes dans l'ombre d'une créature plus grande que vous, vous pouvez entreprendre l'action Furtivité",
+      "sortsConnus": [
+        "1794404074991",
+        "sort-0015",
+        "1794404017233",
+        "1794403968085",
+        "1794403894314",
+        "1794403833877",
+        "1794403770973",
+        "1794404419360"
+      ],
+      "slotsSorts": {
+        "1": 4,
+        "2": 2
+      },
+      "id": "1794402932030"
     }
   ],
   "campagnes": [
@@ -2905,6 +3126,13 @@
           ]
         }
       ]
+    },
+    {
+      "nom": "Curse of strahd",
+      "description": "Finfire, Übel, Faelar et Archibald se retrouve piéger dans la Barovie...",
+      "id": "1794400734142-qlg9ue9rf",
+      "personnages": [],
+      "rencontres": []
     }
   ],
   "githubConfig": {
