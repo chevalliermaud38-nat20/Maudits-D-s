@@ -54,8 +54,12 @@ export async function saveToGitHub(config, data) {
   const jsonString = JSON.stringify(data, null, 2)
   const encoder = new TextEncoder()
   const dataUint8 = encoder.encode(jsonString)
-  const content = btoa(String.fromCharCode(...dataUint8))
-  
+  let binary = ''  
+    const chunkSize = 0x8000  
+    for (let i = 0; i < dataUint8.length; i += chunkSize) {  
+      binary += String.fromCharCode(...dataUint8.subarray(i, i + chunkSize))  
+    }  
+const content = btoa(binary)    
   try {
     // D'abord, essayer de récupérer le SHA du fichier existant
     let sha = null
