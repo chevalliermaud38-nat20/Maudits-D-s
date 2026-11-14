@@ -1479,6 +1479,29 @@
         "Orc"
       ],
       "id": "1794669131975"
+    },
+    {
+      "nom": "Métamorphose",
+      "ecole": "Transmutation",
+      "niveau": "4",
+      "tempsIncantation": "Action",
+      "portee": "18 m",
+      "duree": "jusqu'à 1 heure",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Vous tentez de transformer une créature que vous pouvez voir à portée en bête. La cible doit réussir un jet de sauvegarde de Sagesse ou se métamorphoser en Bête pendant toute la durée du sort. Cette forme peut être n'importe quelle bête de votre choix dont le FP est égal ou inférieur à celui de la cible (ou à son niveau si elle n'en a pas). Les statistiques de jeu de la cible sont remplacées par le profil de la bête choisie, mais la cible conserve son alignement, sa personnalité, son type de créature, ses points de vie et ses dés de vie.\nLa cible gagne un nombre de points de vie temporaires égal aux points de vie de la bête. Ces points de vie temporaires disparaissent s'il en reste à la fin du sort. Le sort prend fin prématurément sur la cible si elle n'a plus de points de vie temporaires.\nLes actions de la cible sont limitées par l'anatomie de sa nouvelle forme, et elle ne peut ni parler ni lancer des sorts.\nL'équipement de la cible se fond dans la nouvelle forme. La créature ne peut ni utiliser ni bénéficier de cet équipement.",
+      "classes": [
+        "Barde",
+        "Druide",
+        "Ensorceleur",
+        "Magicien"
+      ],
+      "id": "1794670483226"
     }
   ],
   "monstres": [
@@ -2563,9 +2586,43 @@
       "traits": "Lancement de sorts: Baba Lysaga est une lanceuse de sorts de niveau 16 (Intelligence, DD 17, +9 au toucher).",
       "actions": "Sa caractéristique d'incantation est l'Intelligence (DD des jets de sauvegarde contre ses sorts 17, +9 pour toucher avec ses attaques de sort). \n\n**Attaques multiples.** Baba Lysaga effectue trois attaques avec son bâton.\n\n**Bâton.** *Attaque d'arme au corps à corps :* +8 pour toucher, allonge 1,50 m, une cible. *Touché : *7 (1d6+4) dégâts contondants, ou 8 (1d8+4) dégâts contondants si elle le manie à deux mains. \n\n\n**Convocation de nuées d'insectes (recharge après un repos court ou long).** Baba Lysaga convoque 1d4 nuées d'insectes. Une nuée convoquée apparaît dans un emplacement inoccupé situé à 18 mètres ou moins de Baba Lysaga et se comporte comme son alliée. Elle reste jusqu'à ce qu'elle meure ou que Baba Lysaga la renvoie par une action.\n",
       "sortsPrepares": [
-        "sort-0001"
+        "sort-0001",
+        "1794667522947",
+        "1794667397028",
+        "sort-0005",
+        "1794667631091",
+        "1794667879889",
+        "sort-0006",
+        "sort-0012",
+        "sommeil",
+        "sort-0201",
+        "1794668023630",
+        "1794668078185",
+        "boule-de-feu-1",
+        "1794668156148",
+        "eclair-1",
+        "1794668237044",
+        "1794668350617",
+        "1794668456173",
+        "1794668559232",
+        "1794668705655",
+        "1794668854653",
+        "1794668918336",
+        "1794668980766",
+        "1794669081387",
+        "1794669131975",
+        "1794670483226"
       ],
-      "slotsSorts": {},
+      "slotsSorts": {
+        "1": 4,
+        "2": 3,
+        "3": 3,
+        "4": 3,
+        "5": 2,
+        "6": 1,
+        "7": 1,
+        "8": 1
+      },
       "actionsLegendaire": "",
       "reactions": ""
     },
