@@ -856,8 +856,8 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                   <p><strong>Composantes:</strong> {selectedSort.composantes?.join(', ') || '-'}</p>
                   {selectedSort.concentration && <p><strong>Concentration:</strong> Oui</p>}
                   {selectedSort.rituel && <p><strong>Rituel:</strong> Oui</p>}
-                  <p><strong>Descriptif:</strong></p>
-                  <p className="whitespace-pre-wrap">{selectedSort.descriptif}</p>
+                  <p><strong>Descriptif:</strong></p>  
+                  <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedSort.descriptif || '') }} />  
                 </div>
               )}
             </DialogContent>
@@ -872,11 +872,11 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                 <div className="space-y-3">  
                   <div>  
                     <p className="font-semibold">Conséquences :</p>  
-                    <p className="whitespace-pre-wrap">{selectedCondition.consequences}</p>  
+                    <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCondition.consequences || '') }} />  
                   </div>  
                   <div>  
                     <p className="font-semibold">Comment en sortir :</p>  
-                    <p className="whitespace-pre-wrap">{selectedCondition.sortir}</p>  
+                    <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCondition.sortir || '') }} />  
                   </div>  
                 </div>  
               )}  
