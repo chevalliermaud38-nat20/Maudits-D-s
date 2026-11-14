@@ -323,8 +323,23 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     setCombatData({ ...combatData, monstresCombat: newMonstres })
   }
 
-  const conditionsList = ['Étourdi', 'À terre', 'Paralysé', 'Charmé', 'Effrayé', 'Empoisonné', 'Invisible', 'Restrained', 'Épuisé']
-
+  const conditionsData = [  
+    { nom: 'Aveuglé', consequences: "Ne voit plus — échec automatique aux tests nécessitant la vue — attaques contre lui avec Avantage — ses attaques avec Désavantage", sortir: "Durée de l'effet — dissipation de la magie ou soin si prévu" },  
+    { nom: 'Charmé', consequences: "Ne peut pas attaquer le charmeur ni lui infliger d'effet nuisible — charmeur avec Avantage aux tests sociaux contre lui", sortir: "Durée de l'effet — réussir le JS ou rompre l'effet si le sort le permet" },  
+    { nom: 'Assourdi', consequences: "N'entend plus — échec automatique aux tests nécessitant l'ouïe", sortir: "Durée de l'effet — dissipation ou soin si prévu" },  
+    { nom: 'Épuisement', consequences: "Par niveau : −2 à tous les tests de d20 et −1,50 m de vitesse — mort au niveau 6", sortir: "Repos long : retire 1 niveau — certains effets peuvent en retirer davantage" },  
+    { nom: 'Effrayé', consequences: "Désavantage aux tests de caractéristique et jets d'attaque si la source est visible — ne peut pas s'en rapprocher volontairement", sortir: "Durée de l'effet — JS ou disparition de la source si l'effet le prévoit" },  
+    { nom: 'Agrippé', consequences: "Vitesse à 0 — Désavantage aux attaques contre toute cible autre que l'agrippeur", sortir: "Action : test d'Athlétisme ou d'Acrobaties contre le DD d'évasion — l'agrippeur neutralisé — sortir de sa portée" },  
+    { nom: 'Incapacité', consequences: "Pas d'action, d'action bonus ni de réaction — concentration interrompue", sortir: "Durée de l'effet — soin ou dissipation si prévu" },  
+    { nom: 'Invisible', consequences: "Impossible à voir sans capacité spéciale — attaques contre lui avec Désavantage — ses attaques avec Avantage — Avantage à l'initiative si invisible au jet", sortir: "Durée de l'effet — effet qui révèle ou met fin à l'invisibilité" },  
+    { nom: 'Paralysé', consequences: "Incapacité — vitesse à 0 — échec automatique aux JS Force et Dextérité — attaques contre lui avec Avantage — coups critiques automatiques à 1,50 m", sortir: "Durée de l'effet — JS ou soin si le sort le permet" },  
+    { nom: 'Pétrifié', consequences: "Transformé en matière inerte — incapacité — vitesse à 0 — résistance à tous les dégâts — échec automatique aux JS Force et Dextérité — attaques contre lui avec Avantage", sortir: "Durée de l'effet — magie ou sort qui met fin à la pétrification" },  
+    { nom: 'Empoisonné', consequences: "Désavantage aux jets d'attaque et tests de caractéristique", sortir: "Durée du poison — antidote, soin ou sort adapté" },  
+    { nom: 'À terre', consequences: "Déplacement limité à ramper — attaques avec Désavantage — attaques à 1,50 m contre lui avec Avantage, au-delà avec Désavantage", sortir: "Se relever : dépenser la moitié de sa vitesse" },  
+    { nom: 'Entravé', consequences: "Vitesse à 0 — attaques contre lui avec Avantage — ses attaques avec Désavantage — Désavantage aux JS Dextérité", sortir: "Action ou test pour se libérer selon la source — aide extérieure — durée de l'effet" },  
+    { nom: 'Étourdi', consequences: "Incapacité — échec automatique aux JS Force et Dextérité — attaques contre lui avec Avantage", sortir: "Durée de l'effet — JS ou soin si prévu" },  
+    { nom: 'Inconscient', consequences: "Incapacité et à terre — vitesse à 0 — lâche ce qu'il tient — échec automatique aux JS Force et Dextérité — attaques contre lui avec Avantage — coups critiques automatiques à 1,50 m", sortir: "Récupérer des PV — aide médicale ou effet qui réveille — durée prévue par la source" }  
+  ]  
   const toggleCondition = (combatant, condition) => {
     const conditions = combatant.conditions || []
     const newConditions = conditions.includes(condition)
@@ -419,9 +434,16 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     }
   }
 
-  const [selectedCombatant, setSelectedCombatant] = useState(null)
-  const [sortDialogOpen, setSortDialogOpen] = useState(false)
-  const [selectedSort, setSelectedSort] = useState(null)
+  const [selectedCombatant, setSelectedCombatant] = useState(null)  
+  const [sortDialogOpen, setSortDialogOpen] = useState(false)  
+  const [selectedSort, setSelectedSort] = useState(null)  
+  const [conditionDialogOpen, setConditionDialogOpen] = useState(false)  
+  const [selectedCondition, setSelectedCondition] = useState(null)  
+  
+  const openConditionDialog = (condition) => {  
+    setSelectedCondition(condition)  
+    setConditionDialogOpen(true)  
+  }  
 
   const openSortDialog = (sortId) => {
     const sort = sorts?.find(s => s.id === sortId)
@@ -691,20 +713,25 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                     </div>
                   )}
 
-                  <div>
-                    <Label>Conditions</Label>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {conditionsList.map(condition => (
-                        <label key={condition} className="flex items-center gap-1 text-xs">
-                          <Checkbox
-                            checked={selectedCombatant.conditions?.includes(condition) || false}
-                            onChange={() => toggleCondition(selectedCombatant, condition)}
-                          />
-                          {condition}
-                        </label>
-                      ))}
-                    </div>
-                  </div>
+                  <div>  
+                    <Label>Conditions</Label>  
+                    <div className="flex flex-wrap gap-2 mt-2">  
+                      {conditionsData.map(condition => (  
+                        <label key={condition.nom} className="flex items-center gap-1 text-xs">  
+                          <Checkbox  
+                            checked={selectedCombatant.conditions?.includes(condition.nom) || false}  
+                            onChange={() => toggleCondition(selectedCombatant, condition.nom)}  
+                          />  
+                          <span  
+                            className="cursor-pointer underline decoration-dotted hover:text-primary"  
+                            onClick={(e) => { e.preventDefault(); openConditionDialog(condition) }}  
+                          >  
+                            {condition.nom}  
+                          </span>  
+                        </label>  
+                      ))}  
+                    </div>  
+                  </div>  
 
                   {selectedCombatant.sortsConnus && selectedCombatant.sortsConnus.length > 0 && (
                     <div>
@@ -781,9 +808,29 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                 </div>
               )}
             </DialogContent>
-          </Dialog>
-        </div>
-      ) : viewMode === 'list' ? (
+          </Dialog>  
+  
+          <Dialog open={conditionDialogOpen} onOpenChange={setConditionDialogOpen}>  
+            <DialogHeader>  
+              <DialogTitle>{selectedCondition?.nom}</DialogTitle>  
+            </DialogHeader>  
+            <DialogContent>  
+              {selectedCondition && (  
+                <div className="space-y-3">  
+                  <div>  
+                    <p className="font-semibold">Conséquences :</p>  
+                    <p className="whitespace-pre-wrap">{selectedCondition.consequences}</p>  
+                  </div>  
+                  <div>  
+                    <p className="font-semibold">Comment en sortir :</p>  
+                    <p className="whitespace-pre-wrap">{selectedCondition.sortir}</p>  
+                  </div>  
+                </div>  
+              )}  
+            </DialogContent>  
+          </Dialog>  
+        </div>  
+      ) : viewMode === 'list' ? (  
         <>
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <h2 className="text-2xl font-bold">Campagnes</h2>
