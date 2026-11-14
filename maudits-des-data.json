@@ -1457,6 +1457,128 @@
         "Magicien"
       ],
       "id": "1794404419360"
+    },
+    {
+      "nom": "Flammes",
+      "ecole": "Évocation",
+      "niveau": "0 (Cantrip)",
+      "tempsIncantation": "Action",
+      "portee": "personnelle",
+      "duree": "10 minutes",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Une flamme vacillante apparaît dans votre main. La flamme y reste pour la durée du sort et n'endommage pas votre équipement, ni ne vous blesse. La flamme diffuse une lumière vive dans un rayon de 3 mètres et une lumière faible dans un rayon supplémentaire de 3 mètres. Le sort prend fin si vous l'annulez par une action ou si vous le lancez de nouveau.\nVous pouvez également attaquer avec la flamme, mettant ainsi un terme au sort. Lorsque vous incantez ce sort, ou en utilisant une action lors d'un tour suivant, vous pouvez lancer la flamme sur une créature située à 9 mètres de vous maximum. Faites une attaque à distance avec un sort. En cas de réussite, la cible subit 1d8 dégâts de feu.\nLes dégâts de ce sort augmentent de 1d8 lorsque vous atteignez le niveau 5 (2d8), le niveau 11 (3d8) et le niveau 17 (4d8).",
+      "classes": [
+        "Druide"
+      ],
+      "id": "1794663325466"
+    },
+    {
+      "nom": "Gourdin magique",
+      "ecole": "Transmutation",
+      "niveau": "0 (Cantrip)",
+      "tempsIncantation": "Action Bonus",
+      "portee": "Contact",
+      "duree": "1 min",
+      "composantes": [
+        "S",
+        "V",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Le bois du bâton ou du gourdin que vous tenez est altéré par les pouvoirs de la nature. Pour la durée du sort, vous pouvez utiliser votre caractéristique d'incantation plutôt que votre Force pour les jets d'attaque au corps à corps et de dégâts avec cette arme, et les dégâts de l'arme deviennent des d8. De plus, l'arme devient une arme magique, si ce n'est pas déjà le cas. Ce sort se termine si vous le lancez de nouveau ou si vous lâchez l'arme enchantée.",
+      "classes": [
+        "Druide"
+      ],
+      "id": "1794663391055"
+    },
+    {
+      "nom": "Communication avec les animaux",
+      "ecole": "Divination",
+      "niveau": "1",
+      "tempsIncantation": "Action",
+      "portee": "personnelle",
+      "duree": "10 min",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous gagnez la capacité de comprendre et de communiquer verbalement (ou oralement) avec des bêtes pour la durée du sort. Les connaissances et la compréhension de nombreuses bêtes sont limitées par leur intelligence, mais au minimum, elles peuvent vous communiquer des informations sur les alentours et les bêtes à proximité, incluant tout ce qu'elles peuvent percevoir ou ont perçu au cours des derniers jours. Vous devriez être capable de convaincre une bête de vous rendre un petit service, à la discrétion du MD.",
+      "classes": [
+        "Barde",
+        "Druide",
+        "Rôdeur"
+      ],
+      "id": "1794663470420"
+    },
+    {
+      "nom": "Messager animal",
+      "ecole": "Enchantement",
+      "niveau": "2",
+      "tempsIncantation": "Action",
+      "portee": "9 m",
+      "duree": "24 heures",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Grâce à ce sort, vous employez un animal pour livrer un message. Choisissez une bête visible de taille TP, comme un écureuil, un geai bleu ou une chauve-souris. Vous précisez une destination, que vous avez préalablement visitée, et un destinataire qui correspond à une description sommaire, comme « un homme ou une femme vêtu d'un uniforme de la garde civile » ou « un nain roux portant un chapeau pointu ». Vous énoncez aussi un message de 25 mots ou moins. La bête ciblée se déplace pour la durée du sort vers la destination déterminée, au rythme de 75 km par 24 heures pour un messager ailé ou 37,5 km pour les autres animaux.\nLorsque le messager arrive, il livre son message à la créature que vous avez décrit en imitant le son de votre voix. Le messager parlera uniquement à la créature correspondant à la description que vous avez fournie. Si le messager ne parvient pas à sa destination avant la fin du sort, le message est perdu et la bête revient à l'endroit où le sort a été incanté.\nAux niveaux supérieurs. Lorsque vous lancez ce sort en utilisant un emplacement de sort de niveau 3 ou supérieur, la durée du sort augmente de 48 heures pour chaque niveau d'emplacement au-delà du niveau 2.",
+      "classes": [
+        "Barde",
+        "Druide",
+        "Rôdeur"
+      ],
+      "id": "1794664523169"
+    },
+    {
+      "nom": "Peau d'écorce",
+      "ecole": "Transmutation",
+      "niveau": "2",
+      "tempsIncantation": "1 action",
+      "portee": "contact",
+      "duree": "1 heure",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Vous touchez une créature consentante. Jusqu'à la fin du sort, la peau de la cible prend une texture rugueuse telle l'écorce d'un arbre et la CA de la cible ne peut être inférieure à 16, peu importe le type d'armure qu'elle porte.",
+      "classes": [
+        "Druide",
+        "Rôdeur"
+      ],
+      "id": "1794664582900"
+    },
+    {
+      "nom": "Druidisme",
+      "ecole": "Transmutation",
+      "niveau": "0 (Cantrip)",
+      "tempsIncantation": "Action",
+      "portee": "9 m",
+      "duree": "instantanée",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "En murmurant aux esprits de la nature, vous créez l'un des effets suivants, dans la portée du sort :\n• Vous créez un minuscule et inoffensif effet sensoriel qui permet de prédire les conditions météorologiques pour les 24 prochaines heures, à l'endroit où vous êtes. L'effet pourrait se manifester comme un orbe doré pour indiquer un ciel dégagé, un nuage pour annoncer la pluie, un flocon de neige pour une chute de neige et ainsi de suite. L'effet persiste pour 1 round.\n• Vous provoquez immédiatement la floraison d'une fleur, l'ouverture d'une gousse ou le débourrement d'un bourgeon de feuille.\n• Vous créez un inoffensif effet sensoriel instantané comme une chute de feuilles, une légère brise, le son d'un petit animal ou une subtile odeur de putois. L'effet doit se limiter à un cube de 1,50 mètre d'arête.\n• Vous éteignez ou allumez instantanément une bougie, une torche ou un petit feu de camp.",
+      "classes": [
+        "Druide"
+      ],
+      "id": "1794664663165"
     }
   ],
   "monstres": [
@@ -2976,7 +3098,13 @@
       "sortsPrepares": [
         "1794404017233",
         "1794404419360",
-        "sort-0017"
+        "sort-0017",
+        "1794664663165",
+        "1794663325466",
+        "1794663391055",
+        "1794663470420",
+        "1794664523169",
+        "1794664582900"
       ],
       "slotsSorts": {
         "1": 4,
@@ -3109,6 +3237,39 @@
       "actionsLegendaire": "",
       "reactions": "",
       "id": "1794580994098"
+    },
+    {
+      "nom": "Le Dernier Chasseur",
+      "type": "Mort-vivant",
+      "taille": "Moyenne",
+      "ca": "13",
+      "pv": "75",
+      "alignement": "Loyal Neutre",
+      "legendaire": false,
+      "fd": "-",
+      "vitesse": "9 m (6 cases)",
+      "bonusInitiative": 2,
+      "caracteristiques": {
+        "Force": 18,
+        "Dextérité": 14,
+        "Constitution": 18,
+        "Intelligence": 13,
+        "Sagesse": 16,
+        "Charisme": 18
+      },
+      "competences": "**Résistance aux dégâts** nécrotiques et contondants/perforants/tranchants non magiques\npas de régénération - pas de capacité de résurrection du Revenant\n\n**Déplacement du chasseur.** Une fois par tour, après avoir tiré, il peut se déplacer de 4.50 m (3 cases) sans provoquer d'attaque d'opportunité.\n\n**Entre les pierres.** Tant qu'il est à côté d'un cairn, il bénéficie d'un demi-couvert (+2 CA et jets de DEX).\n",
+      "sens": "Vision dans le noir 18 m, Perception passive 13",
+      "langues": "Commun",
+      "equipement": "",
+      "traits": "",
+      "actions": "**Attaques multiples.** Le dernier chasseur effectue deux attaques avec son arc.\n\n**Arc long.** *Attaque d'arme à distance :* +6 au toucher, portée 45/180 m (150/600 ft), une cible. *Touché : *8 (1d8 + 4) dégâts perforants.\n\n**Flèche sanglante (Recharge 5–6 / dans sort niv1).** Le dernier chasseur décoche une flèche imprégnée d'énergie nécrotique sur une créature qu'il peut voir à portée de son arc. L'attaque touche automatiquement. La cible doit réussir un jet de sauvegarde de Constitution DD 14 ou subir 9 (2d8) dégâts nécrotiques supplémentaires et voir sa vitesse réduite de 3 m (10 ft) jusqu'à la fin de son prochain tour",
+      "sortsPrepares": [],
+      "slotsSorts": {
+        "1": 6
+      },
+      "actionsLegendaire": "",
+      "reactions": "",
+      "id": "1794654662487"
     }
   ],
   "personnages": [
