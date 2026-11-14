@@ -265,7 +265,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     const changes = { pvActuels: nouveauxPV }  
   
     // En péril : coché automatiquement sous 50 % des PV max  
-    const conditions = combatant?.conditions? || []  
+    const conditions = combatant.conditions || []  
     const enPeril = pvMax > 0 && nouveauxPV < pvMax / 2  
     if (enPeril && !conditions.includes('En péril')) {  
       changes.conditions = [...conditions, 'En péril']  
@@ -349,7 +349,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
   
   const setFatigue = (combatant, val) => {  
     const fatigue = Math.max(0, Math.min(6, val))  
-    const conditions = combatant?.conditions? || []  
+    const conditions = combatant.conditions || []  
     const changes = { fatigue }  
     if (fatigue >= 1 && !conditions.includes('Épuisement')) {  
       changes.conditions = [...conditions, 'Épuisement']  
@@ -456,7 +456,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     { nom: 'En péril', consequences: "PV à 0 ou situation critique — effectue des jets de sauvegarde contre la mort à son tour (3 réussites : stabilisé — 3 échecs : mort) — coup critique à 1,50 m compte double", sortir: "Récupérer des PV — être stabilisé (soins, JS Médecine) — 3 réussites aux jets de sauvegarde contre la mort" }  
   ]  
   const toggleCondition = (combatant, condition) => {
-    const conditions = combatant?.conditions? || []
+    const conditions = combatant.conditions || []
     const newConditions = conditions.includes(condition)
       ? conditions.filter(c => c !== condition)
       : [...conditions, condition]
