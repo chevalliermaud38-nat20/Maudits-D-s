@@ -1,4 +1,4 @@
-import { useState } from 'react'
+mport { useState } from 'react'
 import { Plus, Edit, Play, Trash2, ChevronRight, ChevronDown, Users, Sword } from 'lucide-react'
 import { Button } from './ui/Button'
 import { Input } from './ui/Input'
@@ -1071,12 +1071,8 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
   
                   </div>  
                 </div>  
-              ) : (  
-                <div className="text-center text-muted-foreground py-8">  
-                  Sélectionnez un combattant dans la liste d'initiative  
-                </div>  
-              )}  
-            </div>  
+                    )}
+                  </div>
 
                   <div>
                     <Label>PV: {selectedCombatant.pvActuels}/{selectedCombatant.type === 'joueur' ? selectedCombatant.pvMax : selectedCombatant.monstreTemplate?.pv}</Label>
