@@ -444,6 +444,53 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     setSelectedCondition(condition)  
     setConditionDialogOpen(true)  
   }  
+  
+  const labelNiveauSort = (niveau) => {  
+    if (niveau === '0 (Cantrip)' || niveau === '0') return 'Sorts mineurs'  
+    if (niveau === '1') return '1er niveau'  
+    return `${niveau}e niveau`  
+  }  
+  
+  const grouperSortsParNiveau = (sortIds) => {  
+    const ordre = ['0 (Cantrip)', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']  
+    const groupes = {}  
+    sortIds.forEach(sortId => {  
+      const sort = sorts?.find(s => s.id === sortId) || { nom: 'Sort inconnu', niveau: '?', tempsIncantation: '', rituel: false, concentration: false }  
+      const niv = sort.niveau || '?'  
+      if (!groupes[niv]) groupes[niv] = []  
+      groupes[niv].push({ ...sort, id: sortId })  
+    })  
+    return Object.keys(groupes)  
+      .sort((a, b) => ordre.indexOf(a) - ordre.indexOf(b))  
+      .map(niv => ({  
+        niveau: niv,  
+        sorts: groupes[niv].sort((a, b) => a.nom.localeCompare(b.nom))  
+      }))  
+  }  
+  
+  const renderSortsParNiveau = (sortIds) => (  
+    <div className="mt-2 space-y-1">  
+      {grouperSortsParNiveau(sortIds).map(groupe => (  
+        <div key={groupe.niveau} className="text-sm">  
+          <span className="font-semibold">{labelNiveauSort(groupe.niveau)} : </span>  
+          {groupe.sorts.map((sort, index) => (  
+            <span key={sort.id}>  
+              {index > 0 && ', '}  
+              <span  
+                className="cursor-pointer underline decoration-dotted hover:text-primary"  
+                onClick={() => openSortDialog(sort.id)}  
+              >  
+                {sort.nom}  
+              </span>  
+              <span className="text-muted-foreground">  
+                {' '}({sort.tempsIncantation}{sort.rituel && ' | Rituel'}{sort.concentration && ' ; Concentration'})  
+              </span>  
+            </span>  
+          ))}  
+        </div>  
+      ))}  
+    </div>  
+  )  
 
   const openSortDialog = (sortId) => {
     const sort = sorts?.find(s => s.id === sortId)
@@ -733,51 +780,19 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                     </div>  
                   </div>  
 
-                  {selectedCombatant.sortsConnus && selectedCombatant.sortsConnus.length > 0 && (
-                    <div>
-                      <Label>Sorts connus</Label>
-                      <div className="mt-2 space-y-1">
-                        {selectedCombatant.sortsConnus.map(sortId => {
-                          const sort = sorts?.find(s => s.id === sortId) || { nom: 'Sort inconnu', niveau: '', tempsIncantation: '', concentration: false }
-                          return (
-                            <div
-                              key={sortId}
-                              className="text-sm bg-background p-2 rounded cursor-pointer hover:bg-accent transition-colors"
-                              onClick={() => openSortDialog(sortId)}
-                            >
-                              <div className="font-medium">{sort.nom}</div>
-                              <div className="text-xs text-muted-foreground">
-                                Niv {sort.niveau} | {sort.tempsIncantation} {sort.concentration && '| Concentration'}
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )}
+                  {selectedCombatant.sortsConnus && selectedCombatant.sortsConnus.length > 0 && (  
+                    <div>  
+                      <Label>Sorts connus</Label>  
+                      {renderSortsParNiveau(selectedCombatant.sortsConnus)}  
+                    </div>  
+                  )}  
 
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.sortsPrepares && selectedCombatant.monstreTemplate.sortsPrepares.length > 0 && (
-                    <div>
-                      <Label>Sorts préparés</Label>
-                      <div className="mt-2 space-y-1">
-                        {selectedCombatant.monstreTemplate.sortsPrepares.map(sortId => {
-                          const sort = sorts?.find(s => s.id === sortId) || { nom: 'Sort inconnu', niveau: '', tempsIncantation: '', concentration: false }
-                          return (
-                            <div
-                              key={sortId}
-                              className="text-sm bg-background p-2 rounded cursor-pointer hover:bg-accent transition-colors"
-                              onClick={() => openSortDialog(sortId)}
-                            >
-                              <div className="font-medium">{sort.nom}</div>
-                              <div className="text-xs text-muted-foreground">
-                                Niv {sort.niveau} | {sort.tempsIncantation} {sort.concentration && '| Concentration'}
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )}
+                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.sortsPrepares && selectedCombatant.monstreTemplate.sortsPrepares.length > 0 && (  
+                    <div>  
+                      <Label>Sorts préparés</Label>  
+                      {renderSortsParNiveau(selectedCombatant.monstreTemplate.sortsPrepares)}  
+                    </div>  
+                  )}  
                 </div>
               ) : (
                 <div className="p-4 bg-secondary rounded text-center text-muted-foreground">
