@@ -1280,8 +1280,10 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                 <Button size="sm" className="col-span-2" onClick={calcCompute}>=</Button>  
               </div>  
             </div>  
-          )}  
-      ) : viewMode === 'list' ? (          <>
+          )}
+          </main>
+        </div>
+      ) : viewMode === 'list' ? (
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <h2 className="text-2xl font-bold">Campagnes</h2>
             <Button onClick={openCampagneDialog}>
@@ -1778,7 +1780,6 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
           )}
         </DialogContent>  
       </Dialog>  
-      </main>  
     </div>  
   )  
 }  
