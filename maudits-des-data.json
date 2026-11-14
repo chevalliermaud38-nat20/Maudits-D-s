@@ -52,21 +52,20 @@
     },
     {
       "id": "sort-0001",
-      "nom": "Agrandissement/rapetissement",
-      "ecole": "Transmutation",
-      "niveau": "2",
+      "nom": "Aspersion d'acide",
+      "ecole": "Évocation",
+      "niveau": "0 (Cantrip)",
       "tempsIncantation": "action",
-      "portee": "9 m",
-      "duree": "Concentration, jusqu’à 1 minute",
+      "portee": "18 m",
+      "duree": "Instantanée",
       "composantes": [
         "V",
-        "S",
-        "M"
+        "S"
       ],
-      "concentration": true,
+      "concentration": false,
       "rituel": false,
-      "descriptif": "Modifie temporairement la taille d’une créature ou d’un objet admissible.",
-      "classes": "Barde, Druide, Ensorceleur, Magicien"
+      "descriptif": "Vous créez une bulle acide en un point à portée, où elle explose dans une Sphère de 1,50 mètre de rayon. Toute créature dans cette Sphère doit réussir un jet de sauvegarde de Dextérité ou subir 1d6 dégâts d'acide.\n**Amélioration de sort mineur.** Les dégâts augmentent de 1d6 lorsque vous atteignez les niveaux 5 (2d6), 11 (3d6) et 17 (4d6).",
+      "classes": "Ensorceleur, Magicien"
     },
     {
       "id": "sort-0002",
@@ -345,9 +344,9 @@
     },
     {
       "id": "sort-0001",
-      "nom": "Asperge d'acide",
+      "nom": "Aspersion d'acide",
       "ecole": "Évocation",
-      "niveau": "0",
+      "niveau": "0 (Cantrip)",
       "tempsIncantation": "action",
       "portee": "18 m",
       "duree": "Instantanée",
@@ -357,7 +356,7 @@
       ],
       "concentration": false,
       "rituel": false,
-      "descriptif": "Lance une bulle d'acide qui explose dans une sphère de 1,50 m de rayon. Chaque créature dans la zone doit réussir un jet de sauvegarde de Dextérité ou subir 1d6 dégâts d'acide.",
+      "descriptif": "Vous créez une bulle acide en un point à portée, où elle explose dans une Sphère de 1,50 mètre de rayon. Toute créature dans cette Sphère doit réussir un jet de sauvegarde de Dextérité ou subir 1d6 dégâts d'acide.\n**Amélioration de sort mineur.** Les dégâts augmentent de 1d6 lorsque vous atteignez les niveaux 5 (2d6), 11 (3d6) et 17 (4d6).",
       "classes": "Ensorceleur, Magicien"
     },
     {
@@ -942,20 +941,20 @@
     },
     {
       "id": "sort-0001",
-      "nom": "Main de mage",
-      "ecole": "Invocation",
-      "niveau": "0",
+      "nom": "Aspersion d'acide",
+      "ecole": "Évocation",
+      "niveau": "0 (Cantrip)",
       "tempsIncantation": "action",
-      "portee": "9 m",
-      "duree": "1 minute",
+      "portee": "18 m",
+      "duree": "Instantanée",
       "composantes": [
         "V",
         "S"
       ],
       "concentration": false,
       "rituel": false,
-      "descriptif": "Crée une main spectrale flottante pour manipuler des objets, ouvrir des portes non verrouillées ou verser des fioles. Ne peut pas attaquer ni porter plus de 5 kg.",
-      "classes": "Barde, Enchanteur, Magicien, Sorcier"
+      "descriptif": "Vous créez une bulle acide en un point à portée, où elle explose dans une Sphère de 1,50 mètre de rayon. Toute créature dans cette Sphère doit réussir un jet de sauvegarde de Dextérité ou subir 1d6 dégâts d'acide.\n**Amélioration de sort mineur.** Les dégâts augmentent de 1d6 lorsque vous atteignez les niveaux 5 (2d6), 11 (3d6) et 17 (4d6).",
+      "classes": "Ensorceleur, Magicien"
     },
     {
       "id": "sort-0002",
@@ -1579,6 +1578,28 @@
         "Druide"
       ],
       "id": "1794664663165"
+    },
+    {
+      "nom": "Lumière",
+      "ecole": "Évocation",
+      "niveau": "0 (Cantrip)",
+      "tempsIncantation": "Action",
+      "portee": "Contact",
+      "duree": "1 heure",
+      "composantes": [
+        "V",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous touchez un objet de taille G ou inférieure qui n'est pas porté par quelqu'un d'autre. Jusqu'à la fin du sort, l'objet émet une Lumière vive sur un rayon de 6 mètres et une Lumière faible sur 6 mètres supplémentaires. La lumière peut être colorée à votre guise. Recouvrir l'objet par quelque chose d'opaque bloque la lumière. Le sort prend fin si vous le relancez.",
+      "classes": [
+        "Barde",
+        "Clerc",
+        "Ensorceleur",
+        "Magicien"
+      ],
+      "id": "1794667397028"
     }
   ],
   "monstres": [
@@ -2639,14 +2660,14 @@
     {
       "id": "monster-1791660422816-2",
       "nom": "Baba Lysaga",
-      "type": "Humanoïde (Humain)",
-      "taille": "M",
+      "type": "Humanoïde",
+      "taille": "Moyenne",
       "ca": "15 (Armure naturelle)",
       "pv": "120",
       "alignement": "Chaotique Mauvais",
       "legendaire": false,
       "fd": "11",
-      "vitesse": "9 m",
+      "vitesse": "9 m (6 cases)",
       "bonusInitiative": 0,
       "caracteristiques": {
         "Force": "18",
@@ -2656,13 +2677,15 @@
         "Sagesse": "17",
         "Charisme": "13"
       },
-      "competences": "Arcanes +13, Religion +9, Survie +7",
+      "competences": "Jet de sauvegarde Sag+7\nArcanes +13, Religion +9, Survie +7\n\n**Métamorphe.** Baba Lysaga peut utiliser une action pour se métamorphoser en nuée d'insectes (mouches), ou pour reprendre sa véritable forme. Sous forme de nuée, elle possède une vitesse au sol de 1,50 mètre et une vitesse en vol de 9 mètres. Tous les vêtements qu'elle porte se transforment avec elle. Le reste de son équipement ne se transforme pas.\n\n\n**Bénédiction de Mère Nuit.** Baba Lysaga est protégée contre la magie divinatoire, comme si elle bénéficiait des effets d'un sort de non-détection.\n",
       "sens": "Perception passive 13",
-      "langues": "Abyssal, Commun, Géant",
+      "langues": "Abyssal, Commun, Géant, draconique, nain",
       "equipement": "",
-      "traits": "Lancement de sorts: Baba Lysaga est une lanceuse de sorts de niveau 16 (Intelligence, DD 17, +9 au toucher). Sorts : Tours de magie: Illusion mineure, Poigne électrique; Nivo 1: Bouclier, Détection de la magie; Nivo 2: Cécité/Surdité, Rayon d'affaiblissement; Nivo 3: Malédiction, Éclair; Nivo 4: Métamorphose, Fléau d'insectes; Nivo 5: Nuage mortel, Évocation d'éléments; Nivo 6: Désintégration; Nivo 7: Doigt de mort; Nivo 8: Mot de pouvoir étourdissant.\nBénédiction de la Reine Sorcière: Baba Lysaga est immunisée contre les effets de charme et de peur.",
-      "actions": "Bâton: Attaque d'arme au corps à corps : +8 au toucher, allonge 1,5 m, une cible. Touché : 7 (1d6 + 4) dégâts contondants.\nInvoquer un essaim d'insectes (Recharge 5-6): Baba Lysaga invoque magiquement un essaim d'insectes ou de frelons qui attaque ses ennemis dans un rayon de 18 mètres.",
-      "sortsPrepares": [],
+      "traits": "Lancement de sorts: Baba Lysaga est une lanceuse de sorts de niveau 16 (Intelligence, DD 17, +9 au toucher).",
+      "actions": "Sa caractéristique d'incantation est l'Intelligence (DD des jets de sauvegarde contre ses sorts 17, +9 pour toucher avec ses attaques de sort). \n\n**Attaques multiples.** Baba Lysaga effectue trois attaques avec son bâton.\n\n**Bâton.** *Attaque d'arme au corps à corps :* +8 pour toucher, allonge 1,50 m, une cible. *Touché : *7 (1d6+4) dégâts contondants, ou 8 (1d8+4) dégâts contondants si elle le manie à deux mains. \n\n\n**Convocation de nuées d'insectes (recharge après un repos court ou long).** Baba Lysaga convoque 1d4 nuées d'insectes. Une nuée convoquée apparaît dans un emplacement inoccupé situé à 18 mètres ou moins de Baba Lysaga et se comporte comme son alliée. Elle reste jusqu'à ce qu'elle meure ou que Baba Lysaga la renvoie par une action.\n",
+      "sortsPrepares": [
+        "sort-0001"
+      ],
       "slotsSorts": {},
       "actionsLegendaire": "",
       "reactions": ""
