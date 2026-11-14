@@ -611,10 +611,14 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                   const isDead = parseInt(combatant.pvActuels) <= 0
                   const ordreActif = getOrdreInitiativeActif()
                   const actifIndex = ordreActif.findIndex(c => c.id === combatant.id)
-                  const isCurrentTurn = actifIndex === combatData.tourActuel
-
-                  return (
-                    <div
+                  const isCurrentTurn = actifIndex === combatData.tourActuel  
+                  const pvMax = combatant.type === 'joueur' ? combatant.pvMax : combatant.monstreTemplate?.pv  
+                  const pvAct = parseInt(combatant.pvActuels) || 0  
+                  const pvMaxNum = parseInt(pvMax) || 0  
+                  const pvPct = pvMaxNum > 0 ? Math.min(100, Math.max(0, (pvAct / pvMaxNum) * 100)) : 0  
+                  const pvBarColor = pvPct > 66 ? 'bg-green-500' : pvPct > 33 ? 'bg-orange-500' : 'bg-red-500'  
+  
+                  return (                      <div
                       key={combatant.id}
                       className={`p-2 rounded cursor-pointer transition-colors ${
                         isDead
@@ -629,24 +633,30 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       }`}
                       onClick={() => setSelectedCombatant(combatant)}
                     >
-                      <div className="flex justify-between items-center mb-1">  
-                        <div className="flex items-center gap-2">  
-                          <span onClick={(e) => e.stopPropagation()}>  
-                            <Checkbox  
-                              checked={selectedIds.includes(combatant.id)}  
-                              onChange={() => toggleSelectCombatant(combatant.id)}  
-                            />  
-                          </span>  
-                          <span className="font-medium text-sm">  
+                      <div className="flex items-center gap-2">  
+                        <span onClick={(e) => e.stopPropagation()}>  
+                          <Checkbox  
+                            checked={selectedIds.includes(combatant.id)}  
+                            onChange={() => toggleSelectCombatant(combatant.id)}  
+                          />  
+                        </span>  
+                        <span className="font-bold text-sm w-6 text-center shrink-0">{combatant.initiative}</span>  
+                        <div className="flex-1 min-w-0">  
+                          <div className="font-bold text-sm truncate">  
                             {combatant.type === 'joueur' ? combatant.nom : combatant.nomMonstre}  
-                          </span>  
+                          </div>  
+                          <div className="text-xs text-muted-foreground">  
+                            CA : {combatant.type === 'joueur' ? combatant.ca : combatant.monstreTemplate?.ca}  
+                          </div>  
                         </div>  
-                        <span className="font-bold text-sm">{combatant.initiative}</span>  
-                      </div>                        <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>CA: {combatant.type === 'joueur' ? combatant.ca : combatant.monstreTemplate?.ca}</span>
-                        <span>PV: {combatant.pvActuels}</span>
-                      </div>
-                      {combatant.conditions && combatant.conditions.length > 0 && (
+                        <div className="w-24 shrink-0">  
+                          <div className="text-xs text-right mb-0.5">PV : {pvAct}/{pvMaxNum}</div>  
+                          <div className="h-2 bg-gray-300 rounded overflow-hidden">  
+                            <div className={`h-full ${pvBarColor} transition-all`} style={{ width: `${pvPct}%` }} />  
+                          </div>  
+                        </div>  
+                      </div>  
+                    {combatant.conditions && combatant.conditions.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-1">
                           {combatant.conditions.map(cond => (
                             <span key={cond} className="text-xs bg-yellow-100 px-1 rounded">{cond}</span>
