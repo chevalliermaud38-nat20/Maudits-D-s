@@ -795,7 +795,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                             : `${selectedCombatant?.monstreTemplate?.type || ''} — FD ${selectedCombatant?.monstreTemplate?.fd ?? ''}`}  
                         </div>  
                         <div className="flex gap-4 mt-2 text-sm font-medium">  
-                          <span>🛡️ CA {selectedCombatant?.type === 'joueur' ? selectedCombatant?.ca : selectedCombatant?.monstreTemplate?.ca}</span>  
+                          <span>🛡️ {selectedCombatant?.type === 'joueur' ? selectedCombatant?.ca : selectedCombatant?.monstreTemplate?.ca}</span>  
                           <span>👢 {selectedCombatant?.type === 'joueur' ? selectedCombatant?.vitesse : selectedCombatant?.monstreTemplate?.vitesse}</span>  
                         </div>  
                       </div>  
@@ -911,7 +911,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                             const bonus = Math.floor((value - 10) / 2)  
                             return (  
                               <div key={key} className="text-center p-2 bg-background rounded">  
-                                <div className="font-medium text-xs">{key}</div>  
+                                <div className="font-medium text-xs">{key.slice(0, 3).toUpperCase()}</div>  
                                 <div className="font-bold">{value} <span className="text-xs text-muted-foreground">({bonus >= 0 ? `+${bonus}` : bonus})</span></div>  
                               </div>  
                             )  
@@ -1080,28 +1080,6 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                 </div>  
               )}  
             </div>  
-                  {selectedCombatant?.conditions?.includes('En péril') && parseInt(selectedCombatant?.pvActuels) > 0 && (  
-                    <div className="p-2 rounded bg-orange-100 border border-orange-400 text-sm font-semibold text-orange-800">  
-                      ⚠ EN PÉRIL — PV sous 50 %  
-                    </div>  
-                  )}  
-  
-                  {selectedCombatant?.type === 'joueur' && (  
-                    <div className="p-2 rounded bg-amber-50 border border-amber-300">  
-                      <div className="flex items-center gap-2">  
-                        <Label className="text-sm font-semibold">Fatigue : {selectedCombatant?.fatigue || 0}/6</Label>  
-                        <Button size="sm" variant="outline" onClick={() => setFatigue(selectedCombatant, (selectedCombatant?.fatigue || 0) - 1)}>-</Button>  
-                        <Button size="sm" variant="outline" onClick={() => setFatigue(selectedCombatant, (selectedCombatant?.fatigue || 0) + 1)}>+</Button>  
-                      </div>  
-                      {(selectedCombatant?.fatigue || 0) > 0 && (  
-                        <div className="text-xs mt-1 text-amber-800">  
-                          −{(selectedCombatant?.fatigue || 0) * 2} aux tests de d20 · −{(selectedCombatant?.fatigue || 0) * 1.5} m de Vitesse  
-                          {(selectedCombatant?.fatigue || 0) >= 6 && <span className="font-bold text-red-700"> — MORT</span>}  
-                        </div>  
-                      )}  
-                    </div>  
-                  )}  
-            
     
           <Dialog open={sortDialogOpen} onOpenChange={setSortDialogOpen}>
             <DialogHeader>
