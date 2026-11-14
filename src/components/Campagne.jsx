@@ -851,6 +851,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                           </div>  
                         )}  
                       </div>  
+                    
   
                       {selectedCombatant?.type === 'joueur' && (  
                         <div className="p-2 rounded-lg bg-amber-50 border border-amber-300">  
@@ -1085,31 +1086,6 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                     </div>  
                   )}  
   
-                  <div className="p-2 rounded bg-purple-50 border border-purple-300">  
-                    <label className="flex items-center gap-2 text-sm font-semibold text-purple-800">  
-                      <Checkbox  
-                        checked={selectedCombatant?.concentration?.active || false}  
-                        onChange={() => updateCombatant(selectedCombatant, { concentration: { active: !selectedCombatant?.concentration?.active, sort: selectedCombatant?.concentration?.sort || '' }, concentrationDD: null })}  
-                      />  
-                      Concentration  
-                    </label>  
-                    {selectedCombatant?.concentration?.active && (  
-                      <Input  
-                        className="mt-1 h-7 text-xs"  
-                        placeholder="Sort concentré..."  
-                        value={selectedCombatant?.concentration?.sort || ''}  
-                        onChange={(e) => updateCombatant(selectedCombatant, { concentration: { ...selectedCombatant?.concentration, sort: e.target.value } })}  
-                      />  
-                    )}  
-                    {selectedCombatant?.concentration?.active && selectedCombatant?.concentrationDD && (  
-                      <div className="mt-1 text-xs font-bold text-purple-900">  
-                        Dégâts reçus → JS Constitution DD {selectedCombatant?.concentrationDD}  
-                        <button className="ml-2 underline" onClick={() => updateCombatant(selectedCombatant, { concentrationDD: null })}>Réussite</button>  
-                        <button className="ml-2 underline" onClick={() => perdreConcentration(selectedCombatant)}>Échec : perdre la concentration</button>  
-                      </div>  
-                    )}  
-                  </div>  
-  
                   {selectedCombatant?.type === 'joueur' && (  
                     <div className="p-2 rounded bg-amber-50 border border-amber-300">  
                       <div className="flex items-center gap-2">  
@@ -1125,99 +1101,8 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       )}  
                     </div>  
                   )}  
-  
-                  <div className="p-2 rounded bg-teal-50 border border-teal-300">  
-                    <Label className="text-sm font-semibold text-teal-800">Chronomètres</Label>  
-                    {selectedCombatant?.chronometres?.length > 0 && (  
-                      <div className="mt-1 space-y-1">  
-                        {selectedCombatant?.chronometres.map(ch => (  
-                          <div key={ch.id} className="flex items-center justify-between text-xs bg-background rounded px-2 py-1">  
-                            <span>{ch.texte}</span>  
-                            <span className="flex items-center gap-2">  
-                              <span className="font-bold text-teal-800">{ch.rounds} round{ch.rounds > 1 ? 's' : ''}</span>  
-                              <button className="text-red-600 hover:text-red-800" onClick={() => supprimerChronometre(selectedCombatant, ch.id)}>✕</button>  
-                            </span>  
-                          </div>  
-                        ))}  
-                      </div>  
-                    )}  
-                    <div className="flex gap-1 mt-2">  
-                      <Input  
-                        className="h-7 text-xs flex-1"  
-                        placeholder="Effet (ex : Agrandissement)"  
-                        value={chronoTexte}  
-                        onChange={(e) => setChronoTexte(e.target.value)}  
-                      />  
-                      <Input  
-                        className="h-7 text-xs w-16"  
-                        type="number"  
-                        min="1"  
-                        placeholder="Rounds"  
-                        value={chronoRounds}  
-                        onChange={(e) => setChronoRounds(e.target.value)}  
-                      />  
-                      <Button size="sm" className="h-7" disabled={!chronoTexte.trim() || !chronoRounds} onClick={() => ajouterChronometre(selectedCombatant)}>+</Button>  
-                    </div>  
-                  </div>  
-  
-                  {selectedCombatant?.conditions?.length > 0 && (() => {  
-                    const rappels = [...new Set(selectedCombatant?.conditions?.flatMap(c => rappelsConditions[c] || []))]  
-                    return rappels.length > 0 && (  
-                      <div className="p-2 rounded bg-blue-50 border border-blue-300">  
-                        <div className="text-xs font-semibold text-blue-800 mb-1">Rappels — {selectedCombatant?.conditions?.join(', ')}</div>  
-                        <ul className="text-xs text-blue-900 list-disc pl-4 space-y-0.5">  
-                          {rappels.map((r, i) => <li key={i}>{r}</li>)}  
-                        </ul>  
-                      </div>  
-                    )  
-                  })()}  
-  
-                  {selectedCombatant?.type === 'joueur' && parseInt(selectedCombatant?.pvActuels) <= 0 && (  
-                    <div className="p-2 rounded bg-red-100 border-2 border-red-500">  
-                      <div className="font-bold text-red-800 text-sm">INCONSCIENT – JETS CONTRE LA MORT</div>  
-                      <div className="text-xs text-red-700 mt-1">  
-                        Lancer 1d20 au début de chaque tour : 1 = 2 échecs · 2-9 = 1 échec · 10-19 = 1 réussite · 20 = récupère 1 PV.  
-                        Dégâts à 0 PV = +1 échec (+2 si critique).  
-                      </div>  
-                      {(selectedCombatant?.deathSaves?.failures || 0) >= 3 && (  
-                        <div className="mt-1 font-bold text-red-900">MORT</div>  
-                      )}  
-                      {(selectedCombatant?.deathSaves?.successes || 0) >= 3 && (selectedCombatant?.deathSaves?.failures || 0) < 3 && (  
-                        <div className="mt-1 font-bold text-green-700">STABLE</div>  
-                      )}  
-                      <div className="flex gap-4 mt-2">                          <div>
-                          <Label className="text-xs text-green-600">Succès ({selectedCombatant?.deathSaves?.successes || 0}/3)</Label>
-                          <div className="flex gap-1 mt-1">
-                            {[0, 1, 2].map(i => (
-                              <Checkbox
-                                key={i}
-                                checked={i < (selectedCombatant?.deathSaves?.successes || 0)}
-                                onChange={() => toggleDeathSave(selectedCombatant, 'success')}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <Label className="text-xs text-red-600">Échecs ({selectedCombatant?.deathSaves?.failures || 0}/3)</Label>
-                          <div className="flex gap-1 mt-1">
-                            {[0, 1, 2].map(i => (
-                              <Checkbox
-                                key={i}
-                                checked={i < (selectedCombatant?.deathSaves?.failures || 0)}
-                                onChange={() => toggleDeathSave(selectedCombatant, 'failure')}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  <div>
-                    <Label>Vitesse</Label>
-                    <p className="text-sm mt-1">{selectedCombatant?.type === 'joueur' ? selectedCombatant?.vitesse : selectedCombatant?.monstreTemplate?.vitesse}</p>
-                  </div>
-
+            
+    
           <Dialog open={sortDialogOpen} onOpenChange={setSortDialogOpen}>
             <DialogHeader>
               <DialogTitle>Détail du sort</DialogTitle>
