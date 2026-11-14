@@ -753,9 +753,9 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                           </div>  
                         </div>  
                       </div>  
-                    {combatant?.conditions? && combatant?.conditions?.length > 0 && (
+                    {combatant.conditions && combatant.conditions.length > 0 && (
                         <div className="flex flex-wrap gap-1 mt-1">
-                          {combatant?.conditions?.map(cond => (
+                          {combatant.conditions.map(cond => (
                             <span key={cond} className="text-xs bg-yellow-100 px-1 rounded">{cond}</span>
                           ))}
                         </div>
