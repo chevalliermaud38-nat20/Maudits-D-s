@@ -619,7 +619,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
       }))  
   }  
   
-  const getSlotsSorts = (combatant) => combatant.slotsSorts || combatant.monstreTemplate?.slotsSorts  
+  const getSlotsSorts = (combatant) => combatant?.slotsSorts || combatant?.monstreTemplate?.slotsSorts || null    
   const renderSortsParNiveau = (sortIds) => (  
     <div className="mt-2 space-y-1">  
       {grouperSortsParNiveau(sortIds).map(groupe => (  
@@ -800,7 +800,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                         </div>  
                       </div>  
   
-                      {selectedCombatant.conditions?.includes('En péril') && parseInt(selectedCombatant.pvActuels) > 0 && (  
+                      {selectedCombatant?.conditions?.includes('En péril') && parseInt(selectedCombatant.pvActuels) > 0 && (  
                         <div className="p-2 rounded-lg bg-orange-100 border border-orange-400 text-sm font-semibold text-orange-800">  
                           ⚠ EN PÉRIL — PV sous 50 %  
                         </div>  
@@ -1042,8 +1042,8 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
   
                       <div className="bg-card border rounded-lg p-3 shadow-sm">  
                         <Label className="font-semibold">Conditions</Label>  
-                        {selectedCombatant.conditions?.length > 0 && (() => {  
-                          const rappels = [...new Set(selectedCombatant.conditions.flatMap(c => rappelsConditions[c] || []))]  
+                        {selectedCombatant?.conditions?.length > 0 && (() => {  
+                          const rappels = [...new Set(selectedCombatant?.conditions?.flatMap(c => rappelsConditions[c] || []))]  
                           return rappels.length > 0 && (  
                             <div className="mt-2 p-2 rounded bg-blue-50 border border-blue-300">  
                               <ul className="text-xs text-blue-900 list-disc pl-4 space-y-0.5">  
@@ -1161,10 +1161,10 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                   </div>  
   
                   {selectedCombatant.conditions?.length > 0 && (() => {  
-                    const rappels = [...new Set(selectedCombatant.conditions.flatMap(c => rappelsConditions[c] || []))]  
+                    const rappels = [...new Set(selectedCombatant?.conditions?.flatMap(c => rappelsConditions[c] || []))]  
                     return rappels.length > 0 && (  
                       <div className="p-2 rounded bg-blue-50 border border-blue-300">  
-                        <div className="text-xs font-semibold text-blue-800 mb-1">Rappels — {selectedCombatant.conditions.join(', ')}</div>  
+                        <div className="text-xs font-semibold text-blue-800 mb-1">Rappels — {selectedCombatant?.conditions?.join(', ')}</div>  
                         <ul className="text-xs text-blue-900 list-disc pl-4 space-y-0.5">  
                           {rappels.map((r, i) => <li key={i}>{r}</li>)}  
                         </ul>  
