@@ -1071,8 +1071,12 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
   
                   </div>  
                 </div>  
-                    )}
-                  </div>
+              ) : (  
+                <div className="text-center text-muted-foreground py-8">  
+                  Sélectionnez un combattant dans la liste d'initiative  
+                </div>  
+              )}  
+            </div>  
 
                   <div>
                     <Label>PV: {selectedCombatant.pvActuels}/{selectedCombatant.type === 'joueur' ? selectedCombatant.pvMax : selectedCombatant.monstreTemplate?.pv}</Label>
