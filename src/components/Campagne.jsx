@@ -289,7 +289,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     const slots = combatant.slotsUtilises || {}
     const niveauKey = niveau.toString()
     const currentUsed = slots[niveauKey] || 0
-    const maxSlots = combatant.slotsSorts?.[niveauKey] || 0
+    const maxSlots = (combatant.slotsSorts || combatant.monstreTemplate?.slotsSorts)?.[niveauKey] || 0  
     
     if (currentUsed < maxSlots) {
       slots[niveauKey] = currentUsed + 1
@@ -468,6 +468,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
       }))  
   }  
   
+  const getSlotsSorts = (combatant) => combatant.slotsSorts || combatant.monstreTemplate?.slotsSorts  
   const renderSortsParNiveau = (sortIds) => (  
     <div className="mt-2 space-y-1">  
       {grouperSortsParNiveau(sortIds).map(groupe => (  
@@ -738,28 +739,28 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                     </div>
                   )}
 
-                  {selectedCombatant.slotsSorts && Object.keys(selectedCombatant.slotsSorts).some(k => selectedCombatant.slotsSorts[k] > 0) && (
-                    <div>
-                      <Label>Slots de sorts</Label>
-                      <div className="grid grid-cols-5 gap-2 mt-2">
-                        {Object.entries(selectedCombatant.slotsSorts).map(([niveau, max]) => max > 0 && (
-                          <div key={niveau} className="text-center">
-                            <Label className="text-xs">Niv {niveau}</Label>
-                            <div className="flex gap-1 justify-center mt-1">
-                              {Array.from({ length: max }).map((_, i) => (
-                                <Checkbox
-                                  key={i}
-                                  checked={i < (selectedCombatant.slotsUtilises?.[niveau] || 0)}
-                                  onChange={() => toggleSlot(selectedCombatant, niveau)}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
+                  {getSlotsSorts(selectedCombatant) && Object.keys(getSlotsSorts(selectedCombatant)).some(k => getSlotsSorts(selectedCombatant)[k] > 0) && (  
+                    <div>  
+                      <Label>Slots de sorts</Label>  
+                      <div className="grid grid-cols-5 gap-2 mt-2">  
+                        {Object.entries(getSlotsSorts(selectedCombatant)).map(([niveau, max]) => max > 0 && (  
+                          <div key={niveau} className="text-center">  
+                            <Label className="text-xs">Niv {niveau}</Label>  
+                            <div className="flex gap-1 justify-center mt-1">  
+                              {Array.from({ length: max }).map((_, i) => (  
+                                <Checkbox  
+                                  key={i}  
+                                  checked={i < (selectedCombatant.slotsUtilises?.[niveau] || 0)}  
+                                  onChange={() => toggleSlot(selectedCombatant, niveau)}  
+                                />  
+                              ))}  
+                            </div>  
+                          </div>  
+                        ))}  
+                      </div>  
+                    </div>  
+                  )}  
+                  
                   <div>  
                     <Label>Conditions</Label>  
                     <div className="flex flex-wrap gap-2 mt-2">  
