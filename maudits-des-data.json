@@ -3444,8 +3444,8 @@
       "bonusMaitrise": 2,
       "competences": "Intuition +4, Persuasion +5, Tromperie +5\nPerception passive 12",
       "sauvegardes": "",
-      "equipement": "",
-      "traits": "__Actions__\n**Rapière. ** *Attaque au corps à corps avec une arme : *+3 au toucher, allonge 1,50 m, une cible. *Touché :* 5 (1d8 + 1) dégâts perforants.\n__Réactions__\n**Parade.** Le noble ajoute 2 à sa CA contre une attaque au corps à corps qui le toucherait. Pour ce faire, il doit voir l'attaquant et avoir en main une arme de corps à corps.\n",
+      "equipement": "__Actions__\n**Rapière. ** *Attaque au corps à corps avec une arme : *+3 au toucher, allonge 1,50 m, une cible. *Touché :* 5 (1d8 + 1) dégâts perforants.\n__Réactions__\n**Parade.** Le noble ajoute 2 à sa CA contre une attaque au corps à corps qui le toucherait. Pour ce faire, il doit voir l'attaquant et avoir en main une arme de corps à corps.\n",
+      "traits": "",
       "sortsConnus": [],
       "slotsSorts": {},
       "id": "1794679138918"
