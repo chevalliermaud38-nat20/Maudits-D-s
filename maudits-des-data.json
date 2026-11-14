@@ -51,23 +51,6 @@
       "descriptif": "Un éclair foudroyant jaillit de votre point de doigt vers un point de votre choix que vous pouvez voir à portée. La créature dans la ligne doit faire un jet de sauvegarde de Dextérité. Un jet de sauvegarde raté inflige 8d6 dégâts de foudre, et un jet réussi la moitié."
     },
     {
-      "id": "sort-0001",
-      "nom": "Aspersion d'acide",
-      "ecole": "Évocation",
-      "niveau": "0 (Cantrip)",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Vous créez une bulle acide en un point à portée, où elle explose dans une Sphère de 1,50 mètre de rayon. Toute créature dans cette Sphère doit réussir un jet de sauvegarde de Dextérité ou subir 1d6 dégâts d'acide.\n**Amélioration de sort mineur.** Les dégâts augmentent de 1d6 lorsque vous atteignez les niveaux 5 (2d6), 11 (3d6) et 17 (4d6).",
-      "classes": "Ensorceleur, Magicien"
-    },
-    {
       "id": "sort-0002",
       "nom": "Armure du mage",
       "ecole": "Abjuration",
@@ -153,41 +136,6 @@
       "rituel": true,
       "descriptif": "Détecte la présence de magie à proximité et aide à en percevoir les auras.",
       "classes": "Barde, Clerc, Druide, Paladin, Rôdeur, Ensorceleur, Magicien"
-    },
-    {
-      "id": "sort-0007",
-      "nom": "Dissipation de la magie",
-      "ecole": "Abjuration",
-      "niveau": "3",
-      "tempsIncantation": "action",
-      "portee": "36 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Met fin à certains effets magiques actifs sur une cible.",
-      "classes": "Barde, Clerc, Druide, Ensorceleur, Occultiste, Magicien"
-    },
-    {
-      "id": "sort-0008",
-      "nom": "Éclair",
-      "ecole": "Évocation",
-      "niveau": "3",
-      "tempsIncantation": "action",
-      "portee": "Personnelle (ligne de 30 m)",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Projette une ligne d’énergie électrique qui blesse les créatures sur son trajet.",
-      "classes": "Ensorceleur, Magicien"
     },
     {
       "id": "sort-0010",
@@ -291,23 +239,6 @@
       "classes": "Barde, Clerc, Druide, Paladin, Rôdeur"
     },
     {
-      "id": "sort-0016",
-      "nom": "Ténèbres",
-      "ecole": "Évocation",
-      "niveau": "2",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Concentration, jusqu’à 10 minutes",
-      "composantes": [
-        "V",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Crée une zone de ténèbres magiques qui gêne la vision.",
-      "classes": "Ensorceleur, Occultiste, Magicien"
-    },
-    {
       "id": "sort-0017",
       "nom": "Vague tonnante",
       "ecole": "Évocation",
@@ -341,23 +272,6 @@
       "rituel": false,
       "descriptif": "Accorde temporairement une vitesse de vol à une créature touchée.",
       "classes": "Ensorceleur, Occultiste, Magicien"
-    },
-    {
-      "id": "sort-0001",
-      "nom": "Aspersion d'acide",
-      "ecole": "Évocation",
-      "niveau": "0 (Cantrip)",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Vous créez une bulle acide en un point à portée, où elle explose dans une Sphère de 1,50 mètre de rayon. Toute créature dans cette Sphère doit réussir un jet de sauvegarde de Dextérité ou subir 1d6 dégâts d'acide.\n**Amélioration de sort mineur.** Les dégâts augmentent de 1d6 lorsque vous atteignez les niveaux 5 (2d6), 11 (3d6) et 17 (4d6).",
-      "classes": "Ensorceleur, Magicien"
     },
     {
       "id": "sort-0002",
@@ -444,58 +358,6 @@
       "classes": "Barde"
     },
     {
-      "id": "sort-0007",
-      "nom": "Trait de feu",
-      "ecole": "Évocation",
-      "niveau": "0",
-      "tempsIncantation": "action",
-      "portee": "36 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Projeta une étincelle de feu sur une cible. Effectuez un jet d'attaque de sort à distance pour infliger 1d10 dégâts de feu.",
-      "classes": "Ensorceleur, Magicien"
-    },
-    {
-      "id": "sort-0102",
-      "nom": "Bénédiction",
-      "ecole": "Enchantement",
-      "niveau": "1",
-      "tempsIncantation": "action",
-      "portee": "9 m",
-      "duree": "Concentration, jusqu'à 1 minute",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Bénit jusqu'à 3 créatures. Elles ajoutent 1d4 à leurs jets d'attaque et jets de sauvegarde pendant la durée.",
-      "classes": "Clerc, Paladin"
-    },
-    {
-      "id": "sort-0104",
-      "nom": "Charme-personne",
-      "ecole": "Enchantement",
-      "niveau": "1",
-      "tempsIncantation": "action",
-      "portee": "9 m",
-      "duree": "1 heure",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Tente de charmer un humanoïde (jet de Sagesse). La cible charmée vous considère comme un ami proche.",
-      "classes": "Barde, Druide, Ensorceleur, Occultiste, Magicien"
-    },
-    {
       "id": "sort-0105",
       "nom": "Injonction",
       "ecole": "Enchantement",
@@ -529,56 +391,6 @@
       "classes": "Ensorceleur, Magicien"
     },
     {
-      "id": "sort-0107",
-      "nom": "Mot de guérison",
-      "ecole": "Abjuration",
-      "niveau": "1",
-      "tempsIncantation": "action bonus",
-      "portee": "18 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Restaure 2d4 + modificateur de caractéristique d'incantation à une créature visible à portée (Mis à jour dans D&D 2024).",
-      "classes": "Barde, Clerc, Druide"
-    },
-    {
-      "id": "sort-0108",
-      "nom": "Projectile magique",
-      "ecole": "Évocation",
-      "niveau": "1",
-      "tempsIncantation": "action",
-      "portee": "36 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Crée trois dards magiques infaillibles infligeant chacun 1d4 + 1 dégâts de force à leurs cibles respectives.",
-      "classes": "Ensorceleur, Magicien"
-    },
-    {
-      "id": "sort-0109",
-      "nom": "Soins",
-      "ecole": "Abjuration",
-      "niveau": "1",
-      "tempsIncantation": "action",
-      "portee": "Contact",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Une créature touchée regagne un nombre de points de vie égal à 2d8 + votre modificateur de caractéristique (Mis à jour 2024).",
-      "classes": "Barde, Clerc, Druide, Paladin, Rôdeur"
-    },
-    {
       "id": "sort-0201",
       "nom": "Agrandissement/rapetissement",
       "ecole": "Transmutation",
@@ -595,24 +407,6 @@
       "rituel": false,
       "descriptif": "Fait doubler ou diminuer de moitié la taille et le poids d'une cible, modifiant ses dégâts (+1d4 ou -1d4) et ses tests de Force.",
       "classes": "Barde, Druide, Ensorceleur, Magicien"
-    },
-    {
-      "id": "sort-0202",
-      "nom": "Immobilisation de personne",
-      "ecole": "Enchantement",
-      "niveau": "2",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Concentration, jusqu'à 1 minute",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Paralyse un humanoïde à portée qui échoue à un jet de sauvegarde de Sagesse.",
-      "classes": "Barde, Clerc, Druide, Ensorceleur, Occultiste, Magicien"
     },
     {
       "id": "sort-0203",
@@ -683,41 +477,6 @@
       "classes": "Ensorceleur, Occultiste, Magicien"
     },
     {
-      "id": "sort-0302",
-      "nom": "Dissipation de la magie",
-      "ecole": "Abjuration",
-      "niveau": "3",
-      "tempsIncantation": "action",
-      "portee": "36 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Termine automatiquement les sorts de niveau 3 ou inférieur sur une cible, ou nécessite un test de caractéristique pour les sorts plus élevés.",
-      "classes": "Barde, Clerc, Druide, Ensorceleur, Occultiste, Magicien"
-    },
-    {
-      "id": "sort-0303",
-      "nom": "Éclair",
-      "ecole": "Évocation",
-      "niveau": "3",
-      "tempsIncantation": "action",
-      "portee": "Personnelle (ligne de 30 m)",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Un éclair jaillit en ligne droite de 30 m de long et 1,50 m de large. Inflige 8d6 dégâts de foudre (jet de Dextérité pour demi-dégâts).",
-      "classes": "Ensorceleur, Magicien"
-    },
-    {
       "id": "sort-0304",
       "nom": "Hâte",
       "ecole": "Transmutation",
@@ -736,42 +495,6 @@
       "classes": "Ensorceleur, Magicien"
     },
     {
-      "id": "sort-0305",
-      "nom": "Vol",
-      "ecole": "Transmutation",
-      "niveau": "3",
-      "tempsIncantation": "action",
-      "portee": "Contact",
-      "duree": "Concentration, jusqu'à 10 minutes",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Octroie une vitesse de vol de 18 mètres à une créature touchée pendant la durée du sort.",
-      "classes": "Ensorceleur, Occultiste, Magicien"
-    },
-    {
-      "id": "sort-0401",
-      "nom": "Métamorphose",
-      "ecole": "Transmutation",
-      "niveau": "4",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Concentration, jusqu'à 1 heure",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Transforme une créature ciblée en une forme de Bête dont le Facteur de Puissance est inférieur ou égal à son niveau.",
-      "classes": "Barde, Druide, Ensorceleur, Magicien"
-    },
-    {
       "id": "sort-0402",
       "nom": "Porte dimensionnelle",
       "ecole": "Invocation",
@@ -786,24 +509,6 @@
       "rituel": false,
       "descriptif": "Téléporte instantanément l'incantateur et jusqu'à une créature consentante de même taille vers un lieu à portée.",
       "classes": "Barde, Ensorceleur, Occultiste, Magicien"
-    },
-    {
-      "id": "sort-0501",
-      "nom": "Cône de froid",
-      "ecole": "Évocation",
-      "niveau": "5",
-      "tempsIncantation": "action",
-      "portee": "Personnelle (cône de 18 m)",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Émet un souffle de froid glacial. Chaque créature dans la zone subit 8d8 dégâts de froid (jet de Constitution pour demi-dégâts).",
-      "classes": "Ensorceleur, Magicien"
     },
     {
       "id": "sort-0502",
@@ -824,24 +529,6 @@
       "classes": "Clerc, Paladin"
     },
     {
-      "id": "sort-0601",
-      "nom": "Désintégration",
-      "ecole": "Transmutation",
-      "niveau": "6",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Tire un rayon vert infligeant 10d6 + 40 dégâts de force sur échec de sauvegarde de Dextérité. Si la cible tombe à 0 PV, elle est réduite en poussière.",
-      "classes": "Ensorceleur, Magicien"
-    },
-    {
       "id": "sort-0602",
       "nom": "Guérison",
       "ecole": "Abjuration",
@@ -857,23 +544,6 @@
       "rituel": false,
       "descriptif": "Soigne instantanément 70 points de vie à une créature et guérit la cécité, la surdité et toute maladie.",
       "classes": "Clerc, Druide"
-    },
-    {
-      "id": "sort-0701",
-      "nom": "Doigt de mort",
-      "ecole": "Nécromancie",
-      "niveau": "7",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Envoie de l'énergie nécrotique négative infligeant 7d8 + 30 dégâts nécrotiques (jet de Constitution pour demi-dégâts). Un humanoïde tué par ce sort se relève sous forme de zombi sous vos ordres.",
-      "classes": "Ensorceleur, Occultiste, Magicien"
     },
     {
       "id": "sort-0702",
@@ -940,23 +610,6 @@
       "classes": "Ensorceleur, Magicien"
     },
     {
-      "id": "sort-0001",
-      "nom": "Aspersion d'acide",
-      "ecole": "Évocation",
-      "niveau": "0 (Cantrip)",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Vous créez une bulle acide en un point à portée, où elle explose dans une Sphère de 1,50 mètre de rayon. Toute créature dans cette Sphère doit réussir un jet de sauvegarde de Dextérité ou subir 1d6 dégâts d'acide.\n**Amélioration de sort mineur.** Les dégâts augmentent de 1d6 lorsque vous atteignez les niveaux 5 (2d6), 11 (3d6) et 17 (4d6).",
-      "classes": "Ensorceleur, Magicien"
-    },
-    {
       "id": "sort-0002",
       "nom": "Rayon de givre",
       "ecole": "Évocation",
@@ -991,23 +644,6 @@
       "classes": "Clerc"
     },
     {
-      "id": "sort-0102",
-      "nom": "Projectile magique",
-      "ecole": "Évocation",
-      "niveau": "1",
-      "tempsIncantation": "action",
-      "portee": "36 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Crée trois fléchettes magiques infaillibles infligeant chacune 1d4 + 1 dégâts de force à la ou aux cibles choisies.",
-      "classes": "Enchanteur, Magicien"
-    },
-    {
       "id": "sort-0201",
       "nom": "Image miroir",
       "ecole": "Illusion",
@@ -1022,110 +658,6 @@
       "concentration": false,
       "rituel": false,
       "descriptif": "Crée trois duplicatas illusoires pour détourner les attaques physiques destinées à l'incantateur.",
-      "classes": "Enchanteur, Magicien, Sorcier"
-    },
-    {
-      "id": "sort-0202",
-      "nom": "Pas brumeux",
-      "ecole": "Invocation",
-      "niveau": "2",
-      "tempsIncantation": "action bonus",
-      "portee": "Personnelle",
-      "duree": "Instantanée",
-      "composantes": [
-        "V"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Téléporte instantanément l'incantateur jusqu'à 9 mètres vers un emplacement unoccupied visible.",
-      "classes": "Enchanteur, Magicien, Sorcier"
-    },
-    {
-      "id": "sort-0302",
-      "nom": "Dissipation de la magie",
-      "ecole": "Abjuration",
-      "niveau": "3",
-      "tempsIncantation": "action",
-      "portee": "36 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Met fin automatiquement aux sorts de niveau 3 ou inférieur sur une cible, ou nécessite un test de caractéristique pour les niveaux supérieurs.",
-      "classes": "Barde, Clerc, Druide, Enchanteur, Magicien, Paladin, Sorcier"
-    },
-    {
-      "id": "sort-0401",
-      "nom": "Métamorphose",
-      "ecole": "Transmutation",
-      "niveau": "4",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Concentration, jusqu'à 1 heure",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": true,
-      "rituel": false,
-      "descriptif": "Transforme une créature ciblée en une bête dont le FP est inférieur ou égal à celui de la cible (sauvegarde de Sagesse si involontaire).",
-      "classes": "Barde, Druide, Enchanteur, Magicien, Sorcier"
-    },
-    {
-      "id": "sort-0501",
-      "nom": "Cône de froid",
-      "ecole": "Évocation",
-      "niveau": "5",
-      "tempsIncantation": "action",
-      "portee": "Personnelle (cône de 18 m)",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Un cône d'air glacé inflige 8d8 dégâts de froid aux créatures touchées (sauvegarde de Constitution pour moitié).",
-      "classes": "Enchanteur, Magicien, Sorcier"
-    },
-    {
-      "id": "sort-0601",
-      "nom": "Désintégration",
-      "ecole": "Transmutation",
-      "niveau": "6",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S",
-        "M"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Un rayon vert inflige 10d6 + 40 dégâts de force (sauvegarde de Dextérité). Si la cible tombe à 0 PV, elle est réduite en poussière.",
-      "classes": "Enchanteur, Magicien, Sorcier"
-    },
-    {
-      "id": "sort-0701",
-      "nom": "Doigt de mort",
-      "ecole": "Nécromancie",
-      "niveau": "7",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Instantanée",
-      "composantes": [
-        "V",
-        "S"
-      ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Inflige 7d8 + 30 dégâts nécrotiques (sauvegarde de Constitution pour moitié). Un humanoïde tué se relève comme zombie sous vos ordres.",
       "classes": "Enchanteur, Magicien, Sorcier"
     },
     {
@@ -1600,6 +1132,353 @@
         "Magicien"
       ],
       "id": "1794667397028"
+    },
+    {
+      "nom": "Aspersion d'acide",
+      "ecole": "Évocation",
+      "niveau": "0 (Cantrip)",
+      "tempsIncantation": "Action",
+      "portee": "18 m (12 cases)",
+      "duree": "Instantanée",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous créez une bulle acide en un point à portée, où elle explose dans une Sphère de 1,50 mètre de rayon. Toute créature dans cette Sphère doit réussir un jet de sauvegarde de Dextérité ou subir 1d6 dégâts d'acide.\n**Amélioration de sort mineur. **Les dégâts augmentent de 1d6 lorsque vous atteignez les niveaux 5 (2d6), 11 (3d6) et 17 (4d6).",
+      "classes": [
+        "Magicien",
+        "Ensorceleur"
+      ],
+      "id": "1794667522947"
+    },
+    {
+      "nom": "Prestidigitation",
+      "ecole": "Transmutation",
+      "niveau": "0 (Cantrip)",
+      "tempsIncantation": "Action",
+      "portee": "3 m",
+      "duree": "Jusqu'à 1 heure",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous créez un effet magique dans la portée du sort. Choisissez l'effet dans les options ci-dessous. Si vous lancez ce sort plusieurs fois, vous pouvez garder actif jusqu'à trois de ses effets non instantanés simultanément.\n**Effet sensoriel.** Vous créez instantanément un effet sensoriel inoffensif, comme une pluie d'étincelles, un souffle de vent, des notes de musique tenues ou une odeur étrange.\nJeu avec le feu. Vous allumez ou soufflez instantanément une bougie, une torche ou un petit feu de camp.\n**Nettoyage ou maculage.** Vous nettoyez ou souillez instantanément un objet ne mesurant pas plus que 0,03 m3 (30 litres).\n**Sensation mineure. **Vous refroidissez, réchauffez ou parfumez au maximum 0,03 m3 (30 litres) de matière inerte pour 1 heure.\n**Marque magique.** Vous faites apparaitre une couleur, une petite marque ou un symbole sur un objet ou une surface, pendant 1 heure.\n**Création mineure.** Vous créez une babiole non magique, ou une image illusoire, qui peut tenir dans votre main. Il dure jusqu'à la fin de votre prochain tour. Une babiole ne peut pas infliger de dommage et n'a aucune valeur.",
+      "classes": [
+        "Barde",
+        "Ensorceleur",
+        "Magicien",
+        "Orc"
+      ],
+      "id": "1794667631091"
+    },
+    {
+      "nom": "Trait ensorcelé",
+      "ecole": "Évocation",
+      "niveau": "1",
+      "tempsIncantation": "Action",
+      "portee": "18 m",
+      "duree": "jusqu'à 1 minute",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Un rayon d'énergie crépitante se dirige vers une créature à portée, formant un arc de foudre entre vous et la cible. Effectuez une attaque de sort à distance contre elle. Si l'attaque touche, la cible subit 2d12 dégâts de foudre.\nÀ chacun de vos tours suivants, vous pouvez prendre une action Bonus pour infliger automatiquement 1d12 dégâts de foudre à la cible, même si la première attaque a échoué. Le sort prend fin si la cible se trouve hors de portée du sort ou si elle bénéficie d'un Abri total contre vous.\n***Emplacement de niveau supérieur.*** Les dégâts initiaux augmentent de 1d12 pour chaque niveau d'emplacement de sort supérieur à 1.",
+      "classes": [
+        "Ensorceleur",
+        "Orc",
+        "Magicien"
+      ],
+      "id": "1794667879889"
+    },
+    {
+      "nom": "Couronne du dément",
+      "ecole": "Enchantement",
+      "niveau": "2",
+      "tempsIncantation": "Action",
+      "portee": "36 m",
+      "duree": "jusqu'à 1 minute",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Une créature que vous pouvez voir à portée doit réussir un jet de sauvegarde de Sagesse ou subir l'état Charmé pendant toute la durée du sort. La créature réussit automatiquement si elle n'est pas Humanoïde.\nUne couronne spectrale apparaît sur la tête de la cible charmée, et elle doit prendre son action avant de se déplacer à chacun de ses tours pour effectuer une attaque au corps à corps contre une créature autre qu'elle-même, choisie mentalement. La cible peut agir normalement à son tour si vous ne choisissez aucune créature ou si aucune créature n'est à sa portée. La cible refait son jet de sauvegarde à la fin de chacun de ses tours, mettant fin au sort sur elle-même en cas de réussite.\nLors de vos tours suivants, vous devez prendre l'action Magie pour conserver le contrôle de la cible, sinon le sort prend fin.",
+      "classes": [
+        "Barde",
+        "Ensorceleur",
+        "Orc",
+        "Magicien"
+      ],
+      "id": "1794668023630"
+    },
+    {
+      "nom": "Foulée brumeuse",
+      "ecole": "Évocation",
+      "niveau": "2",
+      "tempsIncantation": "Action bonus",
+      "portee": "Personnelle",
+      "duree": "Instantanée",
+      "composantes": [
+        "V"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Brièvement entouré d'une brume argentée, vous vous téléportez jusqu'à 9 mètres dans un espace inoccupé que vous pouvez voir.",
+      "classes": [
+        "Ensorceleur",
+        "Orc",
+        "Magicien"
+      ],
+      "id": "1794668078185"
+    },
+    {
+      "nom": "Dissipation de la magie",
+      "ecole": "Abjuration",
+      "niveau": "3",
+      "tempsIncantation": "Action",
+      "portee": "36 m",
+      "duree": "Instantanée",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Choisissez une créature, un objet ou un effet magique à portée. Tout sort en cours de niveau 3 ou inférieur sur la cible prend fin. Pour chaque sort en cours de niveau 4 ou supérieur sur la cible, effectuez un jet de caractéristique en utilisant votre caractéristique d'incantation (DD 10 plus le niveau du sort). En cas de réussite, le sort prend fin.\n***Emplacement de niveau supérieur.*** Vous mettez automatiquement fin à un sort sur la cible si son niveau est égal ou inférieur à celui de l'emplacement de sort utilisé.",
+      "classes": [
+        "Barde",
+        "Clerc",
+        "Druide",
+        "Paladin",
+        "Rôdeur",
+        "Ensorceleur",
+        "Orc",
+        "Magicien"
+      ],
+      "id": "1794668156148"
+    },
+    {
+      "nom": "Flétrissement",
+      "ecole": "Nécromancie",
+      "niveau": "4",
+      "tempsIncantation": "Action",
+      "portee": "9 m",
+      "duree": "Instantanée",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Une créature que vous pouvez voir à portée effectue un jet de sauvegarde de Constitution et subit 8d8 dégâts nécrotiques en cas d'échec, ou la moitié de ces dégâts en cas de réussite. Une créature du type plante rate automatiquement le jet de sauvegarde.\nVous pouvez également cibler une plante non magique qui n'est pas une créature, comme un arbre ou un arbuste. Celle-ci ne lance pas de jet de sauvegarde ; elle se fane et meurt.\n***Emplacement de niveau supérieur.*** Les dégâts augmentent de 1d8 pour chaque niveau d'emplacement de sort supérieur à 4.",
+      "classes": [
+        "Druide",
+        "Ensorceleur",
+        "Orc",
+        "Magicien"
+      ],
+      "id": "1794668237044"
+    },
+    {
+      "nom": "Tentacules noirs d'Evard",
+      "ecole": "Évocation",
+      "niveau": "4",
+      "tempsIncantation": "Action",
+      "portee": "27 m",
+      "duree": "Jusqu'à 1 minute",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Des tentacules noirs se tortillant occupent une zone de 6 mètres de côté que vous pouvez voir à portée. Pendant la durée du sort, ces tentacules transforment le sol de cette zone en Terrain difficile.\nToute créature présente dans cette zone effectue un jet de sauvegarde de Force. En cas d'échec, elle subit 3d6 dégâts contondants et l'état Entravé jusqu'à la fin du sort. Une créature effectue également ce jet de sauvegarde si elle entre dans la zone ou y termine son tour. Une créature n'effectue ce jet qu'une seule fois par tour.\nUne créature entravée peut effectuer un jet de Force (Athlétisme) contre le DD de sauvegarde de votre sort, mettant fin à son état en cas de réussite.",
+      "classes": [
+        "Magicien"
+      ],
+      "id": "1794668350617"
+    },
+    {
+      "nom": "Brume mortelle",
+      "ecole": "Évocation",
+      "niveau": "5",
+      "tempsIncantation": "Action",
+      "portee": "36 m",
+      "duree": "Jusqu'à 10 minutes",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous créez une Sphère de brouillard jaune-vert de 6 mètres de rayon centrée sur un point à portée. Le brouillard persiste pendant toute la durée du sort ou jusqu'à ce qu'un vent fort (comme celui créé par bourrasque) le disperse, mettant fin au sort. Sa zone a une Visibilité nulle.\nToute créature dans la Sphère effectue un jet de sauvegarde de Constitution, subissant 5d8 dégâts de poison en cas d'échec, ou la moitié de ces dégâts en cas de réussite. Une créature doit également réussir ce jet de sauvegarde lorsque la Sphère entre dans son emplacement et lorsqu'elle y pénètre ou y termine son tour. Une créature n'effectue ce jet qu'une seule fois par tour.\nLa Sphère s'éloigne de 3 mètres de vous au début de chacun de vos tours.\n***Emplacement de niveau supérieur.*** Les dégâts augmentent de 1d8 pour chaque niveau d'emplacement de sort supérieur à 5.",
+      "classes": [
+        "Ensorceleur",
+        "Magicien"
+      ],
+      "id": "1794668456173"
+    },
+    {
+      "nom": "Quête",
+      "ecole": "Enchantement",
+      "niveau": "5",
+      "tempsIncantation": "1 minute",
+      "portee": "18 m",
+      "duree": "30 jours",
+      "composantes": [
+        "V"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous donnez un ordre verbal à une créature que vous pouvez voir à portée, lui ordonnant d'accomplir un service ou de s'abstenir d'une action ou d'une activité, selon votre choix. La cible doit réussir un jet de sauvegarde de Sagesse ou subir l'état Charmé pendant toute la durée du sort. La cible réussit automatiquement si elle ne comprend pas votre ordre.\nTant qu'elle est charmée, la créature subit 5d10 dégâts psychiques si elle agit d'une manière contraire à votre ordre. Elle ne subit ces dégâts qu'une fois par jour.\nVous pouvez donner l'ordre de votre choix, sauf s'il s'agit d'une activité qui entraînerait une mort certaine. Si vous donnez un ordre suicidaire, le sort prend fin.\nUn sort délivrance des malédictions, restauration suprême ou souhait met fin à ce sort.\n***Emplacement de niveau supérieur.*** Si vous utilisez un emplacement de sort de niveau 7 ou 8, la durée est de 365 jours. Si vous utilisez un emplacement de sort de niveau 9, le sort dure jusqu'à ce qu'il soit interrompu par l'un des sorts mentionnés ci-dessus.",
+      "classes": [
+        "Barde",
+        "Clerc",
+        "Druide",
+        "Magicien",
+        "Paladin"
+      ],
+      "id": "1794668559232"
+    },
+    {
+      "nom": "Scrutation",
+      "ecole": "Divination",
+      "niveau": "5",
+      "tempsIncantation": "10 minutes",
+      "portee": "Personnelle",
+      "duree": "Jusqu'à 10 minutes",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": true,
+      "rituel": false,
+      "descriptif": "Vous pouvez voir et entendre une créature de votre choix qui se trouve sur le même plan d'existence que vous. La cible effectue un jet de sauvegarde de Sagesse, qui est modifié (voir les tables ci-dessous) par votre connaissance de la cible et le type de connexion physique que vous entretenez avec elle. La cible ne sait pas contre quoi elle effectue ce jet de sauvegarde, juste qu'elle ressent un malaise.\nVotre connaissance de la cible est...\tModificateur au JdS\nIndirecte (vous avez entendu parler d'elle)\t+5\nDirect (vous l'avez rencontrée)\t+0\nIntime (vous la connaissez bien)\t−5\n\nVous disposez...\tModificateur au JdS\nDe son portrait ou autre représentation\t−2\nD'un vêtement ou autre bien personnel\t−4\nD'une partie de son corps, mèche de cheveux ou bout d'ongle\t−10\n\nEn cas de sauvegarde réussie, la cible n'est pas affectée et vous ne pouvez plus utiliser ce sort sur elle pendant 24 heures.\nEn cas d'échec, le sort crée un capteur invisible et intangible dans un rayon de 3 mètres autour de la cible. Vous pouvez voir et entendre à travers le capteur comme si vous y étiez. Le capteur se déplace avec la cible et reste à 3 mètres ou moins d'elle pendant toute la durée du sort. Si quelque chose peut voir le capteur, il apparaît comme un orbe lumineux de la taille de votre poing.\nAu lieu de cibler une créature, vous pouvez cibler un lieu que vous avez vu. Dans ce cas, le capteur apparaît à cet endroit et reste immobile.",
+      "classes": [
+        "Barde",
+        "Clerc",
+        "Druide",
+        "Orc",
+        "Magicien"
+      ],
+      "id": "1794668705655"
+    },
+    {
+      "nom": "Illusion programmée",
+      "ecole": "Illusion",
+      "niveau": "6",
+      "tempsIncantation": "Action",
+      "portee": "36 m",
+      "duree": "Jusqu'à dissipation",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous créez l'illusion d'un objet, d'une créature ou d'un autre phénomène visible à portée, qui s'active lorsqu'un déclencheur spécifique se présente. L'illusion reste imperceptible jusque-là. Elle doit loger dans un Cube de 9 m et vous décidez à l'incantation du sort comment l'illusion se comporte et quels sons elle produit. Cette performance scénarisée peut durer jusqu'à 5 minutes.\nQuand le déclencheur se présente, l'illusion prend vie selon le scénario que vous avez décrit. Une fois qu'elle a terminé son numéro, l'illusion disparaît et reste en veilleuse pendant 10 minutes, après quoi on peut la réactiver.\nLes circonstances de déclenchement peuvent être générales ou détaillées, à votre convenance, mais doivent correspondre à des conditions visuelles ou auditives intervenant dans un rayon de 9 m de la zone. Vous pourriez ainsi créer une illusion de vous-même apparaissant pour mettre autrui en garde contre l'ouverture d'une porte piégée.\nToute interaction physique avec l'image percera l'illusion, car elle n'est pas tangible. Une créature qui entreprend l'action Étude pour examiner l'image peut comprendre qu'il s'agit d'une illusion en réussissant un jet d'Intelligence (Investigation) contre le DD de sauvegarde de votre sort. Une créature qui perce l'illusion voit à travers l'image, tout son produit par l'illusion sonnant par ailleurs creux à ses oreilles.",
+      "classes": [
+        "Barde",
+        "Magicien"
+      ],
+      "id": "1794668854653"
+    },
+    {
+      "nom": "Vision suprême",
+      "ecole": "Divination",
+      "niveau": "6",
+      "tempsIncantation": "Action",
+      "portee": "Contact",
+      "duree": "1 heure",
+      "composantes": [
+        "V",
+        "S",
+        "M"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Pour toute la durée, une créature consentante que vous touchez physiquement acquiert la Vision véritable sur 36 m.",
+      "classes": [
+        "Barde",
+        "Clerc",
+        "Ensorceleur",
+        "Magicien",
+        "Orc"
+      ],
+      "id": "1794668918336"
+    },
+    {
+      "nom": "Doigt de mort",
+      "ecole": "Nécromancie",
+      "niveau": "7",
+      "tempsIncantation": "Action",
+      "portee": "18 m",
+      "duree": "Instantanée",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous libérez des énergies négatives vers une créature que vous voyez à portée. La cible effectue un jet de sauvegarde de Constitution et subit 7d8 + 30 dégâts nécrotiques en cas d'échec, la moitié en cas de réussite.\nUn Humanoïde tué par ce sort se relève au début de votre tour suivant comme zombi obéissant à vos instructions verbales.",
+      "classes": [
+        "Ensorceleur",
+        "Orc",
+        "Magicien"
+      ],
+      "id": "1794668980766"
+    },
+    {
+      "nom": "Mirage",
+      "ecole": "Illusion",
+      "niveau": "7",
+      "tempsIncantation": "10 min",
+      "portee": "Vue",
+      "duree": "10 jours",
+      "composantes": [
+        "V",
+        "S"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous faites en sorte que l'environnement d'une zone carrée de 1,5 km de côté apparaisse différemment sur tous les plans sensoriels. Ainsi, un champ ou une route pourrait se présenter comme un marais, une colline, une crevasse glaciaire ou quelque autre environnement accidenté ou infranchissable. Une mare pourrait apparaître comme une jolie prairie, un précipice comme une pente douce et un ravin comme une route large et dégagée.\nDe même, vous pouvez altérer l'aspect des bâtiments ou en ajouter là où il n'y en a pas. Le sort ne permet pas de déguiser ni de cacher des créatures, ni d'en ajouter.\nL'illusion comprend des éléments auditifs, visuels, tactiles et olfactifs, si bien qu'un sol dégagé peut être transformé en Terrain difficile (et vice versa) ou gêner les déplacements dans la zone. Tout élément du terrain illusoire (pierre ou branche, par exemple) retiré de la zone du sort disparaît aussitôt.\nLes créatures dotées de la Vision véritable percent l'illusion et perçoivent le véritable environnement. Tous les autres éléments de l'illusion restent toutefois en place, si bien qu'une telle créature, consciente de l'illusion, peut toujours interagir physiquement avec ces éléments.",
+      "classes": [
+        "Barde",
+        "Druide",
+        "Magicien"
+      ],
+      "id": "1794669081387"
+    },
+    {
+      "nom": "Mot de pouvoir étourdissant",
+      "ecole": "Enchantement",
+      "niveau": "8",
+      "tempsIncantation": "Action",
+      "portee": "18 m",
+      "duree": "Instantanée",
+      "composantes": [
+        "V"
+      ],
+      "concentration": false,
+      "rituel": false,
+      "descriptif": "Vous assaillez l'esprit d'une créature que vous voyez à portée. Si la cible choisie est dotée de 150 points de vie ou moins, elle subit l'état Étourdi. Dans le cas contraire, sa Vitesse tombe à 0 jusqu'au début de votre tour suivant.\nLa cible Étourdie effectue un jet de sauvegarde de Constitution à la fin de chacun de ses tours et met un terme à cet état en cas de réussite.",
+      "classes": [
+        "Ensorceleur",
+        "Magicien",
+        "Orc"
+      ],
+      "id": "1794669131975"
     }
   ],
   "monstres": [
