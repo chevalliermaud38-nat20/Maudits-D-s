@@ -762,13 +762,20 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                     </div>
                   )}
 
-                  {selectedCombatant.type === 'joueur' && selectedCombatant.equipement && (
-                    <div>
-                      <Label>Équipement</Label>
-                      <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant.equipement}</p>
-                    </div>
-                  )}
-
+                  {selectedCombatant.type === 'joueur' && selectedCombatant.equipement && (  
+                    <div>  
+                      <Label>Équipement</Label>  
+                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.equipement) }} />  
+                    </div>  
+                  )}  
+  
+                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.equipement && (  
+                    <div>  
+                      <Label>Équipement</Label>  
+                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.equipement) }} />  
+                    </div>  
+                  )}  
+                  
                   {getSlotsSorts(selectedCombatant) && Object.keys(getSlotsSorts(selectedCombatant)).some(k => getSlotsSorts(selectedCombatant)[k] > 0) && (  
                     <div>  
                       <Label>Slots de sorts</Label>  
