@@ -3568,9 +3568,72 @@
         {
           "categorie": "Colline d'Antan",
           "id": "1794578715247-um94n5ask",
-          "nom": "Nouvelle rencontre",
+          "nom": "Première terrasse",
+          "description": "Des chemins de terre longent deux cercles concentriques de cairns sur les pentes de la colline. Chaque cairn est une pile de pierres noires et visqueuses de trois mètres de haut.\nVous apercevait à travers la Brume 2 silhouettes semblant mener la garde.",
+          "monstres": [
+            {
+              "monstreId": "1794579322766",
+              "quantite": 2
+            }
+          ]
+        },
+        {
+          "categorie": "Colline d'Antan",
+          "nom": "Deuxième terrasse",
           "description": "",
-          "monstres": []
+          "monstreSearch": "",
+          "monstreQuantite": 1,
+          "id": "1794665251413-99f956kkx",
+          "monstres": [
+            {
+              "monstreId": "1794580765410",
+              "quantite": 2
+            }
+          ]
+        },
+        {
+          "categorie": "Colline d'Antan",
+          "nom": "Dernier Chasseur",
+          "description": "Lorsque le gardien tombe :\nson corps disparaît / s'effondre ;\nKavan peut apparaître brièvement ;\nFinfire peut récupérer l'arc.",
+          "monstreSearch": "",
+          "monstreQuantite": 1,
+          "id": "1794665347832-bhxyhrums",
+          "monstres": [
+            {
+              "monstreId": "1794654662487",
+              "quantite": 1
+            }
+          ]
+        },
+        {
+          "categorie": "Colline d'Antan",
+          "nom": "Sommet",
+          "description": "Le sommet est délimité par un immense cercle de gros rochers noirs.\nAu centre :\nun champ d'herbes mortes.\nDes éclairs frappent régulièrement la bordure du cercle.\nAu milieu se trouve l'immense statue de bois.\nElle représente une silhouette humanoïde imposante, ressemblant étrangement à Strahd.\nDes racines sortent du sol autour de sa base.\nElles viennent de l'arbre de Gulthias.\n\nLes 4 druides sont tous occupés à maintenir le rituel. Aucun ne participe aux combats comme garde > continue si 3 ou 4 font le rituel\n\nes défenseurs\n- 2 berserkers au contact des accès au cercle.\n- 3 Nielleux, positionnés à distance parmi les rochers.\n- 3 buissons malades, dissimulés dans la végétation et prêts à surgir.",
+          "monstreSearch": "",
+          "monstreQuantite": 1,
+          "id": "1794665538026-pt07tbjhx",
+          "monstres": [
+            {
+              "monstreId": "1794579084900",
+              "quantite": 4
+            },
+            {
+              "monstreId": "1794579322766",
+              "quantite": 2
+            },
+            {
+              "monstreId": "1794580994098",
+              "quantite": 3
+            },
+            {
+              "monstreId": "1794580765410",
+              "quantite": 3
+            },
+            {
+              "monstreId": "monster-1791660422816-2",
+              "quantite": 1
+            }
+          ]
         }
       ]
     }
