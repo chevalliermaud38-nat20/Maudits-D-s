@@ -445,6 +445,33 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     setConditionDialogOpen(true)  
   }  
   
+  const [calcOpen, setCalcOpen] = useState(false)  
+  const [calcExpr, setCalcExpr] = useState('')  
+  const [calcResult, setCalcResult] = useState(null)  
+  
+  const calcAppend = (char) => {  
+    setCalcExpr(prev => prev + char)  
+    setCalcResult(null)  
+  }  
+  
+  const calcClear = () => {  
+    setCalcExpr('')  
+    setCalcResult(null)  
+  }  
+  
+  const calcCompute = () => {  
+    if (/^[0-9+\-*/.() ]+$/.test(calcExpr) && calcExpr.trim() !== '') {  
+      try {  
+        const res = Function('"use strict"; return (' + calcExpr + ')')()  
+        setCalcResult(Number.isFinite(res) ? String(Math.round(res * 100) / 100) : 'Erreur')  
+      } catch {  
+        setCalcResult('Erreur')  
+      }  
+    } else {  
+      setCalcResult('Erreur')  
+    }  
+  }  
+  
   const labelNiveauSort = (niveau) => {  
     if (niveau === '0 (Cantrip)' || niveau === '0') return 'Sorts mineurs'  
     if (niveau === '1') return '1er niveau'  
@@ -513,11 +540,14 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                 </Button>
                 <h2 className="text-xl font-bold">Combat: {combatData.rencontre.nom}</h2>
               </div>
-              <div className="flex gap-2 items-center">
-                <div className="text-lg font-bold">Round {combatData.round}</div>
-                <Button variant="outline" onClick={prevTurn}>← Tour précédent</Button>
-                <Button variant="outline" onClick={nextTurn}>Tour suivant →</Button>
-              </div>
+              <div className="flex gap-2 items-center">  
+                <div className="text-lg font-bold">Round {combatData.round}</div>  
+                <Button variant="outline" onClick={() => setCalcOpen(o => !o)}>  
+                  Calculatrice  
+                </Button>  
+                <Button variant="outline" onClick={prevTurn}>← Tour précédent</Button>  
+                <Button variant="outline" onClick={nextTurn}>Tour suivant →</Button>  
+              </div>  
             </div>
             {combatData.rencontre.description && (
               <div className="text-sm text-muted-foreground bg-secondary p-2 rounded">
@@ -845,9 +875,29 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
               )}  
             </DialogContent>  
           </Dialog>  
+  
+          {calcOpen && (  
+            <div className="absolute bottom-4 right-4 w-56 bg-card border rounded-lg shadow-lg p-3 z-50">  
+              <div className="flex justify-between items-center mb-2">  
+                <span className="font-semibold text-sm">Calculatrice</span>  
+                <button className="text-muted-foreground hover:text-foreground" onClick={() => setCalcOpen(false)}>✕</button>  
+              </div>  
+              <div className="bg-background border rounded px-2 py-1 mb-2 text-right font-mono text-sm min-h-[2rem]">  
+                {calcExpr || '0'}  
+                {calcResult !== null && <div className="font-bold text-primary">= {calcResult}</div>}  
+              </div>  
+              <div className="grid grid-cols-4 gap-1">  
+                {['7','8','9','/','4','5','6','*','1','2','3','-','0','.','(',')','+'].map(c => (  
+                  <Button key={c} variant="outline" size="sm" onClick={() => calcAppend(c)}>{c}</Button>  
+                ))}  
+                <Button variant="outline" size="sm" onClick={calcClear}>C</Button>  
+                <Button variant="outline" size="sm" onClick={() => setCalcExpr(prev => prev.slice(0, -1))}>⌫</Button>  
+                <Button size="sm" className="col-span-2" onClick={calcCompute}>=</Button>  
+              </div>  
+            </div>  
+          )}  
         </div>  
-      ) : viewMode === 'list' ? (  
-        <>
+      ) : viewMode === 'list' ? (          <>
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <h2 className="text-2xl font-bold">Campagnes</h2>
             <Button onClick={openCampagneDialog}>
