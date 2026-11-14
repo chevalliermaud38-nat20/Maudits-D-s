@@ -2947,6 +2947,168 @@
       "slotsSorts": {},
       "actionsLegendaire": "**gras** *italique*\n",
       "reactions": ""
+    },
+    {
+      "nom": "Druide",
+      "type": "Humanoïde",
+      "taille": "Moyenne",
+      "ca": "11 (16 avec peau d'écorce)",
+      "pv": "27",
+      "alignement": "Neutre",
+      "legendaire": false,
+      "fd": "2",
+      "vitesse": "9m (6 cases)",
+      "bonusInitiative": 1,
+      "caracteristiques": {
+        "Force": 10,
+        "Dextérité": 12,
+        "Constitution": 13,
+        "Intelligence": 12,
+        "Sagesse": 15,
+        "Charisme": 11
+      },
+      "competences": "Médecine +4, Nature +3, Perception +4\n**Incantation.** Le druide est un lanceur de sorts de niveau 4. Sa caractéristique d'incantation est la Sagesse (JS contre ses sorts DD 12, +4 au toucher pour les attaques avec un sort).\n",
+      "sens": "Perception passive 14",
+      "langues": "druidique plus deux langues au choix",
+      "equipement": "",
+      "traits": "",
+      "actions": "**Bâton.** Attaque au corps à corps avec une arme : +2 au toucher (+4 au toucher avec gourdin magique), allonge 1,50 m, une cible.\nTouché : 3 (1d6) dégâts contondants, 4 (1d8) dégâts contondants si utilisé avec les deux mains, ou 6 (1d8 + 2) dégâts contondants avec gourdin magique.",
+      "sortsPrepares": [
+        "1794404017233",
+        "1794404419360",
+        "sort-0017"
+      ],
+      "slotsSorts": {
+        "1": 4,
+        "2": 3
+      },
+      "actionsLegendaire": "",
+      "reactions": "",
+      "id": "1794579084900"
+    },
+    {
+      "nom": "Berserker",
+      "type": "Humanoïde",
+      "taille": "Moyenne",
+      "ca": "13",
+      "pv": "67",
+      "alignement": "Chaotique Neutre",
+      "legendaire": false,
+      "fd": "2",
+      "vitesse": "9m (6 cases)",
+      "bonusInitiative": 1,
+      "caracteristiques": {
+        "Force": 16,
+        "Dextérité": 12,
+        "Constitution": 17,
+        "Intelligence": 9,
+        "Sagesse": 11,
+        "Charisme": 9
+      },
+      "competences": "**Téméraire.** Au début de son tour, un berserker peut obtenir un avantage à tous les jets d'attaque au corps à corps avec une arme pendant ce tour, mais les attaques contre lui ont un avantage jusqu'au début de son prochain tour.\n",
+      "sens": "Perception passive 10",
+      "langues": "une langue au choix (généralement le commun)",
+      "equipement": "",
+      "traits": "",
+      "actions": "**Hache à deux mains.** Attaque au corps à corps avec une arme : +5 au toucher, allonge 1,50 m, une cible. \nTouché : 9 (1d12 + 3) dégâts tranchants.\n",
+      "sortsPrepares": [],
+      "slotsSorts": {},
+      "actionsLegendaire": "",
+      "reactions": "",
+      "id": "1794579322766"
+    },
+    {
+      "nom": "Arbre malade",
+      "type": "Plante",
+      "taille": "Immense",
+      "ca": "15",
+      "pv": "149",
+      "alignement": "Neutre",
+      "legendaire": false,
+      "fd": "7",
+      "vitesse": "9m (6cases)",
+      "bonusInitiative": 0,
+      "caracteristiques": {
+        "Force": 23,
+        "Dextérité": 10,
+        "Constitution": 20,
+        "Intelligence": 6,
+        "Sagesse": 10,
+        "Charisme": 3
+      },
+      "competences": "**Immunités contre les états** aveuglés, assourdi\n",
+      "sens": "Vision aveugle 18m (aveugle au delà)",
+      "langues": "Comprend commun et druidique ne peux pas parler",
+      "equipement": "",
+      "traits": "**Faux-semblant.** Aussi longtemps qu'il reste immobile, il est impossible de le distinguer d'un arbre mort\n**Monstre assiégeur.** L'arbre malade inflige des dégâts doublés aux objets et aux structures. ",
+      "actions": "**Attaques multiples.** L'arbre malade effectue quatre attaques : deux avec ses branches et deux avec ses racines agrippeuse. S'il empoigne une cible, il peut également effectuer contre elle une attaque de morsure par une action Bonus. \n\n**Branche.** *Attaque d'arme de corps à corps :* +9 pour toucher, allonge 4.50m, une cible. *Touché : * 16 (3d6+6) dégâts contondants.\n\n**Morsure.** *Attaque d'arme de corps à corps :* +9 pour toucher, allonge 4.50m, une cible. *Touché : * 19 (3d8+6) dégâts perforants.\n\n**Racine agrippeuse.** *Attaque d'arme de corps à corps :* +9 pour toucher, allonge 4.50m, une créature non empoignée par l'arbre malade. *Touché : * la cible est empoignée (évasion DD15). Tant qu'elle est empoignée, la cible subit 9 (1d6+6) dégats contondants au début de chacun de ses tours.\nLa racine a une CA 15. Elle est tranchée si on lui inflige 6 dégats tranchants ou plus d'un coup. Trancher la racine ne blesse pas l'arbre mais met fin à l'empoignade",
+      "sortsPrepares": [],
+      "slotsSorts": {},
+      "actionsLegendaire": "",
+      "reactions": "",
+      "id": "1794580451040"
+    },
+    {
+      "nom": "Résinieux",
+      "type": "Plante",
+      "taille": "Moyenne",
+      "ca": "12",
+      "pv": "11",
+      "alignement": "Neutre Mauvais",
+      "legendaire": false,
+      "fd": "1/4",
+      "vitesse": "9m (6 cases)",
+      "bonusInitiative": 1,
+      "caracteristiques": {
+        "Force": 12,
+        "Dextérité": 12,
+        "Constitution": 13,
+        "Intelligence": 4,
+        "Sagesse": 8,
+        "Charisme": 3
+      },
+      "competences": "",
+      "sens": "",
+      "langues": "",
+      "equipement": "",
+      "traits": "",
+      "actions": "**Griffes. ** *Attaque au corps à corps avec une arme : *+3 au toucher, allonge 1,50 m, une cible. Touché : 6 (2d4 + 1) dégâts perforants.\n\n**Épines. ** *Attaque à distance avec une arme :* +3 au toucher, portée 9/18 m, une cible. *Touché :* 8 (2d6 + 1) dégâts perforants.\n",
+      "sortsPrepares": [],
+      "slotsSorts": {},
+      "actionsLegendaire": "",
+      "reactions": "",
+      "id": "1794580765410"
+    },
+    {
+      "nom": "Nielleux",
+      "type": "Plante",
+      "taille": "Petite",
+      "ca": "13",
+      "pv": "4",
+      "alignement": "Neutre",
+      "legendaire": false,
+      "fd": "1/8",
+      "vitesse": "6 m (4 cases)",
+      "bonusInitiative": 1,
+      "caracteristiques": {
+        "Force": 6,
+        "Dextérité": 13,
+        "Constitution": 12,
+        "Intelligence": 4,
+        "Sagesse": 8,
+        "Charisme": 3
+      },
+      "competences": "Discrétion +3\n**Vulnérabilités aux dégâts** feu\n**Immunités aux états** aveuglé, assourdi\n",
+      "sens": "vision aveugle 18 m (aveugle au-delà de ce rayon), Perception passive 9",
+      "langues": "comprend le commun mais ne peut pas parler",
+      "equipement": "",
+      "traits": "**Apparence trompeuse.** Tant que le nielleux reste immobile, il ne peut être distingué d'un arbuste mort.\n",
+      "actions": "**Griffes.** *Attaque au corps à corps avec une arme :* +3 au toucher, allonge 1,50 m, une cible. *Touché :* 3 (1d4 + 1) dégâts perforants.\n",
+      "sortsPrepares": [],
+      "slotsSorts": {},
+      "actionsLegendaire": "",
+      "reactions": "",
+      "id": "1794580994098"
     }
   ],
   "personnages": [
@@ -3136,8 +3298,120 @@
       "nom": "Curse of strahd",
       "description": "Finfire, Übel, Faelar et Archibald se retrouve piéger dans la Barovie...",
       "id": "1794400734142-qlg9ue9rf",
-      "personnages": [],
-      "rencontres": []
+      "personnages": [
+        {
+          "nom": "Finfire",
+          "classe": "Rôdeur",
+          "niveau": 5,
+          "race": "Halfelin",
+          "background": "Guide",
+          "alignement": "Neutre bon",
+          "ca": "14",
+          "pvMax": "39",
+          "pvActuels": "39",
+          "vitesse": "9 m (6 cases)",
+          "caracteristiques": {
+            "Force": 12,
+            "Dextérité": 15,
+            "Constitution": 13,
+            "Intelligence": 8,
+            "Sagesse": 17,
+            "Charisme": 10
+          },
+          "bonusMaitrise": 3,
+          "competences": "Pendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nPendant toute la durée du sort, vous comprenez le sens littéral de toute langue que vous entendez ainsi que le langage des signes. Vous comprenez également toute langue écrite que vous voyez, mais vous devez toucher la surface sur laquelle les mots sont écrits. Il faut environ une minute pour lire une page de texte. Ce sort ne décode pas les symboles ni les messages secrets.\nStyle de combat. Archerie\n\nAttaque supplémentaire. 2 attaques/action attaque\nInitié à la magie (druide). \n\nChef cuisinier:\nRepas reconstituant. Repot court, si ingrédient nécessaire = 4+BM repas donne 1d8PV supplémentaire\nFriandises. Repos long+1h. BM de friandises : AB> Manger BM PV temp.\n",
+          "sauvegardes": "Force +4\nDext +5",
+          "equipement": "",
+          "traits": "Agilité halfeline. Vous pouvez passer dans l'espace de toute créature d'une taille supérieure à la vôtre mais pas s'arreter.\n\nBrave. AV aux JdS pour ne pas être effrayé ou sortir de l'état effrayé\n\nChance. Lorsque vous obtenez un 1 à un test d20, vous pouvez relancer le dé et devez alors utiliser ce nouveau résultat.\n\nDiscrétion naturelle. Si vous êtes dans l'ombre d'une créature plus grande que vous, vous pouvez entreprendre l'action Furtivité",
+          "sortsConnus": [
+            "1794404074991",
+            "sort-0015",
+            "1794404017233",
+            "1794403968085",
+            "1794403894314",
+            "1794403833877",
+            "1794403770973",
+            "1794404419360"
+          ],
+          "slotsSorts": {
+            "1": 4,
+            "2": 2
+          },
+          "id": "1794402932030"
+        },
+        {
+          "nom": "Faelar Mousse-de-Rocher",
+          "classe": "Druide",
+          "niveau": 5,
+          "race": "Gnome des forêts",
+          "background": "Voyageur",
+          "alignement": "Neutre Bon",
+          "ca": "13",
+          "pvMax": "31",
+          "pvActuels": "31",
+          "vitesse": "9 m (6 cases)",
+          "caracteristiques": {
+            "Force": 8,
+            "Dextérité": 13,
+            "Constitution": 14,
+            "Intelligence": 13,
+            "Sagesse": 17,
+            "Charisme": 10
+          },
+          "bonusMaitrise": 3,
+          "competences": "Compagnon sauvage. Invoquez un esprit de la nature qui prend une forme animale. Action Magie : vous pouvez dépenser un emplacement de sort ou une utilisation de FS pour lancer le sort appel de familier sans composante matérielle. Le familier est une Fée et disparaît après un Repos long.\n\nForme sauvage (FS). Action Bonus (AB) pour se métamorphoser en une forme de Bête connue. La forme s'arrête après \"Niv de druide/2\"heure ou si vous utilisez à nouveau FS, subissiez l'état Incapable d'agir ou mourez ou si vous quittez cette forme (AB).\nNombre d'utilisations : 2 max. Vous en récupérez 1/Repos court, et 2/Repos long.\nForme de bête : vous gardez vos souvenirs, vos langues, vos PV, valeur int. sag.  et char., vos compétences et vos JdS + recevez 3 PV temporaires + Ne pouvez pas lancer de sort mais pas de perte de concentration\n\nAval de la terre.(action Magie) dépensez une FS et choisir un point dans un rayon de 18 m. Des fleurs nourricières et des épines drainantes de vie apparaissent dans une Sphère de 3 m. Chaque créature de votre choix doit effectuer un JdS de Const. contre le DD de sauvegarde des sorts, échec : 2d6 dégâts nécrotiques / réussite : la moitié. Une créature de votre choix dans zone récupère 2d6 PV (niv. 10 (3d6) et 14 (4d6)).\n\nSorts du Cercle de la Terre. Après Repos long, choisissez un type d'environnement : aride, polaire, tempéré ou tropical. Les sorts qui correspondent à votre niveau et inf. sont toujours préparés pour vous.\n\nRegain sauvage. (aucune action requise)\n- 1 fois/vos tours : si plus de FS>dépenser un emplacement de sort pour 1FS.\n-1x/repos long : dépensez une FS pour obtenir un emplacement de sort de niv1.\n\nChanceux. Vous disposez d'un nombre de points de Chance égal à votre bonus de maîtrise et pouvez les dépenser pour les avantages ci-dessous. Vous récupérez vos points de Chance dépensés à la fin d'un Repos long.\nAvantage. Lorsque vous lancez un d20 pour un test de D20, vous pouvez dépenser 1 point de Chance pour vous donner un Avantage.\nDésavantage. Lorsqu'une créature lance un d20 pour un jet d'attaque contre vous, vous pouvez dépenser 1 point de Chance pour lui imposer un Désavantage.",
+          "sauvegardes": "Int +5\nSag +6",
+          "equipement": "",
+          "traits": "Ruse gnome. **Vous avez l'avantage aux jets de sauvegarde d'Intelligence, de Sagesse et de Charisme**\n\nVision dans le noir. 18 m",
+          "sortsConnus": [],
+          "slotsSorts": {
+            "1": 4,
+            "2": 3,
+            "3": 2
+          },
+          "id": "1794574762968"
+        },
+        {
+          "nom": "Übel",
+          "classe": "Paladin",
+          "niveau": 5,
+          "race": "Goliath (géant pierre)",
+          "background": "Fermier",
+          "alignement": "Loyal Neutre",
+          "ca": "16",
+          "pvMax": "54",
+          "pvActuels": "54",
+          "vitesse": "10,5 m (7 cases)",
+          "caracteristiques": {
+            "Force": 18,
+            "Dextérité": 8,
+            "Constitution": 15,
+            "Intelligence": 10,
+            "Sagesse": 12,
+            "Charisme": 13
+          },
+          "bonusMaitrise": 3,
+          "competences": "Botte d'arme. Peut être changé à chaque repos long\n\nImposition des mains. Action Bonus - restituez PV à créature (ou vous meme) tout partie de votre réserve (5xniv paladin.). Repos long pour reconstituer réserve. \n5PV de la réserve pour supprimer état Empoisonné\n\nDuel. quand vous tenez 1 seule arme de CaC dans une seule main : +2 jet d'attaque\n\nConduit divin. 2 utilisations. Récupération de 1/repos court et de 2/repos long. > Perception divine\n\nVoeu d'hostilité. utilisez un conduit divin sur créature à 9m. Pendant 1min donne AV. Si créature tombe à 0PV, peut être transférer\n\nAttaque supplémentaire. 2 attaques/action attaque\n\nRobuste. Votre max de PV augmente d'un montant égal au double de votre niveau quand vous gagnez ce don.\nChaque fois que vous gagnez un niveau, votre max de PV augmente de 2PV supplémentaires.\n\nGardien. Aussitot créature dans rayon de 1,5m entreprend désengagement ou attaque autre cible que vous = attaque opportunité \n\nImmobilisation. Touche créature avec attaque d'opportunité, vitesse =0 pour le reste du tour",
+          "sauvegardes": "Charisme +4\nSagesse +4",
+          "equipement": "",
+          "traits": "Ascendance gigante. (2x/repos long)Endurance de la pierre : Quand vous subissez des dégats vous pouvez jouer votre réaction pour lancer 1d12 + modificateur Const. Réduisez les dégats de la somme.\n\nForte carrure. AV tests carac pour retirer l'état Aggripé. Capacité de charge : considérez \nvotre taille comme un cran supérieur.\n\nForme géante. (niv. 5) : Action bonus: devenir de taille G pendant 10 min max. Avantage tests de Force + vitesse augmente de 3 m ",
+          "sortsConnus": [],
+          "slotsSorts": {
+            "1": 4,
+            "2": 2
+          },
+          "id": "1794575311754"
+        }
+      ],
+      "rencontres": [
+        {
+          "categorie": "Colline d'Antan",
+          "id": "1794578715247-um94n5ask",
+          "nom": "Nouvelle rencontre",
+          "description": "",
+          "monstres": []
+        }
+      ]
     }
   ],
   "githubConfig": {
