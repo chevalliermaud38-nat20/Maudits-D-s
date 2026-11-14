@@ -258,32 +258,47 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     return allCombatants.filter(c => c.type === 'joueur' || parseInt(c.pvActuels) > 0).sort((a, b) => b.initiative - a.initiative)
   }
 
-  const updatePV = (combatant, delta) => {
-    if (combatant.type === 'joueur') {
-      const newJoueurs = combatData.joueursParticipants.map(j => 
-        j.id === combatant.id ? { ...j, pvActuels: Math.max(0, (parseInt(j.pvActuels) || 0) + delta) } : j
-      )
-      const newCombatData = { ...combatData, joueursParticipants: newJoueurs }
-      setCombatData(newCombatData)
-      // Mettre à jour selectedCombatant pour refléter le changement immédiatement
-      if (selectedCombatant && selectedCombatant.id === combatant.id) {
-        setSelectedCombatant({ ...selectedCombatant, pvActuels: Math.max(0, (parseInt(selectedCombatant.pvActuels) || 0) + delta) })
-      }
-    } else {
-      const newMonstres = combatData.monstresCombat.map(mc => ({
-        ...mc,
-        instances: mc.instances.map(inst => 
-          inst.id === combatant.id ? { ...inst, pvActuels: Math.max(0, (parseInt(inst.pvActuels) || 0) + delta) } : inst
-        )
-      }))
-      const newCombatData = { ...combatData, monstresCombat: newMonstres }
-      setCombatData(newCombatData)
-      // Mettre à jour selectedCombatant pour refléter le changement immédiatement
-      if (selectedCombatant && selectedCombatant.id === combatant.id) {
-        setSelectedCombatant({ ...selectedCombatant, pvActuels: Math.max(0, (parseInt(selectedCombatant.pvActuels) || 0) + delta) })
-      }
-    }
-  }
+  const updatePV = (combatant, delta) => {  
+    const pvMax = parseInt(combatant.type === 'joueur' ? combatant.pvMax : combatant.monstreTemplate?.pv) || 0  
+    const anciensPV = parseInt(combatant.pvActuels) || 0  
+    const nouveauxPV = Math.max(0, anciensPV + delta)  
+    const changes = { pvActuels: nouveauxPV }  
+  
+    // En péril : coché automatiquement sous 50 % des PV max  
+    const conditions = combatant.conditions || []  
+    const enPeril = pvMax > 0 && nouveauxPV < pvMax / 2  
+    if (enPeril && !conditions.includes('En péril')) {  
+      changes.conditions = [...conditions, 'En péril']  
+    } else if (!enPeril && conditions.includes('En péril')) {  
+      changes.conditions = conditions.filter(c => c !== 'En péril')  
+    }  
+  
+    if (delta < 0) {  
+      const degats = -delta  
+      // Concentration : JS Con DD 10 ou moitié des dégâts (arrondi inf.), max 30 — un jet par source  
+      if (combatant.concentration?.active) {  
+        changes.concentrationDD = Math.min(30, Math.max(10, Math.floor(degats / 2)))  
+      }  
+      if (combatant.type === 'joueur') {  
+        // Dégâts à 0 PV : +1 échec de sauvegarde contre la mort  
+        if (anciensPV <= 0) {  
+          const ds = combatant.deathSaves || { successes: 0, failures: 0 }  
+          changes.deathSaves = { ...ds, failures: Math.min(3, ds.failures + 1) }  
+        }  
+        // Mort instantanée : dégâts restants après 0 PV >= PV max  
+        if (degats - anciensPV >= pvMax) {  
+          changes.deathSaves = { successes: 0, failures: 3 }  
+        }  
+      }  
+    }  
+  
+    // Soins depuis 0 PV : réinitialiser les jets contre la mort  
+    if (delta > 0 && combatant.type === 'joueur' && anciensPV <= 0 && nouveauxPV > 0) {  
+      changes.deathSaves = { successes: 0, failures: 0 }  
+    }  
+  
+    updateCombatant(combatant, changes)  
+  }  
 
   const [selectedIds, setSelectedIds] = useState([])  
   const [degatsInput, setDegatsInput] = useState('')  
@@ -312,7 +327,55 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     }  
   }  
   
-  const toggleSlot = (combatant, niveau) => {
+  const updateCombatant = (combatant, changes) => {  
+    if (combatant.type === 'joueur') {  
+      const newJoueurs = combatData.joueursParticipants.map(j =>  
+        j.id === combatant.id ? { ...j, ...changes } : j  
+      )  
+      setCombatData({ ...combatData, joueursParticipants: newJoueurs })  
+    } else {  
+      const newMonstres = combatData.monstresCombat.map(mc => ({  
+        ...mc,  
+        instances: mc.instances.map(inst =>  
+          inst.id === combatant.id ? { ...inst, ...changes } : inst  
+        )  
+      }))  
+      setCombatData({ ...combatData, monstresCombat: newMonstres })  
+    }  
+    if (selectedCombatant && selectedCombatant.id === combatant.id) {  
+      setSelectedCombatant({ ...selectedCombatant, ...changes })  
+    }  
+  }  
+  
+  const setFatigue = (combatant, val) => {  
+    updateCombatant(combatant, { fatigue: Math.max(0, Math.min(6, val)) })  
+  }  
+  
+  const perdreConcentration = (combatant) => {  
+    updateCombatant(combatant, { concentration: { active: false, sort: '' }, concentrationDD: null })  
+  }  
+  
+  const rappelsConditions = {  
+    'À terre': ["Mêlée à 1,50 m contre lui : Avantage", "Attaque à distance contre lui : Désavantage", "Se relever coûte la moitié de la Vitesse"],  
+    'Aveuglé': ["Attaques contre lui : Avantage", "Ses attaques : Désavantage"],  
+    'Effrayé': ["Désavantage aux attaques et tests si la source de peur est visible"],  
+    'Agrippé': ["Vitesse 0"],  
+    'Entravé': ["Vitesse 0", "Attaques contre lui : Avantage", "Ses attaques : Désavantage", "Désavantage aux JS Dextérité"],  
+    'Paralysé': ["Neutralisé", "Vitesse 0", "Échec auto aux JS Force/Dextérité", "Attaques contre lui : Avantage", "Coups critiques au contact"],  
+    'Étourdi': ["Neutralisé", "Vitesse 0", "Échec auto aux JS Force/Dextérité", "Attaques contre lui : Avantage"],  
+    'Empoisonné': ["Désavantage aux attaques et tests de caractéristique"],  
+    'Invisible': ["Attaques contre lui : Désavantage", "Ses attaques : Avantage"],  
+    'Pétrifié': ["Neutralisé", "Résistance à tous les dégâts", "Immunité poison/maladie", "Échec auto aux JS Force/Dextérité"],  
+    'Inconscient': ["Neutralisé", "À terre", "Attaques contre lui : Avantage", "Coups critiques au contact"],  
+    'Charmé': ["Ne peut pas attaquer son charmeur ni lui nuire"],  
+    'Assourdi': ["Échec auto aux tests nécessitant l'ouïe"],  
+    'Incapacité': ["Pas d'action, d'action bonus ni de réaction"],  
+    'Concentration': ["En cas de dégâts : JS Constitution DD 10 ou moitié des dégâts (le plus élevé, max 30)"],  
+    'En péril': ["PV sous 50 % — situation critique"],  
+    'Épuisement': ["−2 aux tests de d20 et −1,50 m de Vitesse par niveau — mort au niveau 6"]  
+  }  
+  
+  const toggleSlot = (combatant, niveau) => {  
     const slots = combatant.slotsUtilises || {}
     const niveauKey = niveau.toString()
     const currentUsed = slots[niveauKey] || 0
@@ -716,11 +779,79 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                     </div>  
                   </div>
 
-                  {parseInt(selectedCombatant.pvActuels) <= 0 && (
-                    <div>
-                      <Label>Jets de sauvegarde contre la mort</Label>
-                      <div className="flex gap-4 mt-2">
-                        <div>
+                  {selectedCombatant.conditions?.includes('En péril') && parseInt(selectedCombatant.pvActuels) > 0 && (  
+                    <div className="p-2 rounded bg-orange-100 border border-orange-400 text-sm font-semibold text-orange-800">  
+                      ⚠ EN PÉRIL — PV sous 50 %  
+                    </div>  
+                  )}  
+  
+                  <div className="p-2 rounded bg-purple-50 border border-purple-300">  
+                    <label className="flex items-center gap-2 text-sm font-semibold text-purple-800">  
+                      <Checkbox  
+                        checked={selectedCombatant.concentration?.active || false}  
+                        onChange={() => updateCombatant(selectedCombatant, { concentration: { active: !selectedCombatant.concentration?.active, sort: selectedCombatant.concentration?.sort || '' }, concentrationDD: null })}  
+                      />  
+                      Concentration  
+                    </label>  
+                    {selectedCombatant.concentration?.active && (  
+                      <Input  
+                        className="mt-1 h-7 text-xs"  
+                        placeholder="Sort concentré..."  
+                        value={selectedCombatant.concentration?.sort || ''}  
+                        onChange={(e) => updateCombatant(selectedCombatant, { concentration: { ...selectedCombatant.concentration, sort: e.target.value } })}  
+                      />  
+                    )}  
+                    {selectedCombatant.concentration?.active && selectedCombatant.concentrationDD && (  
+                      <div className="mt-1 text-xs font-bold text-purple-900">  
+                        Dégâts reçus → JS Constitution DD {selectedCombatant.concentrationDD}  
+                        <button className="ml-2 underline" onClick={() => updateCombatant(selectedCombatant, { concentrationDD: null })}>Réussite</button>  
+                        <button className="ml-2 underline" onClick={() => perdreConcentration(selectedCombatant)}>Échec : perdre la concentration</button>  
+                      </div>  
+                    )}  
+                  </div>  
+  
+                  {selectedCombatant.type === 'joueur' && (  
+                    <div className="p-2 rounded bg-amber-50 border border-amber-300">  
+                      <div className="flex items-center gap-2">  
+                        <Label className="text-sm font-semibold">Fatigue : {selectedCombatant.fatigue || 0}/6</Label>  
+                        <Button size="sm" variant="outline" onClick={() => setFatigue(selectedCombatant, (selectedCombatant.fatigue || 0) - 1)}>-</Button>  
+                        <Button size="sm" variant="outline" onClick={() => setFatigue(selectedCombatant, (selectedCombatant.fatigue || 0) + 1)}>+</Button>  
+                      </div>  
+                      {(selectedCombatant.fatigue || 0) > 0 && (  
+                        <div className="text-xs mt-1 text-amber-800">  
+                          −{(selectedCombatant.fatigue || 0) * 2} aux tests de d20 · −{(selectedCombatant.fatigue || 0) * 1.5} m de Vitesse  
+                          {(selectedCombatant.fatigue || 0) >= 6 && <span className="font-bold text-red-700"> — MORT</span>}  
+                        </div>  
+                      )}  
+                    </div>  
+                  )}  
+  
+                  {selectedCombatant.conditions?.length > 0 && (() => {  
+                    const rappels = [...new Set(selectedCombatant.conditions.flatMap(c => rappelsConditions[c] || []))]  
+                    return rappels.length > 0 && (  
+                      <div className="p-2 rounded bg-blue-50 border border-blue-300">  
+                        <div className="text-xs font-semibold text-blue-800 mb-1">Rappels — {selectedCombatant.conditions.join(', ')}</div>  
+                        <ul className="text-xs text-blue-900 list-disc pl-4 space-y-0.5">  
+                          {rappels.map((r, i) => <li key={i}>{r}</li>)}  
+                        </ul>  
+                      </div>  
+                    )  
+                  })()}  
+  
+                  {selectedCombatant.type === 'joueur' && parseInt(selectedCombatant.pvActuels) <= 0 && (  
+                    <div className="p-2 rounded bg-red-100 border-2 border-red-500">  
+                      <div className="font-bold text-red-800 text-sm">INCONSCIENT – JETS CONTRE LA MORT</div>  
+                      <div className="text-xs text-red-700 mt-1">  
+                        Lancer 1d20 au début de chaque tour : 1 = 2 échecs · 2-9 = 1 échec · 10-19 = 1 réussite · 20 = récupère 1 PV.  
+                        Dégâts à 0 PV = +1 échec (+2 si critique).  
+                      </div>  
+                      {(selectedCombatant.deathSaves?.failures || 0) >= 3 && (  
+                        <div className="mt-1 font-bold text-red-900">MORT</div>  
+                      )}  
+                      {(selectedCombatant.deathSaves?.successes || 0) >= 3 && (selectedCombatant.deathSaves?.failures || 0) < 3 && (  
+                        <div className="mt-1 font-bold text-green-700">STABLE</div>  
+                      )}  
+                      <div className="flex gap-4 mt-2">                          <div>
                           <Label className="text-xs text-green-600">Succès ({selectedCombatant.deathSaves?.successes || 0}/3)</Label>
                           <div className="flex gap-1 mt-1">
                             {[0, 1, 2].map(i => (
