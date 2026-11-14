@@ -15,7 +15,11 @@
       ],
       "concentration": false,
       "rituel": false,
-      "descriptif": "Une brillante gerbe de flamme jaillit de votre main. Chaque créature dans un cône de 6m doit faire un jet de sauvegarde de Dextérité. Les créatures qui échouent subissent 8d6 dégâts de feu, et celles qui réussissent en subissent la moitié. Le feu enflamme les objets inflammables dans la zone et endommage les objets qui y sont."
+      "descriptif": "Une traînée lumineuse jaillit de vous jusqu'à un point que vous choisissez à portée, puis explose ardemment dans un grondement sourd. Toute créature dans une Sphère de 6 mètres de rayon centrée sur ce point effectue un jet de sauvegarde de Dextérité, subissant 8d6 dégâts de feu en cas d'échec, ou la moitié de ces dégâts en cas de réussite.\nLes objets inflammables dans la zone qui ne sont pas portés commencent à brûler.\n***Emplacement de niveau supérieur.*** Les dégâts augmentent de 1d6 pour chaque niveau d'emplacement de sort supérieur à 3.",
+      "classes": [
+        "Ensorceleur",
+        "Magicien"
+      ]
     },
     {
       "id": "guerison-mineure-1",
@@ -48,7 +52,11 @@
       ],
       "concentration": false,
       "rituel": false,
-      "descriptif": "Un éclair foudroyant jaillit de votre point de doigt vers un point de votre choix que vous pouvez voir à portée. La créature dans la ligne doit faire un jet de sauvegarde de Dextérité. Un jet de sauvegarde raté inflige 8d6 dégâts de foudre, et un jet réussi la moitié."
+      "descriptif": "Un éclair formant une Ligne de 30 mètres de long et 1,50 mètre de large jaillit de vous dans la direction de votre choix. Toute créature sur la Ligne effectue un jet de sauvegarde de Dextérité, subissant 8d6 dégâts de foudre en cas d'échec, ou la moitié de ces dégâts en cas de réussite.\n***Emplacement de niveau supérieur.*** Les dégâts augmentent de 1d6 pour chaque niveau d'emplacement de sort supérieur à 3.",
+      "classes": [
+        "Ensorceleur",
+        "Magicien"
+      ]
     },
     {
       "id": "sort-0002",
@@ -134,7 +142,7 @@
       ],
       "concentration": true,
       "rituel": true,
-      "descriptif": "Détecte la présence de magie à proximité et aide à en percevoir les auras.",
+      "descriptif": "Pendant la durée du sort, vous ressentez la présence d'effets magiques dans un rayon de 9 mètres autour de vous. Si vous ressentez ces effets, vous pouvez utiliser l'action Magie pour voir une faible aura autour de toute créature ou objet visible dans la zone qui porte la magie. Si un effet a été créé par un sort, vous connaissez l'école de magie du sort.\nLe sort est bloqué par 30 cm de pierre, de terre ou de bois, par 2,50 cm de métal, ou par une fine feuille de plomb.",
       "classes": "Barde, Clerc, Druide, Paladin, Rôdeur, Ensorceleur, Magicien"
     },
     {
@@ -183,7 +191,7 @@
       ],
       "concentration": false,
       "rituel": false,
-      "descriptif": "Crée des projectiles de force qui touchent leur cible selon les règles du sort.",
+      "descriptif": "Vous créez trois fléchettes lumineuses de force magique. Chaque fléchette touche une créature de votre choix que vous pouvez voir et à portée. Une fléchette inflige 1d4 + 1 point de dégâts de force à sa cible. Les fléchettes frappent toutes simultanément, et vous pouvez les diriger pour toucher une ou plusieurs créatures.\n***Emplacement de niveau supérieur. *** Le sort crée une fléchette supplémentaire pour chaque niveau d'emplacement de sort supérieur à 1.",
       "classes": "Ensorceleur, Magicien"
     },
     {
@@ -343,19 +351,20 @@
     },
     {
       "id": "sort-0006",
-      "nom": "Mocquerie vicieuse",
-      "ecole": "Enchantement",
-      "niveau": "0",
-      "tempsIncantation": "action",
-      "portee": "18 m",
-      "duree": "Instantanée",
+      "nom": "Détection de la magie",
+      "ecole": "Divination",
+      "niveau": "1",
+      "tempsIncantation": "action ou rituel",
+      "portee": "Personnelle",
+      "duree": "Concentration, jusqu’à 10 minutes",
       "composantes": [
-        "V"
+        "V",
+        "S"
       ],
-      "concentration": false,
-      "rituel": false,
-      "descriptif": "Profère des insultes magiques. La cible doit réussir un jet de sauvegarde de Sagesse ou subir 1d6 dégâts psychiques et avoir un désavantage à son prochain jet d'attaque.",
-      "classes": "Barde"
+      "concentration": true,
+      "rituel": true,
+      "descriptif": "Pendant la durée du sort, vous ressentez la présence d'effets magiques dans un rayon de 9 mètres autour de vous. Si vous ressentez ces effets, vous pouvez utiliser l'action Magie pour voir une faible aura autour de toute créature ou objet visible dans la zone qui porte la magie. Si un effet a été créé par un sort, vous connaissez l'école de magie du sort.\nLe sort est bloqué par 30 cm de pierre, de terre ou de bois, par 2,50 cm de métal, ou par une fine feuille de plomb.",
+      "classes": "Barde, Clerc, Druide, Paladin, Rôdeur, Ensorceleur, Magicien"
     },
     {
       "id": "sort-0105",
@@ -397,7 +406,7 @@
       "niveau": "2",
       "tempsIncantation": "action",
       "portee": "9 m",
-      "duree": "Concentration, jusqu'à 1 minute",
+      "duree": "Jusqu'à 1 minute",
       "composantes": [
         "V",
         "S",
@@ -405,7 +414,7 @@
       ],
       "concentration": true,
       "rituel": false,
-      "descriptif": "Fait doubler ou diminuer de moitié la taille et le poids d'une cible, modifiant ses dégâts (+1d4 ou -1d4) et ses tests de Force.",
+      "descriptif": "Pendant la durée du sort, le sort agrandit ou réduit une créature ou un objet que vous pouvez voir à portée (voir l'effet choisi ci-dessous). L'objet ciblé ne doit pas être porté. Si la cible est une créature non consentante, elle peut effectuer un jet de sauvegarde de __Constitution.__ En cas de jet de sauvegarde réussi, le sort est sans effet.\nTout ce que porte la créature ciblée change de taille avec elle. Tout objet qu'elle laisse tomber reprend immédiatement sa taille normale. Une arme de jet ou une munition reprend sa taille normale immédiatement après avoir touché ou manqué une cible.\n**Agrandissement. **La taille de la cible augmente d'une catégorie, de Moyenne à Grande, par exemple. La cible bénéficie également d'un Avantage aux jets de Force et aux jets de sauvegarde de Force. Les attaques de la cible avec ses armes agrandies ou ses Frappes à mains nues infligent 1d4 dégâts supplémentaires en cas de succès.\n**Rapetissement. **La taille de la cible diminue d'une catégorie, de Moyenne à Petite, par exemple. La cible bénéficie également d'un Désavantage aux jets de Force et aux jets de sauvegarde de Force. Les attaques de la cible avec ses armes réduites ou ses Frappes à mains nues infligent 1d4 dégâts de moins quand elles touchent (cela ne peut pas réduire les dégâts en dessous de 1).",
       "classes": "Barde, Druide, Ensorceleur, Magicien"
     },
     {
@@ -645,20 +654,21 @@
     },
     {
       "id": "sort-0201",
-      "nom": "Image miroir",
-      "ecole": "Illusion",
+      "nom": "Agrandissement/rapetissement",
+      "ecole": "Transmutation",
       "niveau": "2",
       "tempsIncantation": "action",
-      "portee": "Personnelle",
-      "duree": "1 minute",
+      "portee": "9 m",
+      "duree": "Jusqu'à 1 minute",
       "composantes": [
         "V",
-        "S"
+        "S",
+        "M"
       ],
-      "concentration": false,
+      "concentration": true,
       "rituel": false,
-      "descriptif": "Crée trois duplicatas illusoires pour détourner les attaques physiques destinées à l'incantateur.",
-      "classes": "Enchanteur, Magicien, Sorcier"
+      "descriptif": "Pendant la durée du sort, le sort agrandit ou réduit une créature ou un objet que vous pouvez voir à portée (voir l'effet choisi ci-dessous). L'objet ciblé ne doit pas être porté. Si la cible est une créature non consentante, elle peut effectuer un jet de sauvegarde de __Constitution.__ En cas de jet de sauvegarde réussi, le sort est sans effet.\nTout ce que porte la créature ciblée change de taille avec elle. Tout objet qu'elle laisse tomber reprend immédiatement sa taille normale. Une arme de jet ou une munition reprend sa taille normale immédiatement après avoir touché ou manqué une cible.\n**Agrandissement. **La taille de la cible augmente d'une catégorie, de Moyenne à Grande, par exemple. La cible bénéficie également d'un Avantage aux jets de Force et aux jets de sauvegarde de Force. Les attaques de la cible avec ses armes agrandies ou ses Frappes à mains nues infligent 1d4 dégâts supplémentaires en cas de succès.\n**Rapetissement. **La taille de la cible diminue d'une catégorie, de Moyenne à Petite, par exemple. La cible bénéficie également d'un Désavantage aux jets de Force et aux jets de sauvegarde de Force. Les attaques de la cible avec ses armes réduites ou ses Frappes à mains nues infligent 1d4 dégâts de moins quand elles touchent (cela ne peut pas réduire les dégâts en dessous de 1).",
+      "classes": "Barde, Druide, Ensorceleur, Magicien"
     },
     {
       "id": "sort-0802",
