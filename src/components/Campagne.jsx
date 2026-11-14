@@ -1776,8 +1776,9 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
               </div>
             </div>
           )}
-        </DialogContent>
-      </Dialog>
-    </div>
-  )
-}
+        </DialogContent>  
+      </Dialog>  
+      </main>  
+    </div>  
+  )  
+}  
