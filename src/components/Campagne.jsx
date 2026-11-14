@@ -348,11 +348,34 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
   }  
   
   const setFatigue = (combatant, val) => {  
-    updateCombatant(combatant, { fatigue: Math.max(0, Math.min(6, val)) })  
-  }  
-  
+    const fatigue = Math.max(0, Math.min(6, val))  
+    const conditions = combatant.conditions || []  
+    const changes = { fatigue }  
+    if (fatigue >= 1 && !conditions.includes('Épuisement')) {  
+      changes.conditions = [...conditions, 'Épuisement']  
+    } else if (fatigue === 0 && conditions.includes('Épuisement')) {  
+      changes.conditions = conditions.filter(c => c !== 'Épuisement')  
+    }  
+    updateCombatant(combatant, changes)  
+  }    
   const perdreConcentration = (combatant) => {  
     updateCombatant(combatant, { concentration: { active: false, sort: '' }, concentrationDD: null })  
+  }  
+  
+  const [chronoTexte, setChronoTexte] = useState('')  
+  const [chronoRounds, setChronoRounds] = useState('')  
+  
+  const ajouterChronometre = (combatant) => {  
+    const rounds = parseInt(chronoRounds)  
+    if (!chronoTexte.trim() || !rounds || rounds <= 0) return  
+    const chronometres = [...(combatant.chronometres || []), { id: Date.now(), texte: chronoTexte.trim(), rounds }]  
+    updateCombatant(combatant, { chronometres })  
+    setChronoTexte('')  
+    setChronoRounds('')  
+  }  
+  
+  const supprimerChronometre = (combatant, chronoId) => {  
+    updateCombatant(combatant, { chronometres: (combatant.chronometres || []).filter(ch => ch.id !== chronoId) })  
   }  
   
   const rappelsConditions = {  
@@ -503,12 +526,21 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     const ordre = getOrdreInitiativeActif()
     if (ordre.length === 0) return
 
-    const newTour = (combatData.tourActuel + 1) % ordre.length
-    if (newTour === 0) {
-      setCombatData({ ...combatData, tourActuel: newTour, round: combatData.round + 1 })
-    } else {
-      setCombatData({ ...combatData, tourActuel: newTour })
-    }
+    const newTour = (combatData.tourActuel + 1) % ordre.length  
+    if (newTour === 0) {  
+      // Nouveau round : décompter les chronomètres de tous les combattants  
+      const decrementer = (c) => c.chronometres?.length  
+        ? { ...c, chronometres: c.chronometres.map(ch => ({ ...ch, rounds: ch.rounds - 1 })).filter(ch => ch.rounds > 0) }  
+        : c  
+      const newJoueurs = combatData.joueursParticipants.map(decrementer)  
+      const newMonstres = combatData.monstresCombat.map(mc => ({  
+        ...mc,  
+        instances: mc.instances.map(decrementer)  
+      }))  
+      setCombatData({ ...combatData, tourActuel: newTour, round: combatData.round + 1, joueursParticipants: newJoueurs, monstresCombat: newMonstres })  
+    } else {  
+      setCombatData({ ...combatData, tourActuel: newTour })  
+    }  
     // Sélectionner automatiquement le combattant actif
     setSelectedCombatant(ordre[newTour])
   }
@@ -825,6 +857,40 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       )}  
                     </div>  
                   )}  
+  
+                  <div className="p-2 rounded bg-teal-50 border border-teal-300">  
+                    <Label className="text-sm font-semibold text-teal-800">Chronomètres</Label>  
+                    {selectedCombatant.chronometres?.length > 0 && (  
+                      <div className="mt-1 space-y-1">  
+                        {selectedCombatant.chronometres.map(ch => (  
+                          <div key={ch.id} className="flex items-center justify-between text-xs bg-background rounded px-2 py-1">  
+                            <span>{ch.texte}</span>  
+                            <span className="flex items-center gap-2">  
+                              <span className="font-bold text-teal-800">{ch.rounds} round{ch.rounds > 1 ? 's' : ''}</span>  
+                              <button className="text-red-600 hover:text-red-800" onClick={() => supprimerChronometre(selectedCombatant, ch.id)}>✕</button>  
+                            </span>  
+                          </div>  
+                        ))}  
+                      </div>  
+                    )}  
+                    <div className="flex gap-1 mt-2">  
+                      <Input  
+                        className="h-7 text-xs flex-1"  
+                        placeholder="Effet (ex : Agrandissement)"  
+                        value={chronoTexte}  
+                        onChange={(e) => setChronoTexte(e.target.value)}  
+                      />  
+                      <Input  
+                        className="h-7 text-xs w-16"  
+                        type="number"  
+                        min="1"  
+                        placeholder="Rounds"  
+                        value={chronoRounds}  
+                        onChange={(e) => setChronoRounds(e.target.value)}  
+                      />  
+                      <Button size="sm" className="h-7" disabled={!chronoTexte.trim() || !chronoRounds} onClick={() => ajouterChronometre(selectedCombatant)}>+</Button>  
+                    </div>  
+                  </div>  
   
                   {selectedCombatant.conditions?.length > 0 && (() => {  
                     const rappels = [...new Set(selectedCombatant.conditions.flatMap(c => rappelsConditions[c] || []))]  
