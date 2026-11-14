@@ -285,6 +285,33 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     }
   }
 
+  const [selectedIds, setSelectedIds] = useState([])  
+  const [degatsInput, setDegatsInput] = useState('')  
+  const [soinInput, setSoinInput] = useState('')  
+  const [degatsMulti, setDegatsMulti] = useState('')  
+  const [soinMulti, setSoinMulti] = useState('')  
+  
+  const toggleSelectCombatant = (id) => {  
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id])  
+  }  
+  
+  const applyPVMultiple = (delta) => {  
+    if (selectedIds.length === 0) return  
+    const newJoueurs = combatData.joueursParticipants.map(j =>  
+      selectedIds.includes(j.id) ? { ...j, pvActuels: Math.max(0, (parseInt(j.pvActuels) || 0) + delta) } : j  
+    )  
+    const newMonstres = combatData.monstresCombat.map(mc => ({  
+      ...mc,  
+      instances: mc.instances.map(inst =>  
+        selectedIds.includes(inst.id) ? { ...inst, pvActuels: Math.max(0, (parseInt(inst.pvActuels) || 0) + delta) } : inst  
+      )  
+    }))  
+    setCombatData({ ...combatData, joueursParticipants: newJoueurs, monstresCombat: newMonstres })  
+    if (selectedCombatant && selectedIds.includes(selectedCombatant.id)) {  
+      setSelectedCombatant({ ...selectedCombatant, pvActuels: Math.max(0, (parseInt(selectedCombatant.pvActuels) || 0) + delta) })  
+    }  
+  }  
+  
   const toggleSlot = (combatant, niveau) => {
     const slots = combatant.slotsUtilises || {}
     const niveauKey = niveau.toString()
@@ -558,8 +585,28 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
 
           <main className="flex-1 flex overflow-hidden">
             <div className="w-1/3 border-r p-4 overflow-y-auto">
-              <h3 className="font-semibold mb-2">Ordre d'initiative</h3>
-              <div className="space-y-2">
+              <h3 className="font-semibold mb-2">Ordre d'initiative</h3>  
+              <div className="mb-3 p-2 bg-secondary rounded space-y-2">  
+                <div className="flex gap-1 items-center">  
+                  <Input type="number" min="0" placeholder="Dégâts" className="h-8 text-xs" value={degatsMulti} onChange={(e) => setDegatsMulti(e.target.value)} />  
+                  <Button size="sm" variant="destructive" disabled={selectedIds.length === 0 || !degatsMulti} onClick={() => { applyPVMultiple(-parseInt(degatsMulti)); setDegatsMulti('') }}>  
+                    Dégâts aux sélectionnés  
+                  </Button>  
+                </div>  
+                <div className="flex gap-1 items-center">  
+                  <Input type="number" min="0" placeholder="Soins" className="h-8 text-xs" value={soinMulti} onChange={(e) => setSoinMulti(e.target.value)} />  
+                  <Button size="sm" disabled={selectedIds.length === 0 || !soinMulti} onClick={() => { applyPVMultiple(parseInt(soinMulti)); setSoinMulti('') }}>  
+                    Soins aux sélectionnés  
+                  </Button>  
+                </div>  
+                {selectedIds.length > 0 && (  
+                  <div className="text-xs text-muted-foreground">  
+                    {selectedIds.length} combattant(s) sélectionné(s){' '}  
+                    <button className="underline" onClick={() => setSelectedIds([])}>Tout désélectionner</button>  
+                  </div>  
+                )}  
+              </div>  
+              <div className="space-y-2">  
                 {getOrdreInitiative().map((combatant, idx) => {
                   const isDead = parseInt(combatant.pvActuels) <= 0
                   const ordreActif = getOrdreInitiativeActif()
@@ -582,13 +629,20 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       }`}
                       onClick={() => setSelectedCombatant(combatant)}
                     >
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="font-medium text-sm">
-                          {combatant.type === 'joueur' ? combatant.nom : combatant.nomMonstre}
-                        </span>
-                        <span className="font-bold text-sm">{combatant.initiative}</span>
-                      </div>
-                      <div className="flex justify-between text-xs text-muted-foreground">
+                      <div className="flex justify-between items-center mb-1">  
+                        <div className="flex items-center gap-2">  
+                          <span onClick={(e) => e.stopPropagation()}>  
+                            <Checkbox  
+                              checked={selectedIds.includes(combatant.id)}  
+                              onChange={() => toggleSelectCombatant(combatant.id)}  
+                            />  
+                          </span>  
+                          <span className="font-medium text-sm">  
+                            {combatant.type === 'joueur' ? combatant.nom : combatant.nomMonstre}  
+                          </span>  
+                        </div>  
+                        <span className="font-bold text-sm">{combatant.initiative}</span>  
+                      </div>                        <div className="flex justify-between text-xs text-muted-foreground">
                         <span>CA: {combatant.type === 'joueur' ? combatant.ca : combatant.monstreTemplate?.ca}</span>
                         <span>PV: {combatant.pvActuels}</span>
                       </div>
@@ -638,12 +692,16 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
 
                   <div>
                     <Label>PV: {selectedCombatant.pvActuels}/{selectedCombatant.type === 'joueur' ? selectedCombatant.pvMax : selectedCombatant.monstreTemplate?.pv}</Label>
-                    <div className="flex gap-2 mt-1">
-                      <Button size="sm" onClick={() => updatePV(selectedCombatant, -1)}>-1</Button>
-                      <Button size="sm" onClick={() => updatePV(selectedCombatant, -5)}>-5</Button>
-                      <Button size="sm" onClick={() => updatePV(selectedCombatant, 1)}>+1</Button>
-                      <Button size="sm" onClick={() => updatePV(selectedCombatant, 5)}>+5</Button>
-                    </div>
+                    <div className="flex gap-2 mt-1 items-center flex-wrap">  
+                      <Button size="sm" onClick={() => updatePV(selectedCombatant, -1)}>-1</Button>  
+                      <Button size="sm" onClick={() => updatePV(selectedCombatant, -5)}>-5</Button>  
+                      <Button size="sm" onClick={() => updatePV(selectedCombatant, 1)}>+1</Button>  
+                      <Button size="sm" onClick={() => updatePV(selectedCombatant, 5)}>+5</Button>  
+                      <Input type="number" min="0" placeholder="Dégâts" className="w-20 h-8" value={degatsInput} onChange={(e) => setDegatsInput(e.target.value)} />  
+                      <Button size="sm" variant="destructive" disabled={!degatsInput} onClick={() => { updatePV(selectedCombatant, -parseInt(degatsInput)); setDegatsInput('') }}>Dégâts</Button>  
+                      <Input type="number" min="0" placeholder="Soins" className="w-20 h-8" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  
+                      <Button size="sm" disabled={!soinInput} onClick={() => { updatePV(selectedCombatant, parseInt(soinInput)); setSoinInput('') }}>Soins</Button>  
+                    </div>  
                   </div>
 
                   {parseInt(selectedCombatant.pvActuels) <= 0 && (
