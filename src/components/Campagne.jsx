@@ -1284,6 +1284,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
           </main>
         </div>
       ) : viewMode === 'list' ? (
+      <>
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <h2 className="text-2xl font-bold">Campagnes</h2>
             <Button onClick={openCampagneDialog}>
