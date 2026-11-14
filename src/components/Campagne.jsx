@@ -1036,22 +1036,49 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                         <div className="flex gap-1 mt-2">  
                           <Input className="h-7 text-xs flex-1" placeholder="Effet (ex : Agrandissement)" value={chronoTexte} onChange={(e) => setChronoTexte(e.target.value)} />  
                           <Input className="h-7 text-xs w-16" type="number" min="1" placeholder="Rounds" value={chronoRounds} onChange={(e) => setChronoRounds(e.target.value)} />  
-                          <Button size="sm"
-
-                  <div>
-                    <Label>PV: {selectedCombatant.pvActuels}/{selectedCombatant.type === 'joueur' ? selectedCombatant.pvMax : selectedCombatant.monstreTemplate?.pv}</Label>
-                    <div className="flex gap-2 mt-1 items-center flex-wrap">  
-                      <Button size="sm" onClick={() => updatePV(selectedCombatant, -1)}>-1</Button>  
-                      <Button size="sm" onClick={() => updatePV(selectedCombatant, -5)}>-5</Button>  
-                      <Button size="sm" onClick={() => updatePV(selectedCombatant, 1)}>+1</Button>  
-                      <Button size="sm" onClick={() => updatePV(selectedCombatant, 5)}>+5</Button>  
-                      <Input type="number" min="0" placeholder="Dégâts" className="w-20 h-8" value={degatsInput} onChange={(e) => setDegatsInput(e.target.value)} />  
-                      <Button size="sm" variant="destructive" disabled={!degatsInput} onClick={() => { updatePV(selectedCombatant, -parseInt(degatsInput)); setDegatsInput('') }}>Dégâts</Button>  
-                      <Input type="number" min="0" placeholder="Soins" className="w-20 h-8" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  
-                      <Button size="sm" disabled={!soinInput} onClick={() => { updatePV(selectedCombatant, parseInt(soinInput)); setSoinInput('') }}>Soins</Button>  
+                          <Button size="sm" className="h-7" disabled={!chronoTexte.trim() || !chronoRounds} onClick={() => ajouterChronometre(selectedCombatant)}>+</Button>  
+                        </div>  
+                      </div>  
+  
+                      <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                        <Label className="font-semibold">Conditions</Label>  
+                        {selectedCombatant.conditions?.length > 0 && (() => {  
+                          const rappels = [...new Set(selectedCombatant.conditions.flatMap(c => rappelsConditions[c] || []))]  
+                          return rappels.length > 0 && (  
+                            <div className="mt-2 p-2 rounded bg-blue-50 border border-blue-300">  
+                              <ul className="text-xs text-blue-900 list-disc pl-4 space-y-0.5">  
+                                {rappels.map((r, i) => <li key={i}>{r}</li>)}  
+                              </ul>  
+                            </div>  
+                          )  
+                        })()}  
+                        <div className="flex flex-wrap gap-2 mt-2">  
+                          {conditionsData.map(condition => (  
+                            <label key={condition.nom} className="flex items-center gap-1 text-xs">  
+                              <Checkbox  
+                                checked={selectedCombatant.conditions?.includes(condition.nom) || false}  
+                                onChange={() => toggleCondition(selectedCombatant, condition.nom)}  
+                              />  
+                              <span  
+                                className="cursor-pointer underline decoration-dotted hover:text-primary"  
+                                onClick={(e) => { e.preventDefault(); openConditionDialog(condition) }}  
+                              >  
+                                {condition.nom}  
+                              </span>  
+                            </label>  
+                          ))}  
+                        </div>  
+                      </div>  
                     </div>  
-                  </div>
-
+  
+                  </div>  
+                </div>  
+              ) : (  
+                <div className="p-4 bg-secondary rounded text-center text-muted-foreground">  
+                  Cliquez sur un combattant pour voir sa fiche  
+                </div>  
+              )}  
+            </div>  
                   {selectedCombatant.conditions?.includes('En péril') && parseInt(selectedCombatant.pvActuels) > 0 && (  
                     <div className="p-2 rounded bg-orange-100 border border-orange-400 text-sm font-semibold text-orange-800">  
                       ⚠ EN PÉRIL — PV sous 50 %  
@@ -1190,163 +1217,6 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                     <Label>Vitesse</Label>
                     <p className="text-sm mt-1">{selectedCombatant.type === 'joueur' ? selectedCombatant.vitesse : selectedCombatant.monstreTemplate?.vitesse}</p>
                   </div>
-
-                  <div>
-                    <Label>Caractéristiques</Label>
-                    <div className="grid grid-cols-3 gap-2 mt-2 text-sm">
-                      {Object.entries(selectedCombatant.type === 'joueur' ? selectedCombatant.caracteristiques : selectedCombatant.monstreTemplate?.caracteristiques || {}).map(([key, value]) => {
-                        const bonus = Math.floor((value - 10) / 2)
-                        return (
-                          <div key={key} className="text-center p-2 bg-background rounded">
-                            <div className="font-medium">{key}</div>
-                            <div className="text-lg font-bold">{value}</div>
-                            <div className="text-xs text-muted-foreground">{bonus >= 0 ? `+${bonus}` : bonus}</div>
-                          </div>
-                        )
-                      })}
-                    </div>
-                  </div>
-
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.traits && (
-                    <div>
-                      <Label>Traits</Label>
-                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.traits) }} />
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'joueur' && selectedCombatant.traits && (
-                    <div>
-                      <Label>Traits</Label>
-                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.traits) }} />
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.actions && (
-                    <div>
-                      <Label>Actions</Label>
-                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.actions) }} />
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.actionsLegendaire && (
-                    <div>
-                      <Label>Actions légendaires</Label>
-                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.actionsLegendaire) }} />
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.reactions && (
-                    <div>
-                      <Label>Réactions</Label>
-                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.reactions) }} />
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.sens && (
-                    <div>
-                      <Label>Sens</Label>
-                      <p className="text-sm mt-1">{selectedCombatant.monstreTemplate.sens}</p>
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.langues && (
-                    <div>
-                      <Label>Langues</Label>
-                      <p className="text-sm mt-1">{selectedCombatant.monstreTemplate.langues}</p>
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.competences && (
-                    <div>
-                      <Label>Compétences</Label>
-                      <p className="text-sm mt-1">{selectedCombatant.monstreTemplate.competences}</p>
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'joueur' && selectedCombatant.competences && (
-                    <div>
-                      <Label>Compétences</Label>
-                      <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant.competences}</p>
-                    </div>
-                  )}
-
-                  {selectedCombatant.type === 'joueur' && selectedCombatant.equipement && (  
-                    <div>  
-                      <Label>Équipement</Label>  
-                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.equipement) }} />  
-                    </div>  
-                  )}  
-  
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.equipement && (  
-                    <div>  
-                      <Label>Équipement</Label>  
-                      <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.equipement) }} />  
-                    </div>  
-                  )}  
-                  
-                  {getSlotsSorts(selectedCombatant) && Object.keys(getSlotsSorts(selectedCombatant)).some(k => getSlotsSorts(selectedCombatant)[k] > 0) && (  
-                    <div>  
-                      <Label>Slots de sorts</Label>  
-                      <div className="grid grid-cols-5 gap-2 mt-2">  
-                        {Object.entries(getSlotsSorts(selectedCombatant)).map(([niveau, max]) => max > 0 && (  
-                          <div key={niveau} className="text-center">  
-                            <Label className="text-xs">Niv {niveau}</Label>  
-                            <div className="flex gap-1 justify-center mt-1">  
-                              {Array.from({ length: max }).map((_, i) => (  
-                                <Checkbox  
-                                  key={i}  
-                                  checked={i < (selectedCombatant.slotsUtilises?.[niveau] || 0)}  
-                                  onChange={() => toggleSlot(selectedCombatant, niveau)}  
-                                />  
-                              ))}  
-                            </div>  
-                          </div>  
-                        ))}  
-                      </div>  
-                    </div>  
-                  )}  
-                  
-                  <div>  
-                    <Label>Conditions</Label>  
-                    <div className="flex flex-wrap gap-2 mt-2">  
-                      {conditionsData.map(condition => (  
-                        <label key={condition.nom} className="flex items-center gap-1 text-xs">  
-                          <Checkbox  
-                            checked={selectedCombatant.conditions?.includes(condition.nom) || false}  
-                            onChange={() => toggleCondition(selectedCombatant, condition.nom)}  
-                          />  
-                          <span  
-                            className="cursor-pointer underline decoration-dotted hover:text-primary"  
-                            onClick={(e) => { e.preventDefault(); openConditionDialog(condition) }}  
-                          >  
-                            {condition.nom}  
-                          </span>  
-                        </label>  
-                      ))}  
-                    </div>  
-                  </div>  
-
-                  {selectedCombatant.sortsConnus && selectedCombatant.sortsConnus.length > 0 && (  
-                    <div>  
-                      <Label>Sorts connus</Label>  
-                      {renderSortsParNiveau(selectedCombatant.sortsConnus)}  
-                    </div>  
-                  )}  
-
-                  {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.sortsPrepares && selectedCombatant.monstreTemplate.sortsPrepares.length > 0 && (  
-                    <div>  
-                      <Label>Sorts préparés</Label>  
-                      {renderSortsParNiveau(selectedCombatant.monstreTemplate.sortsPrepares)}  
-                    </div>  
-                  )}  
-                </div>
-              ) : (
-                <div className="p-4 bg-secondary rounded text-center text-muted-foreground">
-                  Cliquez sur un combattant pour voir sa fiche
-                </div>
-              )}
-            </div>
-          </main>
 
           <Dialog open={sortDialogOpen} onOpenChange={setSortDialogOpen}>
             <DialogHeader>
