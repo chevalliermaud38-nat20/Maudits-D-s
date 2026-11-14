@@ -687,13 +687,13 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                 <div className="flex gap-1 items-center">  
                   <Input type="number" min="0" placeholder="Dégâts" className="h-8 text-xs" value={degatsMulti} onChange={(e) => setDegatsMulti(e.target.value)} />  
                   <Button size="sm" variant="destructive" disabled={selectedIds.length === 0 || !degatsMulti} onClick={() => { applyPVMultiple(-parseInt(degatsMulti)); setDegatsMulti('') }}>  
-                    Dégâts aux sélectionnés  
+                    Dégâts groupés  
                   </Button>  
                 </div>  
                 <div className="flex gap-1 items-center">  
                   <Input type="number" min="0" placeholder="Soins" className="h-8 text-xs" value={soinMulti} onChange={(e) => setSoinMulti(e.target.value)} />  
                   <Button size="sm" disabled={selectedIds.length === 0 || !soinMulti} onClick={() => { applyPVMultiple(parseInt(soinMulti)); setSoinMulti('') }}>  
-                    Soins aux sélectionnés  
+                    Soins groupés  
                   </Button>  
                 </div>  
                 {selectedIds.length > 0 && (  
@@ -844,7 +844,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                                 <span className="font-bold">JS Constitution DD {selectedCombatant?.concentrationDD}</span>  
                                 <div className="flex gap-2 mt-1">  
                                   <Button size="sm" variant="outline" className="h-6 text-xs" onClick={() => updateCombatant(selectedCombatant, { concentrationDD: null })}>Réussite</Button>  
-                                  <Button size="sm" variant="destructive" className="h-6 text-xs" onClick={() => perdreConcentration(selectedCombatant)}>Échec — concentration perdue</Button>  
+                                  <Button size="sm" variant="destructive" className="h-6 text-xs" onClick={() => perdreConcentration(selectedCombatant)}>Échec</Button>  
                                 </div>  
                               </div>  
                             )}  
@@ -900,6 +900,30 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                           </div>  
                         </div>  
                       )}  
+                      {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.sens && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Sens</Label>  
+                          <p className="text-sm mt-1">{selectedCombatant?.monstreTemplate.sens}</p>  
+                        </div>  
+                      )}  
+                      {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.langues && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Langues</Label>  
+                          <p className="text-sm mt-1">{selectedCombatant?.monstreTemplate.langues}</p>  
+                        </div>  
+                      )}  
+                     {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.traits && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Traits</Label>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant?.monstreTemplate.traits) }} />  
+                        </div>  
+                      )}  
+                      {selectedCombatant?.type === 'joueur' && selectedCombatant?.traits && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Traits</Label>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant?.traits) }} />  
+                        </div>  
+                      )}  
                     </div>  
   
                     {/* ===== COLONNE 2 ===== */}  
@@ -918,19 +942,6 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                           })}  
                         </div>  
                       </div>  
-  
-                      {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.traits && (  
-                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
-                          <Label className="font-semibold">Traits</Label>  
-                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant?.monstreTemplate.traits) }} />  
-                        </div>  
-                      )}  
-                      {selectedCombatant?.type === 'joueur' && selectedCombatant?.traits && (  
-                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
-                          <Label className="font-semibold">Traits</Label>  
-                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant?.traits) }} />  
-                        </div>  
-                      )}  
                       {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.actions && (  
                         <div className="bg-card border rounded-lg p-3 shadow-sm">  
                           <Label className="font-semibold">Actions</Label>  
@@ -947,18 +958,6 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                         <div className="bg-card border rounded-lg p-3 shadow-sm">  
                           <Label className="font-semibold">Réactions</Label>  
                           <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant?.monstreTemplate.reactions) }} />  
-                        </div>  
-                      )}  
-                      {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.sens && (  
-                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
-                          <Label className="font-semibold">Sens</Label>  
-                          <p className="text-sm mt-1">{selectedCombatant?.monstreTemplate.sens}</p>  
-                        </div>  
-                      )}  
-                      {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.langues && (  
-                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
-                          <Label className="font-semibold">Langues</Label>  
-                          <p className="text-sm mt-1">{selectedCombatant?.monstreTemplate.langues}</p>  
                         </div>  
                       )}  
                       {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.competences && (  
