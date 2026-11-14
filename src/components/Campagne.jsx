@@ -780,20 +780,297 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
             <div className="flex-1 p-4 overflow-y-auto">
               <h3 className="font-semibold mb-2">Fiche du combattant</h3>
               {selectedCombatant ? (
-                <div className="space-y-3 p-4 bg-secondary rounded max-h-[70vh] overflow-y-auto">
-                  <div>
-                    <h4 className="font-bold text-lg">
-                      {selectedCombatant.type === 'joueur' ? selectedCombatant.nom : `${selectedCombatant.nomMonstre}`}
-                    </h4>
-                    {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate && (
-                      <div className="text-sm text-muted-foreground mt-1">
-                        CA: {selectedCombatant.monstreTemplate.ca} | FD: {selectedCombatant.monstreTemplate.fd} | {selectedCombatant.monstreTemplate.type}
-                      </div>
-                    )}
-                    {selectedCombatant.type === 'joueur' && (
-                      <div className="text-sm text-muted-foreground mt-1">
-                        CA: {selectedCombatant.ca} | {selectedCombatant.classe} {selectedCombatant.niveau}
-                      </div>
+                <div className="p-4 bg-secondary rounded max-h-[75vh] overflow-y-auto">  
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">  
+  
+                    {/* ===== COLONNE 1 ===== */}  
+                    <div className="space-y-3">  
+                      <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                        <h4 className="font-bold text-lg">  
+                          {selectedCombatant.type === 'joueur' ? selectedCombatant.nom : selectedCombatant.nomMonstre}  
+                        </h4>  
+                        <div className="text-sm text-muted-foreground">  
+                          {selectedCombatant.type === 'joueur'  
+                            ? `${selectedCombatant.classe} — Niv ${selectedCombatant.niveau}`  
+                            : `${selectedCombatant.monstreTemplate?.type || ''} — FD ${selectedCombatant.monstreTemplate?.fd ?? ''}`}  
+                        </div>  
+                        <div className="flex gap-4 mt-2 text-sm font-medium">  
+                          <span>🛡️ CA {selectedCombatant.type === 'joueur' ? selectedCombatant.ca : selectedCombatant.monstreTemplate?.ca}</span>  
+                          <span>👢 {selectedCombatant.type === 'joueur' ? selectedCombatant.vitesse : selectedCombatant.monstreTemplate?.vitesse}</span>  
+                        </div>  
+                      </div>  
+  
+                      {selectedCombatant.conditions?.includes('En péril') && parseInt(selectedCombatant.pvActuels) > 0 && (  
+                        <div className="p-2 rounded-lg bg-orange-100 border border-orange-400 text-sm font-semibold text-orange-800">  
+                          ⚠ EN PÉRIL — PV sous 50 %  
+                        </div>  
+                      )}  
+  
+                      <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                        <Label className="font-semibold">PV : {selectedCombatant.pvActuels}/{selectedCombatant.type === 'joueur' ? selectedCombatant.pvMax : selectedCombatant.monstreTemplate?.pv}</Label>  
+                        <div className="flex gap-2 mt-2 flex-wrap">  
+                          <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => updatePV(selectedCombatant, -1)}>-1</Button>  
+                          <Button size="sm" className="bg-orange-500 hover:bg-orange-600 text-white" onClick={() => updatePV(selectedCombatant, -5)}>-5</Button>  
+                          <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white" onClick={() => updatePV(selectedCombatant, 1)}>+1</Button>  
+                          <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white" onClick={() => updatePV(selectedCombatant, 5)}>+5</Button>  
+                        </div>  
+                        <div className="flex gap-2 mt-2 items-center flex-wrap">  
+                          <Input type="number" min="0" placeholder="Dégâts" className="w-20 h-8" value={degatsInput} onChange={(e) => setDegatsInput(e.target.value)} />  
+                          <Button size="sm" variant="destructive" disabled={!degatsInput} onClick={() => { updatePV(selectedCombatant, -parseInt(degatsInput)); setDegatsInput('') }}>Dégâts</Button>  
+                          <Input type="number" min="0" placeholder="Soins" className="w-20 h-8" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  
+                          <Button size="sm" disabled={!soinInput} onClick={() => { updatePV(selectedCombatant, parseInt(soinInput)); setSoinInput('') }}>Soins</Button>  
+                        </div>  
+                      </div>  
+  
+                      <div className="p-3 rounded-lg bg-purple-50 border border-purple-300">  
+                        <div className="flex items-center gap-2">  
+                          <Checkbox  
+                            checked={selectedCombatant.concentration?.active || false}  
+                            onChange={(e) => updateCombatant(selectedCombatant, { concentration: { active: e.target.checked, sort: e.target.checked ? selectedCombatant.concentration?.sort || '' : '' }, concentrationDD: null })}  
+                          />  
+                          <Label className="text-sm font-semibold text-purple-800">Concentration</Label>  
+                        </div>  
+                        {selectedCombatant.concentration?.active && (  
+                          <Input  
+                            className="mt-2 h-7 text-xs"  
+                            placeholder="Sort concentré (ex : Hâte)"  
+                            value={selectedCombatant.concentration?.sort || ''}  
+                            onChange={(e) => updateCombatant(selectedCombatant, { concentration: { ...selectedCombatant.concentration, sort: e.target.value } })}  
+                          />  
+                        )}  
+                        {selectedCombatant.concentration?.active && (  
+                          <div className="text-xs text-purple-700 mt-1">  
+                            Dégâts reçus → JS Constitution DD 10 ou moitié des dégâts (le plus élevé, max 30). Un jet par source.  
+                          </div>  
+                        )}  
+                        {selectedCombatant.concentration?.active && selectedCombatant.concentrationDD && (  
+                          <div className="mt-1 text-xs font-bold text-purple-900">  
+                            JS Constitution DD {selectedCombatant.concentrationDD}  
+                            <button className="ml-2 underline" onClick={() => updateCombatant(selectedCombatant, { concentrationDD: null })}>Réussite</button>  
+                            <button className="ml-2 underline" onClick={() => perdreConcentration(selectedCombatant)}>Échec : perdre</button>  
+                          </div>  
+                        )}  
+                      </div>  
+  
+                      {selectedCombatant.type === 'joueur' && (  
+                        <div className="p-3 rounded-lg bg-amber-50 border border-amber-300">  
+                          <div className="flex items-center gap-2">  
+                            <Label className="text-sm font-semibold">Fatigue : {selectedCombatant.fatigue || 0}/6</Label>  
+                            <Button size="sm" variant="outline" onClick={() => setFatigue(selectedCombatant, (selectedCombatant.fatigue || 0) - 1)}>-</Button>  
+                            <Button size="sm" variant="outline" onClick={() => setFatigue(selectedCombatant, (selectedCombatant.fatigue || 0) + 1)}>+</Button>  
+                          </div>  
+                          <div className="text-xs text-amber-700 mt-1">  
+                            Chaque niveau : −2 aux tests de d20 et −1,50 m de Vitesse. Niveau 6 = mort. Repos long : −1 niveau.  
+                          </div>  
+                          {(selectedCombatant.fatigue || 0) > 0 && (  
+                            <div className="text-xs mt-1 font-semibold text-amber-800">  
+                              Pénalités actuelles : −{(selectedCombatant.fatigue || 0) * 2} aux d20 · −{(selectedCombatant.fatigue || 0) * 1.5} m Vitesse  
+                              {(selectedCombatant.fatigue || 0) >= 6 && <span className="text-red-700"> — MORT</span>}  
+                            </div>  
+                          )}  
+                        </div>  
+                      )}  
+  
+                      {selectedCombatant.type === 'joueur' && parseInt(selectedCombatant.pvActuels) <= 0 && (  
+                        <div className="p-3 rounded-lg bg-red-100 border-2 border-red-500">  
+                          <div className="font-bold text-red-800 text-sm">INCONSCIENT – JETS CONTRE LA MORT</div>  
+                          <div className="text-xs text-red-700 mt-1">  
+                            1d20 au début de chaque tour : 1 = 2 échecs · 2-9 = 1 échec · 10-19 = 1 réussite · 20 = récupère 1 PV. Dégâts à 0 PV = +1 échec (+2 si critique).  
+                          </div>  
+                          {(selectedCombatant.deathSaves?.failures || 0) >= 3 && <div className="mt-1 font-bold text-red-900">MORT</div>}  
+                          {(selectedCombatant.deathSaves?.successes || 0) >= 3 && (selectedCombatant.deathSaves?.failures || 0) < 3 && <div className="mt-1 font-bold text-green-700">STABLE</div>}  
+                          <div className="flex gap-4 mt-2">  
+                            <div>  
+                              <Label className="text-xs text-green-600">Succès ({selectedCombatant.deathSaves?.successes || 0}/3)</Label>  
+                              <div className="flex gap-1 mt-1">  
+                                {[0, 1, 2].map(i => (  
+                                  <Checkbox key={i} checked={i < (selectedCombatant.deathSaves?.successes || 0)} onChange={() => toggleDeathSave(selectedCombatant, 'success')} />  
+                                ))}  
+                              </div>  
+                            </div>  
+                            <div>  
+                              <Label className="text-xs text-red-600">Échecs ({selectedCombatant.deathSaves?.failures || 0}/3)</Label>  
+                              <div className="flex gap-1 mt-1">  
+                                {[0, 1, 2].map(i => (  
+                                  <Checkbox key={i} checked={i < (selectedCombatant.deathSaves?.failures || 0)} onChange={() => toggleDeathSave(selectedCombatant, 'failure')} />  
+                                ))}  
+                              </div>  
+                            </div>  
+                          </div>  
+                        </div>  
+                      )}  
+                    </div>  
+  
+                    {/* ===== COLONNE 2 ===== */}  
+                    <div className="space-y-3">  
+                      <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                        <Label className="font-semibold">Caractéristiques</Label>  
+                        <div className="grid grid-cols-3 gap-2 mt-2 text-sm">  
+                          {Object.entries(selectedCombatant.type === 'joueur' ? selectedCombatant.caracteristiques : selectedCombatant.monstreTemplate?.caracteristiques || {}).map(([key, value]) => {  
+                            const bonus = Math.floor((value - 10) / 2)  
+                            return (  
+                              <div key={key} className="text-center p-2 bg-background rounded">  
+                                <div className="font-medium text-xs">{key}</div>  
+                                <div className="font-bold">{value} <span className="text-xs text-muted-foreground">({bonus >= 0 ? `+${bonus}` : bonus})</span></div>  
+                              </div>  
+                            )  
+                          })}  
+                        </div>  
+                      </div>  
+  
+                      {(selectedCombatant.type === 'joueur' ? selectedCombatant.jetsSauvegarde : selectedCombatant.monstreTemplate?.jetsSauvegarde) && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Jets de sauvegarde</Label>  
+                          <p className="text-sm mt-1">{selectedCombatant.type === 'joueur' ? selectedCombatant.jetsSauvegarde : selectedCombatant.monstreTemplate?.jetsSauvegarde}</p>  
+                        </div>  
+                      )}  
+  
+                      {(selectedCombatant.type === 'joueur' ? selectedCombatant.traits : selectedCombatant.monstreTemplate?.traits) && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Traits</Label>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.type === 'joueur' ? selectedCombatant.traits : selectedCombatant.monstreTemplate.traits) }} />  
+                        </div>  
+                      )}  
+  
+                      {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.actions && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Actions</Label>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.actions) }} />  
+                        </div>  
+                      )}  
+  
+                      {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.actionsLegendaire && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Actions légendaires</Label>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.actionsLegendaire) }} />  
+                        </div>  
+                      )}  
+  
+                      {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.reactions && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Réactions</Label>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.monstreTemplate.reactions) }} />  
+                        </div>  
+                      )}  
+  
+                      {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.sens && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Sens</Label>  
+                          <p className="text-sm mt-1">{selectedCombatant.monstreTemplate.sens}</p>  
+                        </div>  
+                      )}  
+  
+                      {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.langues && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Langues</Label>  
+                          <p className="text-sm mt-1">{selectedCombatant.monstreTemplate.langues}</p>  
+                        </div>  
+                      )}  
+  
+                      {(selectedCombatant.type === 'joueur' ? selectedCombatant.competences : selectedCombatant.monstreTemplate?.competences) && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Compétences</Label>  
+                          <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant.type === 'joueur' ? selectedCombatant.competences : selectedCombatant.monstreTemplate.competences}</p>  
+                        </div>  
+                      )}  
+  
+                      {(selectedCombatant.type === 'joueur' ? selectedCombatant.equipement : selectedCombatant.monstreTemplate?.equipement) && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Équipement</Label>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant.type === 'joueur' ? selectedCombatant.equipement : selectedCombatant.monstreTemplate.equipement) }} />  
+                        </div>  
+                      )}  
+  
+                      {selectedCombatant.sortsConnus && selectedCombatant.sortsConnus.length > 0 && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Sorts connus</Label>  
+                          {renderSortsParNiveau(selectedCombatant.sortsConnus)}  
+                        </div>  
+                      )}  
+  
+                      {selectedCombatant.type === 'monstre' && selectedCombatant.monstreTemplate?.sortsPrepares && selectedCombatant.monstreTemplate.sortsPrepares.length > 0 && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Sorts préparés</Label>  
+                          {renderSortsParNiveau(selectedCombatant.monstreTemplate.sortsPrepares)}  
+                        </div>  
+                      )}  
+                    </div>  
+  
+                    {/* ===== COLONNE 3 ===== */}  
+                    <div className="space-y-3">  
+                      {getSlotsSorts(selectedCombatant) && Object.keys(getSlotsSorts(selectedCombatant)).some(k => getSlotsSorts(selectedCombatant)[k] > 0) && (  
+                        <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                          <Label className="font-semibold">Slots de sorts</Label>  
+                          <div className="grid grid-cols-3 gap-2 mt-2">  
+                            {Object.entries(getSlotsSorts(selectedCombatant)).map(([niveau, max]) => max > 0 && (  
+                              <div key={niveau} className="text-center">  
+                                <Label className="text-xs">Niv {niveau}</Label>  
+                                <div className="flex gap-1 justify-center mt-1 flex-wrap">  
+                                  {Array.from({ length: max }).map((_, i) => (  
+                                    <Checkbox key={i} checked={i < (selectedCombatant.slotsUtilises?.[niveau] || 0)} onChange={() => toggleSlot(selectedCombatant, niveau)} />  
+                                  ))}  
+                                </div>  
+                              </div>  
+                            ))}  
+                          </div>  
+                        </div>  
+                      )}  
+  
+                      <div className="p-3 rounded-lg bg-teal-50 border border-teal-300">  
+                        <Label className="text-sm font-semibold text-teal-800">Chronomètres</Label>  
+                        {selectedCombatant.chronometres?.length > 0 && (  
+                          <div className="mt-1 space-y-1">  
+                            {selectedCombatant.chronometres.map(ch => (  
+                              <div key={ch.id} className="flex items-center justify-between text-xs bg-background rounded px-2 py-1">  
+                                <span>{ch.texte}</span>  
+                                <span className="flex items-center gap-2">  
+                                  <span className="font-bold text-teal-800">{ch.rounds} round{ch.rounds > 1 ? 's' : ''}</span>  
+                                  <button className="text-red-600 hover:text-red-800" onClick={() => supprimerChronometre(selectedCombatant, ch.id)}>✕</button>  
+                                </span>  
+                              </div>  
+                            ))}  
+                          </div>  
+                        )}  
+                        <div className="flex gap-1 mt-2">  
+                          <Input className="h-7 text-xs flex-1" placeholder="Effet (ex : Agrandissement)" value={chronoTexte} onChange={(e) => setChronoTexte(e.target.value)} />  
+                          <Input className="h-7 text-xs w-16" type="number" min="1" placeholder="Rounds" value={chronoRounds} onChange={(e) => setChronoRounds(e.target.value)} />  
+                          <Button size="sm" className="h-7" disabled={!chronoTexte.trim() || !chronoRounds} onClick={() => ajouterChronometre(selectedCombatant)}>+</Button>  
+                        </div>  
+                      </div>  
+  
+                      <div className="bg-card border rounded-lg p-3 shadow-sm">  
+                        <Label className="font-semibold">Conditions</Label>  
+                        {selectedCombatant.conditions?.length > 0 && (() => {  
+                          const rappels = [...new Set(selectedCombatant.conditions.flatMap(c => rappelsConditions[c] || []))]  
+                          return rappels.length > 0 && (  
+                            <div className="mt-2 p-2 rounded bg-blue-50 border border-blue-300">  
+                              <ul className="text-xs text-blue-900 list-disc pl-4 space-y-0.5">  
+                                {rappels.map((r, i) => <li key={i}>{r}</li>)}  
+                              </ul>  
+                            </div>  
+                          )  
+                        })()}  
+                        <div className="flex flex-wrap gap-2 mt-2">  
+                          {conditionsData.map(condition => (  
+                            <label key={condition.nom} className="flex items-center gap-1 text-xs">  
+                              <Checkbox  
+                                checked={selectedCombatant.conditions?.includes(condition.nom) || false}  
+                                onChange={() => toggleCondition(selectedCombatant, condition.nom)}  
+                              />  
+                              <span  
+                                className="cursor-pointer underline decoration-dotted hover:text-primary"  
+                                onClick={(e) => { e.preventDefault(); openConditionDialog(condition) }}  
+                              >  
+                                {condition.nom}  
+                              </span>  
+                            </label>  
+                          ))}  
+                        </div>  
+                      </div>  
+                    </div>  
+  
+                  </div>  
+                </div>  
                     )}
                   </div>
 
