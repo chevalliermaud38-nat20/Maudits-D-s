@@ -117,7 +117,7 @@
       ],
       "concentration": false,
       "rituel": false,
-      "descriptif": "Tente de rendre une créature humanoïde plus amicale envers l’incantateur.",
+      "descriptif": "Un Humanoïde que vous pouvez voir à portée effectue un jet de sauvegarde de Sagesse. Il le fait avec un Avantage si vous ou vos alliés le combattez. En cas d'échec, la cible subit l'état Charmé jusqu'à la fin du sort ou jusqu'à ce que vous ou vos alliés lui infligiez des dégâts. La créature charmée est amicale envers vous. À la fin du sort, la cible sait que vous l'avez charmée.\n***Emplacement de niveau supérieur.*** Vous pouvez cibler une créature supplémentaire pour chaque niveau d'emplacement de sort supérieur à 1.",
       "classes": "Barde, Druide, Ensorceleur, Occultiste, Magicien"
     },
     {
@@ -326,20 +326,20 @@
     },
     {
       "id": "sort-0005",
-      "nom": "Main de mage",
-      "ecole": "Invocation",
-      "niveau": "0",
+      "nom": "Charme-personne",
+      "ecole": "Enchantement",
+      "niveau": "1",
       "tempsIncantation": "action",
       "portee": "9 m",
-      "duree": "1 minute",
+      "duree": "1 heure",
       "composantes": [
         "V",
         "S"
       ],
       "concentration": false,
       "rituel": false,
-      "descriptif": "Invoque une main spectrale invisible ou spectrale qui peut manipuler des objets, ouvrir des portes ou porter jusqu'à 5 kg.",
-      "classes": "Barde, Ensorceleur, Occultiste, Magicien"
+      "descriptif": "Un Humanoïde que vous pouvez voir à portée effectue un jet de sauvegarde de Sagesse. Il le fait avec un Avantage si vous ou vos alliés le combattez. En cas d'échec, la cible subit l'état Charmé jusqu'à la fin du sort ou jusqu'à ce que vous ou vos alliés lui infligiez des dégâts. La créature charmée est amicale envers vous. À la fin du sort, la cible sait que vous l'avez charmée.\n***Emplacement de niveau supérieur.*** Vous pouvez cibler une créature supplémentaire pour chaque niveau d'emplacement de sort supérieur à 1.",
+      "classes": "Barde, Druide, Ensorceleur, Occultiste, Magicien"
     },
     {
       "id": "sort-0006",
