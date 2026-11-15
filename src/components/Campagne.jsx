@@ -261,9 +261,13 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
   const updatePV = (combatant, delta) => {  
     const pvMax = parseInt(combatant.type === 'joueur' ? combatant.pvMax : combatant.monstreTemplate?.pv) || 0  
     const anciensPV = parseInt(combatant.pvActuels) || 0  
-    const nouveauxPV = Math.max(0, anciensPV + delta)  
-    const changes = { pvActuels: nouveauxPV }  
-  
+    const nouveauxPV = Math.max(0, anciensPV + delta)
+    const fatigueBonus = (combatant.type === 'joueur' && anciensPV === 0 && nouveauxPV > 0) ? 1 : 0  
+    const changes = {   
+      pvActuels: nouveauxPV,  
+      fatigue: (combatant.fatigue || 0) + fatigueBonus  
+    }  
+    
     // En péril : coché automatiquement sous 50 % des PV max  
     const conditions = combatant.conditions || []  
     const enPeril = pvMax > 0 && nouveauxPV < pvMax / 2  
@@ -271,6 +275,11 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
       changes.conditions = [...conditions, 'En péril']  
     } else if (!enPeril && conditions.includes('En péril')) {  
       changes.conditions = conditions.filter(c => c !== 'En péril')  
+    }  
+    
+  // +1 fatigue si le joueur était à 0 PV et est soigné  
+      if (fatigueBonus > 0 && !(combatant.conditions || []).includes('Épuisement')) {  
+      changes.conditions = [...(changes.conditions || combatant.conditions || []), 'Épuisement']  
     }  
   
     if (delta < 0) {  
@@ -815,13 +824,42 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                           <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white" onClick={() => updatePV(selectedCombatant, 5)}>+5</Button>  
                         </div>  
                         <div className="flex gap-2 mt-2 items-center flex-wrap">  
-                          <Input type="number" min="0" placeholder="Dégâts" className="w-20 h-8" value={degatsInput} onChange={(e) => setDegatsInput(e.target.value)} />  
+                          <Input type="number" min="0" className="w-14 h-8 px-1" value={degatsInput} onChange={(e) => setDegatsInput(e.target.value)} />    
                           <Button size="sm" variant="destructive" disabled={!degatsInput} onClick={() => { updatePV(selectedCombatant, -parseInt(degatsInput)); setDegatsInput('') }}>Dégâts</Button>  
-                          <Input type="number" min="0" placeholder="Soins" className="w-20 h-8" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  
+                          <Input type="number" min="0" className="w-14 h-8 px-1" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  >  
                           <Button size="sm" disabled={!soinInput} onClick={() => { updatePV(selectedCombatant, parseInt(soinInput)); setSoinInput('') }}>Soins</Button>  
                         </div>  
                       </div>  
-  
+                      
+                        {selectedCombatant?.type === 'joueur' && parseInt(selectedCombatant?.pvActuels) <= 0 && (  
+                        <div className="p-2 rounded-lg bg-red-100 border-2 border-red-500">  
+                          <div className="font-bold text-red-800 text-sm">INCONSCIENT – Jets contre la mort</div>  
+                          <div className="text-xs text-red-700 mt-1">  
+                            1d20 au début de chaque tour : 1 = 2 échecs · 20 = récupère 1 PV. Dégâts à 0 PV = +1 échec (+2 si critique).  
+                          </div>  
+                          {(selectedCombatant?.deathSaves?.failures || 0) >= 3 && <div className="mt-1 font-bold text-red-900">MORT</div>}  
+                          {(selectedCombatant?.deathSaves?.successes || 0) >= 3 && (selectedCombatant?.deathSaves?.failures || 0) < 3 && <div className="mt-1 font-bold text-green-700">STABLE</div>}  
+                          <div className="flex gap-4 mt-2">  
+                            <div>  
+                              <Label className="text-xs text-green-600">Succès ({selectedCombatant?.deathSaves?.successes || 0}/3)</Label>  
+                              <div className="flex gap-1 mt-1">  
+                                {[0, 1, 2].map(i => (  
+                                  <Checkbox key={i} checked={i < (selectedCombatant?.deathSaves?.successes || 0)} onChange={() => toggleDeathSave(selectedCombatant, 'success')} />  
+                                ))}  
+                              </div>  
+                            </div>  
+                            <div>  
+                              <Label className="text-xs text-red-600">Échecs ({selectedCombatant?.deathSaves?.failures || 0}/3)</Label>  
+                              <div className="flex gap-1 mt-1">  
+                                {[0, 1, 2].map(i => (  
+                                  <Checkbox key={i} checked={i < (selectedCombatant?.deathSaves?.failures || 0)} onChange={() => toggleDeathSave(selectedCombatant, 'failure')} />  
+                                ))}  
+                              </div>  
+                            </div>  
+                          </div>  
+                        </div>  
+                      )}  
+                      
                       <div className="p-2 rounded-lg bg-purple-50 border border-purple-300">  
                         <label className="flex items-center gap-2 text-sm font-semibold text-purple-800">  
                           <Checkbox  
@@ -862,42 +900,12 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                               <Button size="sm" variant="outline" className="h-6 w-6 p-0" onClick={() => setFatigue(selectedCombatant, (selectedCombatant?.fatigue || 0) + 1)}>+</Button>  
                             </div>  
                           </div>  
-                          <p className="text-xs text-amber-700 mt-1">−2 aux tests de d20 et −1,50 m de Vitesse par niveau. Mort au niveau 6. Repos long : −1 niveau.</p>  
                           {(selectedCombatant?.fatigue || 0) > 0 && (  
                             <div className="text-xs mt-1 font-semibold text-amber-800">  
                               Pénalités actuelles : −{(selectedCombatant?.fatigue || 0) * 2} aux d20 · −{(selectedCombatant?.fatigue || 0) * 1.5} m Vitesse  
                               {(selectedCombatant?.fatigue || 0) >= 6 && <span className="text-red-700"> — MORT</span>}  
                             </div>  
                           )}  
-                        </div>  
-                      )}  
-  
-                      {selectedCombatant?.type === 'joueur' && parseInt(selectedCombatant?.pvActuels) <= 0 && (  
-                        <div className="p-2 rounded-lg bg-red-100 border-2 border-red-500">  
-                          <div className="font-bold text-red-800 text-sm">INCONSCIENT – JETS CONTRE LA MORT</div>  
-                          <div className="text-xs text-red-700 mt-1">  
-                            1d20 au début de chaque tour : 1 = 2 échecs · 2-9 = 1 échec · 10-19 = 1 réussite · 20 = récupère 1 PV. Dégâts à 0 PV = +1 échec (+2 si critique).  
-                          </div>  
-                          {(selectedCombatant?.deathSaves?.failures || 0) >= 3 && <div className="mt-1 font-bold text-red-900">MORT</div>}  
-                          {(selectedCombatant?.deathSaves?.successes || 0) >= 3 && (selectedCombatant?.deathSaves?.failures || 0) < 3 && <div className="mt-1 font-bold text-green-700">STABLE</div>}  
-                          <div className="flex gap-4 mt-2">  
-                            <div>  
-                              <Label className="text-xs text-green-600">Succès ({selectedCombatant?.deathSaves?.successes || 0}/3)</Label>  
-                              <div className="flex gap-1 mt-1">  
-                                {[0, 1, 2].map(i => (  
-                                  <Checkbox key={i} checked={i < (selectedCombatant?.deathSaves?.successes || 0)} onChange={() => toggleDeathSave(selectedCombatant, 'success')} />  
-                                ))}  
-                              </div>  
-                            </div>  
-                            <div>  
-                              <Label className="text-xs text-red-600">Échecs ({selectedCombatant?.deathSaves?.failures || 0}/3)</Label>  
-                              <div className="flex gap-1 mt-1">  
-                                {[0, 1, 2].map(i => (  
-                                  <Checkbox key={i} checked={i < (selectedCombatant?.deathSaves?.failures || 0)} onChange={() => toggleDeathSave(selectedCombatant, 'failure')} />  
-                                ))}  
-                              </div>  
-                            </div>  
-                          </div>  
                         </div>  
                       )}  
                       {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.sens && (  
@@ -969,7 +977,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       {selectedCombatant?.type === 'joueur' && selectedCombatant?.competences && (  
                         <div className="bg-card border rounded-lg p-3 shadow-sm">  
                           <Label className="font-semibold">Compétences</Label>  
-                          <p className="text-sm mt-1 whitespace-pre-wrap">{selectedCombatant?.competences}</p>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant?.competences) }} />    
                         </div>  
                       )}  
                       {selectedCombatant?.type === 'joueur' && selectedCombatant?.equipement && (  
@@ -1003,7 +1011,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       {getSlotsSorts(selectedCombatant) && Object.keys(getSlotsSorts(selectedCombatant)).some(k => getSlotsSorts(selectedCombatant)[k] > 0) && (  
                         <div className="bg-card border rounded-lg p-3 shadow-sm">  
                           <Label className="font-semibold">Slots de sorts</Label>  
-                          <div className="grid grid-cols-5 gap-2 mt-2">  
+                          <div className="grid grid-cols-4 gap-2 mt-2">  
                             {Object.entries(getSlotsSorts(selectedCombatant)).map(([niveau, max]) => max > 0 && (  
                               <div key={niveau} className="text-center">  
                                 <Label className="text-xs">Niv {niveau}</Label>  
