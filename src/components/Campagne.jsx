@@ -870,6 +870,14 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                           ⚠ EN PÉRIL — PV sous 50 %  
                         </div>  
                       )}  
+                      
+                      {(() => {  
+                        const pvMaxFiche = parseInt(selectedCombatant.type === 'joueur' ? selectedCombatant.pvMax : selectedCombatant.monstreTemplate?.pv) || 1  
+                        const pvActFiche = parseInt(selectedCombatant.pvActuels) || 0  
+                        const pvPctFiche = Math.min(100, Math.max(0, (pvActFiche / pvMaxFiche) * 100))  
+                        const pvBarColorFiche = pvPctFiche > 66 ? 'bg-green-500' : pvPctFiche > 33 ? 'bg-orange-500' : 'bg-red-500'  
+                        return null  
+                      })()}  
   
                       <div className="bg-card border rounded-lg p-3 shadow-sm">  
                         <Label className="font-semibold">PV : {selectedCombatant?.pvActuels}/{selectedCombatant?.type === 'joueur' ? selectedCombatant?.pvMax : selectedCombatant?.monstreTemplate?.pv}</Label>  
@@ -880,9 +888,9 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                           <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white" onClick={() => updatePV(selectedCombatant, 5)}>+5</Button>  
                         </div>  
                         <div className="flex gap-2 mt-2 items-center flex-wrap">  
-                          <Input type="number" min="0" className="w-14 h-8 px-1" value={degatsInput} onChange={(e) => setDegatsInput(e.target.value)} />    
+                          <Input type="number" min="0" className="w-11 h-8 px-1" value={degatsInput} onChange={(e) => setDegatsInput(e.target.value)} />      
                           <Button size="sm" variant="destructive" disabled={!degatsInput} onClick={() => { updatePV(selectedCombatant, -parseInt(degatsInput)); setDegatsInput('') }}>Dégâts</Button>  
-                          <Input type="number" min="0" className="w-14 h-8 px-1" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  
+                          <Input type="number" min="0" className="w-11 h-8 px-1" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  
                           <Button size="sm" disabled={!soinInput} onClick={() => { updatePV(selectedCombatant, parseInt(soinInput)); setSoinInput('') }}>Soins</Button>  
                         </div>  
                       </div>  
