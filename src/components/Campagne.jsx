@@ -268,14 +268,27 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
       fatigue: (combatant.fatigue || 0) + fatigueBonus  
     }  
     
-    // En péril : coché automatiquement sous 50 % des PV max  
-    const conditions = combatant.conditions || []  
-    const enPeril = pvMax > 0 && nouveauxPV < pvMax / 2  
-    if (enPeril && !conditions.includes('En péril')) {  
-      changes.conditions = [...conditions, 'En péril']  
-    } else if (!enPeril && conditions.includes('En péril')) {  
-      changes.conditions = conditions.filter(c => c !== 'En péril')  
+    // En péril : coché automatiquement à 50 % ou moins des PV max    
+    const conditions = combatant.conditions || []    
+    let newConditions = [...conditions]  
+    const enPeril = pvMax > 0 && nouveauxPV <= pvMax / 2    
+    if (enPeril && !newConditions.includes('En péril')) {    
+      newConditions.push('En péril')  
+    } else if (!enPeril && newConditions.includes('En péril')) {    
+      newConditions = newConditions.filter(c => c !== 'En péril')    
     }  
+  
+    // Inconscient : coché automatiquement à 0 PV, décoché (avec Incapacité) dès qu'on remonte  
+    if (combatant.type === 'joueur') {  
+      if (nouveauxPV === 0 && !newConditions.includes('Inconscient')) {  
+        newConditions.push('Inconscient')  
+      }  
+      if (anciensPV === 0 && nouveauxPV > 0) {  
+        newConditions = newConditions.filter(c => c !== 'Inconscient' && c !== 'Incapacité')  
+      }  
+    }  
+    newConditions = appliquerCascadeConditions(newConditions)  
+    changes.conditions = newConditions  
     
   // +1 fatigue si le joueur était à 0 PV et est soigné  
       if (fatigueBonus > 0 && !(combatant.conditions || []).includes('Épuisement')) {  
@@ -462,13 +475,36 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     { nom: 'Étourdi', consequences: "Incapacité — échec automatique aux JS Force et Dextérité — attaques contre lui avec Avantage", sortir: "Durée de l'effet — JS ou soin si prévu" },  
     { nom: 'Inconscient', consequences: "Incapacité et à terre — vitesse à 0 — lâche ce qu'il tient — échec automatique aux JS Force et Dextérité — attaques contre lui avec Avantage — coups critiques automatiques à 1,50 m", sortir: "Récupérer des PV — aide médicale ou effet qui réveille — durée prévue par la source" },  
     { nom: 'Concentration', consequences: "Maintien d'un sort de concentration — en cas de dégâts : JS Constitution (DD 10 ou moitié des dégâts, le plus élevé) ou le sort prend fin — une seule concentration à la fois", sortir: "Fin volontaire (gratuit, à tout moment) — échec au JS Constitution après dégâts — Incapacité ou mort — lancer un autre sort de concentration" },  
-    { nom: 'En péril', consequences: "PV à 0 ou situation critique — effectue des jets de sauvegarde contre la mort à son tour (3 réussites : stabilisé — 3 échecs : mort) — coup critique à 1,50 m compte double", sortir: "Récupérer des PV — être stabilisé (soins, JS Médecine) — 3 réussites aux jets de sauvegarde contre la mort" }  
+    { nom: 'En péril', consequences: "La créature est considérée En péril dès que ses PV actuels tombent à 50 % ou en dessous de son total — se coche automatiquement", sortir: "Remonter au-dessus de 50 % des PV max — se décoche automatiquement" }    
   ]  
-  const toggleCondition = (combatant, condition) => {
-    const conditions = combatant.conditions || []
-    const newConditions = conditions.includes(condition)
-      ? conditions.filter(c => c !== condition)
-      : [...conditions, condition]
+
+    // Conditions qui en impliquent d'autres automatiquement  
+  const appliquerCascadeConditions = (conds) => {  
+    let c = [...conds]  
+    if (c.includes('Inconscient')) {  
+      if (!c.includes('Incapacité')) c.push('Incapacité')  
+      if (!c.includes('À terre')) c.push('À terre')  
+    }  
+    if (c.includes('Pétrifié') && !c.includes('Incapacité')) c.push('Incapacité')  
+    if (c.includes('Étourdi') && !c.includes('Incapacité')) c.push('Incapacité')  
+    return c  
+  }  
+  
+    const conditions = combatant.conditions || []  
+    let newConditions = conditions.includes(condition)  
+      ? conditions.filter(c => c !== condition)  
+      : [...conditions, condition]  
+  
+    // Décocher Inconscient décoche aussi Incapacité  
+    if (condition === 'Inconscient' && !newConditions.includes('Inconscient')) {  
+      newConditions = newConditions.filter(c => c !== 'Incapacité')  
+    }  
+    // Décocher Pétrifié ou Étourdi décoche Incapacité (si plus aucune source)  
+    if ((condition === 'Pétrifié' || condition === 'Étourdi') && !newConditions.includes(condition)) {  
+      const autreSource = newConditions.some(c => ['Inconscient', 'Pétrifié', 'Étourdi', 'Paralysé'].includes(c))  
+      if (!autreSource) newConditions = newConditions.filter(c => c !== 'Incapacité')  
+    }  
+    newConditions = appliquerCascadeConditions(newConditions)  
     
     if (combatant.type === 'joueur') {
       const newJoueurs = combatData.joueursParticipants.map(j => 
@@ -826,7 +862,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                         <div className="flex gap-2 mt-2 items-center flex-wrap">  
                           <Input type="number" min="0" className="w-14 h-8 px-1" value={degatsInput} onChange={(e) => setDegatsInput(e.target.value)} />    
                           <Button size="sm" variant="destructive" disabled={!degatsInput} onClick={() => { updatePV(selectedCombatant, -parseInt(degatsInput)); setDegatsInput('') }}>Dégâts</Button>  
-                          <Input type="number" min="0" className="w-14 h-8 px-1" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  >  
+                          <Input type="number" min="0" className="w-14 h-8 px-1" value={soinInput} onChange={(e) => setSoinInput(e.target.value)} />  
                           <Button size="sm" disabled={!soinInput} onClick={() => { updatePV(selectedCombatant, parseInt(soinInput)); setSoinInput('') }}>Soins</Button>  
                         </div>  
                       </div>  
@@ -835,7 +871,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                         <div className="p-2 rounded-lg bg-red-100 border-2 border-red-500">  
                           <div className="font-bold text-red-800 text-sm">INCONSCIENT – Jets contre la mort</div>  
                           <div className="text-xs text-red-700 mt-1">  
-                            1d20 au début de chaque tour : 1 = 2 échecs · 20 = récupère 1 PV. Dégâts à 0 PV = +1 échec (+2 si critique).  
+                            1 = 2 échecs · 20 = récupère 1 PV. Dégâts = +1 échec (+2 si 20).  
                           </div>  
                           {(selectedCombatant?.deathSaves?.failures || 0) >= 3 && <div className="mt-1 font-bold text-red-900">MORT</div>}  
                           {(selectedCombatant?.deathSaves?.successes || 0) >= 3 && (selectedCombatant?.deathSaves?.failures || 0) < 3 && <div className="mt-1 font-bold text-green-700">STABLE</div>}  
