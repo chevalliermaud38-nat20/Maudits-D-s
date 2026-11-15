@@ -231,15 +231,24 @@ export function Personnages({ personnages, onAdd, onUpdate, onCopy, onDelete, so
               <Label>Bonus de maîtrise</Label>
               <Input type="number" value={formData.bonusMaitrise} onChange={(e) => setFormData({ ...formData, bonusMaitrise: parseInt(e.target.value) || 2 })} />
             </div>
-            <div>
-              <Label>Compétences</Label>
-              <Textarea value={formData.competences} onChange={(e) => setFormData({ ...formData, competences: e.target.value })} rows={2} />
-            </div>
-            <div>
-              <Label>Jets de sauvegarde</Label>
-              <Textarea value={formData.sauvegardes} onChange={(e) => setFormData({ ...formData, sauvegardes: e.target.value })} rows={2} />
-            </div>
-            <div>
+            <div>  
+              <Label>Compétences</Label>  
+              <RichTextarea  
+                value={formData.competences}  
+                onChange={(value) => setFormData({ ...formData, competences: value })}  
+                placeholder="Utilisez **gras**, *italique*, __souligné__"  
+                rows={2}  
+              />  
+            </div>  
+            <div>  
+              <Label>Jets de sauvegarde</Label>  
+              <RichTextarea  
+                value={formData.sauvegardes}  
+                onChange={(value) => setFormData({ ...formData, sauvegardes: value })}  
+                placeholder="Utilisez **gras**, *italique*, __souligné__"  
+                rows={2}  
+              />  
+            </div>              <div>
               <Label>Équipement</Label>
               <RichTextarea
                 value={formData.equipement}
