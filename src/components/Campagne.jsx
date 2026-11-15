@@ -1027,7 +1027,7 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
                       {selectedCombatant?.type === 'monstre' && selectedCombatant?.monstreTemplate?.competences && (  
                         <div className="bg-card border rounded-lg p-3 shadow-sm">  
                           <Label className="font-semibold">Compétences</Label>  
-                          <p className="text-sm mt-1">{selectedCombatant?.monstreTemplate.competences}</p>  
+                          <div className="text-sm mt-1 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: formatMarkdown(selectedCombatant?.monstreTemplate.competences) }} />  
                         </div>  
                       )}  
                       {selectedCombatant?.type === 'joueur' && selectedCombatant?.competences && (  
