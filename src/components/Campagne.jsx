@@ -490,48 +490,68 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
     return c  
   }  
   
-    const conditions = combatant.conditions || []  
-    let newConditions = conditions.includes(condition)  
-      ? conditions.filter(c => c !== condition)  
-      : [...conditions, condition]  
-  
-    // Décocher Inconscient décoche aussi Incapacité  
-    if (condition === 'Inconscient' && !newConditions.includes('Inconscient')) {  
-      newConditions = newConditions.filter(c => c !== 'Incapacité')  
-    }  
-    // Décocher Pétrifié ou Étourdi décoche Incapacité (si plus aucune source)  
-    if ((condition === 'Pétrifié' || condition === 'Étourdi') && !newConditions.includes(condition)) {  
-      const autreSource = newConditions.some(c => ['Inconscient', 'Pétrifié', 'Étourdi', 'Paralysé'].includes(c))  
-      if (!autreSource) newConditions = newConditions.filter(c => c !== 'Incapacité')  
-    }  
-    newConditions = appliquerCascadeConditions(newConditions)  
-    
-    if (combatant.type === 'joueur') {
-      const newJoueurs = combatData.joueursParticipants.map(j => 
-        j.id === combatant.id ? { ...j, conditions: newConditions } : j
+  const toggleCondition = (combatant, condition) => {
+    const conditions = combatant.conditions || []
+
+    let newConditions = conditions.includes(condition)
+      ? conditions.filter(c => c !== condition)
+      : [...conditions, condition]
+
+    // Décocher Inconscient décoche aussi Incapacité
+    if (condition === 'Inconscient' && !newConditions.includes('Inconscient')) {
+      newConditions = newConditions.filter(c => c !== 'Incapacité')
+    }
+
+    // Décocher Pétrifié ou Étourdi décoche Incapacité si plus aucune source
+    if (
+      (condition === 'Pétrifié' || condition === 'Étourdi') &&
+      !newConditions.includes(condition)
+    ) {
+      const autreSource = newConditions.some(c =>
+        ['Inconscient', 'Pétrifié', 'Étourdi', 'Paralysé'].includes(c)
       )
-      const newCombatData = { ...combatData, joueursParticipants: newJoueurs }
-      setCombatData(newCombatData)
-      // Mettre à jour selectedCombatant pour refléter le changement immédiatement
-      if (selectedCombatant && selectedCombatant?.id === combatant.id) {
-        setSelectedCombatant({ ...selectedCombatant, conditions: newConditions })
+
+      if (!autreSource) {
+        newConditions = newConditions.filter(c => c !== 'Incapacité')
       }
+    }
+
+    newConditions = appliquerCascadeConditions(newConditions)
+
+    if (combatant.type === 'joueur') {
+      const newJoueurs = combatData.joueursParticipants.map(j =>
+        j.id === combatant.id
+          ? { ...j, conditions: newConditions }
+          : j
+      )
+
+      setCombatData({
+        ...combatData,
+        joueursParticipants: newJoueurs
+      })
     } else {
       const newMonstres = combatData.monstresCombat.map(mc => ({
         ...mc,
-        instances: mc.instances.map(inst => 
-          inst.id === combatant.id ? { ...inst, conditions: newConditions } : inst
+        instances: mc.instances.map(inst =>
+          inst.id === combatant.id
+            ? { ...inst, conditions: newConditions }
+            : inst
         )
       }))
-      const newCombatData = { ...combatData, monstresCombat: newMonstres }
-      setCombatData(newCombatData)
-      // Mettre à jour selectedCombatant pour refléter le changement immédiatement
-      if (selectedCombatant && selectedCombatant?.id === combatant.id) {
-        setSelectedCombatant({ ...selectedCombatant, conditions: newConditions })
-      }
+
+      setCombatData({
+        ...combatData,
+        monstresCombat: newMonstres
+      })
+    }
+
+    if (selectedCombatant?.id === combatant.id) {
+      setSelectedCombatant({
+        ...selectedCombatant,
+        conditions: newConditions
+      })
     }
   }
-
   const toggleDeathSave = (combatant, type) => {
     const deathSaves = combatant.deathSaves || { successes: 0, failures: 0 }
     const newDeathSaves = { ...deathSaves }
