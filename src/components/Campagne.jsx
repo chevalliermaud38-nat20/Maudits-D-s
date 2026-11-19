@@ -748,25 +748,23 @@ export function Campagne({ campagnes, personnages, monstres, sorts, onAdd, onUpd
           <main className="flex-1 flex overflow-hidden">
             <div className="w-1/3 border-r p-4 overflow-y-auto">
               <h3 className="font-semibold mb-2">Ordre d'initiative</h3>  
-              <div className="mb-3 p-2 bg-secondary rounded space-y-2">  
-                <div className="flex gap-1 items-center">  
-                  <Input type="number" min="0" placeholder="Dégâts" className="h-8 text-xs" value={degatsMulti} onChange={(e) => setDegatsMulti(e.target.value)} />  
-                  <Button size="sm" variant="destructive" disabled={selectedIds.length === 0 || !degatsMulti} onClick={() => { applyPVMultiple(-parseInt(degatsMulti)); setDegatsMulti('') }}>  
-                    Dégâts groupés  
-                  </Button>  
-                </div>  
-                <div className="flex gap-1 items-center">  
-                  <Input type="number" min="0" placeholder="Soins" className="h-8 text-xs" value={soinMulti} onChange={(e) => setSoinMulti(e.target.value)} />  
-                  <Button size="sm" disabled={selectedIds.length === 0 || !soinMulti} onClick={() => { applyPVMultiple(parseInt(soinMulti)); setSoinMulti('') }}>  
-                    Soins groupés  
-                  </Button>  
-                </div>  
-                {selectedIds.length > 0 && (  
-                  <div className="text-xs text-muted-foreground">  
-                    {selectedIds.length} combattant(s) sélectionné(s){' '}  
-                    <button className="underline" onClick={() => setSelectedIds([])}>Tout désélectionner</button>  
-                  </div>  
-                )}  
+              <div className="mb-3 p-2 bg-secondary rounded space-y-1">    
+                <div className="flex gap-1 items-center flex-wrap">    
+                  <Input type="number" min="0" className="w-12 h-8 px-1 text-xs" value={degatsMulti} onChange={(e) => setDegatsMulti(e.target.value)} />    
+                  <Button size="sm" variant="destructive" className="h-8 px-2" disabled={selectedIds.length === 0 || !degatsMulti} onClick={() => { applyPVMultiple(-parseInt(degatsMulti)); setDegatsMulti('') }}>    
+                    Dégâts à tous    
+                  </Button>    
+                  <Input type="number" min="0" className="w-12 h-8 px-1 text-xs" value={soinMulti} onChange={(e) => setSoinMulti(e.target.value)} />    
+                  <Button size="sm" className="h-8 px-2" disabled={selectedIds.length === 0 || !soinMulti} onClick={() => { applyPVMultiple(parseInt(soinMulti)); setSoinMulti('') }}>    
+                    Soins à tous
+                  </Button>    
+                </div>    
+                {selectedIds.length > 0 && (    
+                  <div className="text-xs text-muted-foreground">    
+                    {selectedIds.length} combattant(s) sélectionné(s){' '}    
+                    <button className="underline" onClick={() => setSelectedIds([])}>Tout désélectionner</button>    
+                  </div>    
+                )}    
               </div>  
               <div className="space-y-2">  
                 {getOrdreInitiative().map((combatant, idx) => {
